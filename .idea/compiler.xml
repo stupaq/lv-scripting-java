@@ -23,8 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="lv-bridge" />
+        <module name="lv-scripting-java" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lv-scripting-java" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 

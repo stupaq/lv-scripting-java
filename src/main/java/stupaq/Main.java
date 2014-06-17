@@ -4,14 +4,14 @@ import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
-import scripting.ScriptingLibrary;
+import stupaq.scripting.ScriptingLibrary;
 
 public class Main {
 
   public static void main(String[] args) {
     ScriptingLibrary instance =
-        (ScriptingLibrary) Native.loadLibrary("lib\\scripting.dll", ScriptingLibrary.class);
-    Pointer path = stringPointer("target3");
+        (ScriptingLibrary) Native.loadLibrary("scripting.dll", ScriptingLibrary.class);
+    Pointer path = stringPointer("target3.vi");
     instance.CreateFormula(path);
   }
 
