@@ -31,6 +31,31 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.sf.jacob-project</groupId>
+            <artifactId>jacob</artifactId>
+            <version>1.18-M2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jacob.jar</systemPath>
+        </dependency>
+        <!-- TODO jacob cannot find its DLLs, we temporary place them in CWD for run.sh
+        <dependency>
+            <groupId>net.sf.jacob-project</groupId>
+            <artifactId>jacob-dll-x64</artifactId>
+            <version>1.18-M2</version>
+            <type>dll</type>
+            <scope>system</scope>
+            <systemPath>jacob-1.18-M2-x64.dll</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jacob-project</groupId>
+            <artifactId>jacob-dll-x86</artifactId>
+            <version>1.18-M2</version>
+            <type>dll</type>
+            <scope>system</scope>
+            <systemPath>jacob-1.18-M2-x86.dll</systemPath>
+        </dependency>
+        -->
     </dependencies>
 
     <build>
