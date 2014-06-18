@@ -16,46 +16,30 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>3.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.rococoa</groupId>
-            <artifactId>rococoa-core</artifactId>
-            <version>0.5</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
+            <groupId>net.sf.jacob-project</groupId>
+            <artifactId>jacob</artifactId>
+            <version>1.18-M2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jacob-1.18-M2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.sf.jacob-project</groupId>
             <artifactId>jacob</artifactId>
             <version>1.18-M2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/jacob.jar</systemPath>
-        </dependency>
-        <!-- TODO jacob cannot find its DLLs, we temporary place them in CWD for run.sh
-        <dependency>
-            <groupId>net.sf.jacob-project</groupId>
-            <artifactId>jacob-dll-x64</artifactId>
-            <version>1.18-M2</version>
             <type>dll</type>
+            <classifier>x64</classifier>
             <scope>system</scope>
-            <systemPath>jacob-1.18-M2-x64.dll</systemPath>
+            <systemPath>${project.basedir}/lib/jacob-1.18-M2-x64.dll</systemPath>
         </dependency>
         <dependency>
             <groupId>net.sf.jacob-project</groupId>
-            <artifactId>jacob-dll-x86</artifactId>
+            <artifactId>jacob</artifactId>
             <version>1.18-M2</version>
             <type>dll</type>
+            <classifier>x86</classifier>
             <scope>system</scope>
-            <systemPath>jacob-1.18-M2-x86.dll</systemPath>
+            <systemPath>${project.basedir}/lib/jacob-1.18-M2-x86.dll</systemPath>
         </dependency>
-        -->
     </dependencies>
 
     <build>
@@ -71,37 +55,6 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <!-- mvn jnaerator:generate -->
-                <groupId>com.nativelibs4java</groupId>
-                <artifactId>maven-jnaerator-plugin</artifactId>
-                <version>0.11</version>
-                <configuration>
-                    <javaOutputDirectory>src/main/java</javaOutputDirectory>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>1.4</version>
-
-                <configuration>
-                    <shadedArtifactAttached>true</shadedArtifactAttached>
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>META-INF/*.SF</exclude>
-                                <exclude>META-INF/*.DSA</exclude>
-                                <exclude>META-INF/*.RSA</exclude>
-                                <exclude>META-INF/maven/**</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
                 </configuration>
             </plugin>
 
@@ -127,19 +80,4 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>sonatype</id>
-            <name>Sonatype OSS Snapshots Repository</name>
-            <url>http://oss.sonatype.org/content/groups/public</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype</id>
-            <name>Sonatype OSS Snapshots Repository</name>
-            <url>http://oss.sonatype.org/content/groups/public</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>

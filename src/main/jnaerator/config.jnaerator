@@ -1,6 +1,0 @@
--arch win32
-scripting.h
-scripting.dll
--package "stupaq.scripting"
--library scripting
--runtime JNA
