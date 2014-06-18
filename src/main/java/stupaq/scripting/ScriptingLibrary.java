@@ -17,18 +17,18 @@ public interface ScriptingLibrary extends StdCallLibrary {
 	public static final ScriptingLibrary INSTANCE = (ScriptingLibrary)Native.loadLibrary(ScriptingLibrary.JNA_LIBRARY_NAME, ScriptingLibrary.class);
 	/**
 	 * CreateFormula<br>
-	 * Original signature : <code>void CreateFormula(char[])</code><br>
+	 * Original signature : <code>void CreateFormula(char[], char[], int32_t)</code><br>
 	 * <i>native declaration : scripting.h:11</i><br>
-	 * @deprecated use the safer methods {@link #CreateFormula(java.nio.ByteBuffer)} and {@link #CreateFormula(com.sun.jna.Pointer)} instead
+	 * @deprecated use the safer methods {@link #CreateFormula(java.nio.ByteBuffer, java.nio.ByteBuffer, int)} and {@link #CreateFormula(com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
 	 */
 	@Deprecated 
-	void CreateFormula(Pointer viPath);
+	void CreateFormula(Pointer path, Pointer err, int len);
 	/**
 	 * CreateFormula<br>
-	 * Original signature : <code>void CreateFormula(char[])</code><br>
+	 * Original signature : <code>void CreateFormula(char[], char[], int32_t)</code><br>
 	 * <i>native declaration : scripting.h:11</i>
 	 */
-	void CreateFormula(ByteBuffer viPath);
+	void CreateFormula(ByteBuffer path, ByteBuffer err, int len);
 	/**
 	 * Original signature : <code>MgErr LVDLLStatus(char*, int, void*)</code><br>
 	 * <i>native declaration : scripting.h:13</i><br>
