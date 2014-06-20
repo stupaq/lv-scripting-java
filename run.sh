@@ -5,4 +5,3 @@
     stupaq.Main \
 
 read
-

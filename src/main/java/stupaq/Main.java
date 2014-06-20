@@ -1,30 +1,26 @@
+// FIXME remove when deploying package
 package stupaq;
 
-import com.jacob.activeX.ActiveXComponent;
-import com.jacob.com.Variant;
+import stupaq.labview.RefNum;
+import stupaq.labview.VIName;
+import stupaq.labview.scripting.EditableVI;
+import stupaq.labview.scripting.ScriptingTools;
 
 @SuppressWarnings("deprecation")
 public class Main {
 
   public static void main(String[] args) {
     try {
-      activeX();
+      run(args);
     } catch (Throwable t) {
       t.printStackTrace();
     }
   }
 
-  private static void activeX() throws Exception {
-    ActiveXComponent lvApp = new ActiveXComponent("LabVIEW.Application");
-    Variant viRef = lvApp.invoke("GetVIReference",
-        new Variant("C:\\Documents and Settings\\user\\Pulpit\\lv-scripting\\create formula.vi"),
-        new Variant(""), new Variant(false), new Variant(0));
-    ActiveXComponent vi = new ActiveXComponent(viRef.toDispatch());
-    vi.invoke("OpenFrontPanel", new Variant(true), new Variant(1));
-    vi.invoke("SetControlValue", new Variant("path"),
-        new Variant("C:\\Documents and Settings\\user\\Pulpit\\lv-scripting\\target3.vi"));
-    Variant res = vi.invoke("Run");
-    System.out.println(res.toString());
-    // TODO
+  private static void run(String[] args) throws Exception {
+    ScriptingTools tools = new ScriptingTools();
+    EditableVI vi = new EditableVI(tools, new VIName("target3.vi"));
+    RefNum b1 = vi.insertBlock();
+    System.out.println(b1.toString());
   }
 }

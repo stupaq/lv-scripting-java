@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:16.0-rc1" level="project" />
     <orderEntry type="module-library">
       <library name="Maven: net.sf.jacob-project:jacob:1.18-M2">
         <CLASSES>
