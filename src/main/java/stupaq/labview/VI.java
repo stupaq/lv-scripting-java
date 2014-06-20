@@ -1,27 +1,44 @@
 package stupaq.labview;
 
-import com.google.common.base.Function;
-
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Variant;
 
 public abstract class VI {
-  protected final ActiveXComponent activex;
+  private final ActiveXComponent activeX;
 
   protected VI(Application application, VIName viName) {
-    activex = new ActiveXComponent(application.openVI(viName));
+    activeX = new ActiveXComponent(application.openVI(viName));
   }
 
-  protected <Result> Result run(Function<ActiveXComponent, Result> runner) throws VIErrorException {
-    activex.invoke("Revert");
-    activex.invoke("ReinitializeAllToDefault");
-    activex.invoke("OpenFrontPanel", new Variant(true), new Variant(3));
-    try {
-      return runner.apply(activex);
-    } finally {
-      activex.invoke("CloseFrontPanel");
-    }
+  /* FIXME
+  private void call(SafeArray argNames, SafeArray argValues) {
+    Preconditions.checkArgument(
+        argNames.toVariantArray().length == argValues.toVariantArray().length);
+    activeX.invoke("Call", new Variant(argNames, true), new Variant(argNames, true));
   }
 
-  // TODO reflect ActiveX API of a VI
+  public void call(String[] argNames, Variant[] argValues) {
+    SafeArray argNames1 = new SafeArray(Variant.VariantString, argNames.length);
+    argNames1.fromStringArray(argNames);
+    SafeArray argValues1 = new SafeArray(Variant.VariantVariant, argValues.length);
+    argValues1.fromVariantArray(argValues);
+    call(argNames1, argValues1);
+  }
+  */
+
+  public void run() {
+    run(false);
+  }
+
+  public void run(boolean async) {
+    activeX.invoke("Run", async);
+  }
+
+  public Variant getControlValue(String controlName) {
+    return activeX.invoke("GetControlValue", new Variant(controlName));
+  }
+
+  public void setControlValue(String controlName, Variant controlValue) {
+    activeX.invoke("SetControlValue", new Variant(controlName), controlValue);
+  }
 }

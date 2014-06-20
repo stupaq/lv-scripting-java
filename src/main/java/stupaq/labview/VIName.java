@@ -4,14 +4,17 @@ import com.google.common.base.Preconditions;
 
 import com.jacob.com.Variant;
 
+import java.nio.file.Path;
+
 import stupaq.activex.ActiveXType;
 
 public class VIName implements ActiveXType {
   private final String name;
 
-  public VIName(String name) {
+  public VIName(Path dir, String name) {
+    Preconditions.checkNotNull(dir);
     Preconditions.checkNotNull(name);
-    this.name = name;
+    this.name = dir.resolve(name).toString();
   }
 
   @Override

@@ -1,6 +1,7 @@
 package stupaq.labview.scripting;
 
 import stupaq.labview.RefNum;
+import stupaq.labview.VIErrorException;
 import stupaq.labview.VIName;
 
 public class EditableVI implements AutoCloseable {
@@ -16,11 +17,11 @@ public class EditableVI implements AutoCloseable {
   public void close() throws Exception {
   }
 
-  public RefNum insertBlock() {
+  public RefNum insertBlock() throws VIErrorException {
     return tools.blockCreator().apply(viName);
   }
 
-  public RefNum insertWire(RefNum first, RefNum second) {
+  public RefNum insertWire(RefNum first, RefNum second) throws VIErrorException {
     return tools.wireCreator().apply(viName, first, second);
   }
 }
