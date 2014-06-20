@@ -1,5 +1,7 @@
 package stupaq.labview;
 
+import com.google.common.primitives.UnsignedInts;
+
 import com.jacob.com.Variant;
 
 import stupaq.activex.ActiveXType;
@@ -18,6 +20,6 @@ public class RefNum implements ActiveXType {
 
   @Override
   public String toString() {
-    return "RefNum{" + "uuid=" + uuid + '}';
+    return "RefNum{" + "uuid=" + UnsignedInts.toString(uuid) + '}';
   }
 }

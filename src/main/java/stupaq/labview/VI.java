@@ -1,7 +1,11 @@
 package stupaq.labview;
 
 import com.jacob.activeX.ActiveXComponent;
+import com.jacob.com.SafeArray;
 import com.jacob.com.Variant;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class VI {
   private final ActiveXComponent activeX;
@@ -10,21 +14,17 @@ public abstract class VI {
     activeX = new ActiveXComponent(application.openVI(viName));
   }
 
-  /* FIXME
-  private void call(SafeArray argNames, SafeArray argValues) {
-    Preconditions.checkArgument(
-        argNames.toVariantArray().length == argValues.toVariantArray().length);
-    activeX.invoke("Call", new Variant(argNames, true), new Variant(argNames, true));
+  public void call(Map<String, Variant> params) {
+    SafeArray paramNames = new SafeArray(Variant.VariantString, params.size());
+    SafeArray paramValues = new SafeArray(Variant.VariantVariant, params.size());
+    int index = 0;
+    for (Entry<String, Variant> param : params.entrySet()) {
+      paramNames.setString(index, param.getKey());
+      paramValues.setVariant(index, param.getValue());
+      ++index;
+    }
+    activeX.invoke("Call", new Variant(paramNames), new Variant(paramValues));
   }
-
-  public void call(String[] argNames, Variant[] argValues) {
-    SafeArray argNames1 = new SafeArray(Variant.VariantString, argNames.length);
-    argNames1.fromStringArray(argNames);
-    SafeArray argValues1 = new SafeArray(Variant.VariantVariant, argValues.length);
-    argValues1.fromVariantArray(argValues);
-    call(argNames1, argValues1);
-  }
-  */
 
   public void run() {
     run(false);
