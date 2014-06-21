@@ -8,17 +8,13 @@ import stupaq.labview.scripting.tools.CreateVI;
 import stupaq.labview.scripting.tools.CreateWire;
 import stupaq.labview.scripting.tools.RemoveGObject;
 
-public class EditableVI implements AutoCloseable {
+public class EditableVI {
   private final ScriptingTools tools;
   private final VIPath viPath;
 
   public EditableVI(ScriptingTools tools, VIPath viPath) {
     this.tools = tools;
     this.viPath = viPath;
-  }
-
-  @Override
-  public void close() throws Exception {
   }
 
   public void create() throws VIErrorException {
@@ -29,11 +25,11 @@ public class EditableVI implements AutoCloseable {
     return tools.getTool(CreateBlock.class).apply(viPath);
   }
 
-  public UID insertWire(UID first, UID second) throws VIErrorException {
-    return tools.getTool(CreateWire.class).apply(viPath, first, second);
+  public UID insertWire(UID uidSource, UID uidDestination) throws VIErrorException {
+    return tools.getTool(CreateWire.class).apply(viPath, uidSource, uidDestination);
   }
 
-  public void removeObject(UID object) throws VIErrorException {
-    tools.getTool(RemoveGObject.class).apply(viPath, object);
+  public void removeObject(UID uid) throws VIErrorException {
+    tools.getTool(RemoveGObject.class).apply(viPath, uid);
   }
 }

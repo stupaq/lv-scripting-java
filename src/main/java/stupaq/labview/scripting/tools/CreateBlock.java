@@ -4,14 +4,13 @@ import stupaq.labview.UID;
 import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
-import stupaq.labview.scripting.ToolVI;
 
-public class CreateBlock extends ToolVI {
+public class CreateBlock extends ScriptingTool {
   public CreateBlock(ScriptingTools application) {
-    super(application, new VIPath("CreateBlock.vi"));
+    super(application);
   }
 
   public UID apply(final VIPath targetVi) throws VIErrorException {
-    return new UID(stdCall(targetVi));
+    return new UID(vi.stdCall(targetVi));
   }
 }

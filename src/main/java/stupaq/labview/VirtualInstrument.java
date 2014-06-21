@@ -7,10 +7,10 @@ import com.jacob.com.Variant;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public abstract class VI {
+public abstract class VirtualInstrument {
   private final ActiveXComponent activeX;
 
-  protected VI(Application application, VIPath viPath) {
+  protected VirtualInstrument(Application application, VIPath viPath) {
     activeX = new ActiveXComponent(application.openVI(viPath));
   }
 

@@ -7,14 +7,14 @@ import com.jacob.com.Variant;
 
 import stupaq.activex.ActiveXType;
 
-public class StdCallVI extends VI {
+public class StdCallVI extends VirtualInstrument {
   public static final String ARGS_CONTROL = "__args";
   public static final String ERR_STATUS_CONTROL = "__errStatus";
   public static final String ERR_CODE_CONTROL = "__errCode";
   public static final String ERR_SOURCE_CONTROL = "__errSource";
   public static final String RETURN_CONTROL = "__return";
 
-  protected StdCallVI(Application application, VIPath viPath) {
+  public StdCallVI(Application application, VIPath viPath) {
     super(application, viPath);
   }
 

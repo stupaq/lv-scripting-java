@@ -11,18 +11,10 @@ import stupaq.activex.ActiveXType;
 public class VIPath implements ActiveXType {
   private final String path;
 
-  public VIPath(String path) {
-    this.path = path;
-  }
-
-  public VIPath(Path dir, String path) {
+  public VIPath(Path dir, String name) {
     Preconditions.checkNotNull(dir);
-    Preconditions.checkNotNull(path);
-    this.path = dir.resolve(path).toString();
-  }
-
-  public VIPath(Path dir, VIPath viPath) {
-    this(dir, viPath.toString());
+    Preconditions.checkNotNull(name);
+    this.path = dir.resolve(name).toString();
   }
 
   @Override
