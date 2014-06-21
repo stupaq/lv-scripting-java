@@ -14,8 +14,8 @@ public class StdCallVI extends VI {
   public static final String ERR_SOURCE_CONTROL = "__errSource";
   public static final String RETURN_CONTROL = "__return";
 
-  protected StdCallVI(Application application, VIName viName) {
-    super(application, viName);
+  protected StdCallVI(Application application, VIPath viPath) {
+    super(application, viPath);
   }
 
   protected void checkErrors() throws VIErrorException {

@@ -4,8 +4,8 @@ package stupaq;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import stupaq.labview.RefNum;
-import stupaq.labview.VIName;
+import stupaq.labview.UID;
+import stupaq.labview.VIPath;
 import stupaq.labview.scripting.EditableVI;
 import stupaq.labview.scripting.ScriptingTools;
 
@@ -23,8 +23,13 @@ public class Main {
   private static void run(String[] args) throws Exception {
     Path viToolsPath = Paths.get("C:\\Documents and Settings\\user\\Pulpit\\lv-scripting\\");
     ScriptingTools tools = new ScriptingTools(viToolsPath);
-    EditableVI vi = new EditableVI(tools, new VIName(viToolsPath, "target3.vi"));
-    RefNum b1 = vi.insertBlock();
-    System.out.println(b1.toString());
+    EditableVI vi = new EditableVI(tools, new VIPath(viToolsPath, "target3.vi"));
+    //vi.create();
+    UID b1 = vi.insertBlock();
+    System.out.println(b1);
+    UID b2 = vi.insertBlock();
+    System.out.println(b2);
+    vi.removeObject(b1);
+    vi.removeObject(b2);
   }
 }

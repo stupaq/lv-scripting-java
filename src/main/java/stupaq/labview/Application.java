@@ -11,9 +11,9 @@ public class Application {
     activex = new ActiveXComponent("LabVIEW.Application");
   }
 
-  Dispatch openVI(VIName viName) {
+  public Dispatch openVI(VIPath viPath) {
     Variant viRef =
-        activex.invoke("GetVIReference", viName.toVariant(), new Variant(""), new Variant(false),
+        activex.invoke("GetVIReference", viPath.toVariant(), new Variant(""), new Variant(false),
             new Variant(0));
     return viRef.toDispatch();
   }

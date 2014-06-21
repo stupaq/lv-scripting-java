@@ -4,9 +4,12 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
+import com.jacob.com.Dispatch;
+
 import java.nio.file.Path;
 
 import stupaq.labview.Application;
+import stupaq.labview.VIPath;
 
 public class ScriptingTools extends Application {
 
@@ -25,12 +28,13 @@ public class ScriptingTools extends Application {
         });
   }
 
-  public Path viToolsPath() {
-    return viToolsPath;
-  }
-
   @SuppressWarnings("unchecked")
   public <Tool> Tool getTool(Class<Tool> aClass) {
     return (Tool) tools.getUnchecked((Class<? extends ToolVI>) aClass);
+  }
+
+  @Override
+  public Dispatch openVI(VIPath viPath) {
+    return super.openVI(new VIPath(viToolsPath, viPath));
   }
 }

@@ -10,8 +10,8 @@ import java.util.Map.Entry;
 public abstract class VI {
   private final ActiveXComponent activeX;
 
-  protected VI(Application application, VIName viName) {
-    activeX = new ActiveXComponent(application.openVI(viName));
+  protected VI(Application application, VIPath viPath) {
+    activeX = new ActiveXComponent(application.openVI(viPath));
   }
 
   public void call(Map<String, Variant> params) {

@@ -6,20 +6,20 @@ import com.jacob.com.Variant;
 
 import stupaq.activex.ActiveXType;
 
-public class RefNum implements ActiveXType {
-  private final int uuid;
+public class UID implements ActiveXType {
+  private final int uid;
 
-  public RefNum(Variant controlValue) {
-    uuid = controlValue.getInt();
+  public UID(Variant controlValue) {
+    uid = controlValue.getInt();
   }
 
   @Override
   public Variant toVariant() {
-    return new Variant(uuid);
+    return new Variant(uid);
   }
 
   @Override
   public String toString() {
-    return "RefNum{" + "uuid=" + UnsignedInts.toString(uuid) + '}';
+    return "UID{" + UnsignedInts.toString(uid) + '}';
   }
 }
