@@ -7,8 +7,6 @@ import com.google.common.cache.LoadingCache;
 import java.nio.file.Path;
 
 import stupaq.labview.Application;
-import stupaq.labview.scripting.tools.CreateBlock;
-import stupaq.labview.scripting.tools.CreateWire;
 
 public class ScriptingTools extends Application {
 
@@ -27,15 +25,12 @@ public class ScriptingTools extends Application {
         });
   }
 
-  public CreateBlock blockCreator() {
-    return (CreateBlock) tools.getUnchecked(CreateBlock.class);
-  }
-
-  public CreateWire wireCreator() {
-    return (CreateWire) tools.getUnchecked(CreateWire.class);
-  }
-
   public Path viToolsPath() {
     return viToolsPath;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <Tool> Tool getTool(Class<Tool> aClass) {
+    return (Tool) tools.getUnchecked((Class<? extends ToolVI>) aClass);
   }
 }

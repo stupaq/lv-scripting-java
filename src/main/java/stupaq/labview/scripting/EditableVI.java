@@ -3,6 +3,8 @@ package stupaq.labview.scripting;
 import stupaq.labview.RefNum;
 import stupaq.labview.VIErrorException;
 import stupaq.labview.VIName;
+import stupaq.labview.scripting.tools.CreateBlock;
+import stupaq.labview.scripting.tools.CreateWire;
 
 public class EditableVI implements AutoCloseable {
   private final ScriptingTools tools;
@@ -18,10 +20,10 @@ public class EditableVI implements AutoCloseable {
   }
 
   public RefNum insertBlock() throws VIErrorException {
-    return tools.blockCreator().apply(viName);
+    return tools.getTool(CreateBlock.class).apply(viName);
   }
 
   public RefNum insertWire(RefNum first, RefNum second) throws VIErrorException {
-    return tools.wireCreator().apply(viName, first, second);
+    return tools.getTool(CreateWire.class).apply(viName, first, second);
   }
 }
