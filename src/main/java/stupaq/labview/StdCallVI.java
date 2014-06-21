@@ -1,7 +1,5 @@
 package stupaq.labview;
 
-import com.google.common.collect.ImmutableMap;
-
 import com.jacob.com.SafeArray;
 import com.jacob.com.Variant;
 
@@ -30,7 +28,8 @@ public class StdCallVI extends VirtualInstrument {
   public Variant stdCall(Variant... args) throws VIErrorException {
     SafeArray args1 = new SafeArray(Variant.VariantVariant, args.length);
     args1.fromVariantArray(args);
-    call(ImmutableMap.of(ARGS_CONTROL, new Variant(args1)));
+    setControlValue(ARGS_CONTROL, new Variant(args1));
+    run();
     checkErrors();
     return getControlValue(RETURN_CONTROL);
   }
