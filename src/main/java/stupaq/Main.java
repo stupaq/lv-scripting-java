@@ -21,7 +21,7 @@ public class Main {
   }
 
   private static void run(String[] args) throws Exception {
-    Path viToolsPath = Paths.get("C:\\Documents and Settings\\user\\Pulpit\\lv-scripting\\");
+    Path viToolsPath = Paths.get("").toAbsolutePath().getParent().resolve("lv-scripting");
     ScriptingTools tools = new ScriptingTools(viToolsPath);
     EditableVI vi = new EditableVI(tools, new VIPath(viToolsPath, "target3.vi"));
     //vi.create();
