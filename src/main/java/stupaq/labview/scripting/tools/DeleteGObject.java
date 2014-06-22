@@ -5,12 +5,12 @@ import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
 
-public class CreateBlock extends ScriptingTool {
-  public CreateBlock(ScriptingTools application) {
+public class DeleteGObject extends ScriptingTool {
+  public DeleteGObject(ScriptingTools application) {
     super(application);
   }
 
-  public UID apply(final VIPath targetVi) throws VIErrorException {
-    return new UID(vi.stdCall(targetVi));
+  public void apply(VIPath targetVi, UID uid) throws VIErrorException {
+    vi.stdCall(targetVi, uid);
   }
 }

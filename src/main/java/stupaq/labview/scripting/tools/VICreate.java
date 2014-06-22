@@ -4,8 +4,8 @@ import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
 
-public class CreateVI extends ScriptingTool {
-  public CreateVI(ScriptingTools application) {
+public class VICreate extends ScriptingTool {
+  public VICreate(ScriptingTools application) {
     super(application);
   }
 

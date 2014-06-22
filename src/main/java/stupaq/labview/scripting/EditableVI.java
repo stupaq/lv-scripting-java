@@ -3,10 +3,11 @@ package stupaq.labview.scripting;
 import stupaq.labview.UID;
 import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
-import stupaq.labview.scripting.tools.CreateBlock;
-import stupaq.labview.scripting.tools.CreateVI;
-import stupaq.labview.scripting.tools.CreateWire;
-import stupaq.labview.scripting.tools.RemoveGObject;
+import stupaq.labview.scripting.tools.ConnectWire;
+import stupaq.labview.scripting.tools.DeleteGObject;
+import stupaq.labview.scripting.tools.InlineCNodeAddIO;
+import stupaq.labview.scripting.tools.InlineCNodeCreate;
+import stupaq.labview.scripting.tools.VICreate;
 
 public class EditableVI {
   private final ScriptingTools tools;
@@ -18,18 +19,22 @@ public class EditableVI {
   }
 
   public void create() throws VIErrorException {
-    tools.getTool(CreateVI.class).apply(viPath);
+    tools.getTool(VICreate.class).apply(viPath);
   }
 
-  public UID insertBlock() throws VIErrorException {
-    return tools.getTool(CreateBlock.class).apply(viPath);
+  public UID inlineCNodeCreate(String content) throws VIErrorException {
+    return tools.getTool(InlineCNodeCreate.class).apply(viPath, content);
   }
 
-  public UID insertWire(UID uidSource, UID uidDestination) throws VIErrorException {
-    return tools.getTool(CreateWire.class).apply(viPath, uidSource, uidDestination);
+  public UID inlineCNodeAddIO(UID uid, boolean isInput, String name) throws VIErrorException {
+    return tools.getTool(InlineCNodeAddIO.class).apply(viPath, uid, isInput, name);
+  }
+
+  public UID connectWire(UID source, UID destination) throws VIErrorException {
+    return tools.getTool(ConnectWire.class).apply(viPath, source, destination);
   }
 
   public void removeObject(UID uid) throws VIErrorException {
-    tools.getTool(RemoveGObject.class).apply(viPath, uid);
+    tools.getTool(DeleteGObject.class).apply(viPath, uid);
   }
 }

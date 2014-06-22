@@ -25,11 +25,12 @@ public class Main {
     ScriptingTools tools = new ScriptingTools(viToolsPath);
     EditableVI vi = new EditableVI(tools, new VIPath(viToolsPath, "target3.vi"));
     //vi.create();
-    UID b1 = vi.insertBlock();
-    System.out.println(b1);
-    UID b2 = vi.insertBlock();
-    System.out.println(b2);
-    vi.removeObject(b1);
-    vi.removeObject(b2);
+    UID b1 = vi.inlineCNodeCreate("b1");
+    UID b2 = vi.inlineCNodeCreate("b2");
+    UID t1 = vi.inlineCNodeAddIO(b1, false, "out1");
+    UID t2 = vi.inlineCNodeAddIO(b2, true, "in2");
+    vi.connectWire(t1, t2);
+    //vi.removeObject(b1);
+    //vi.removeObject(b2);
   }
 }
