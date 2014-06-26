@@ -1,5 +1,4 @@
 // FIXME remove when deploying package
-package stupaq;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,7 +9,7 @@ import stupaq.labview.scripting.EditableVI;
 import stupaq.labview.scripting.ScriptingTools;
 
 @SuppressWarnings("deprecation")
-public class Main {
+public class example {
 
   public static void main(String[] args) {
     try {
@@ -21,9 +20,9 @@ public class Main {
   }
 
   private static void run(String[] args) throws Exception {
-    Path viToolsPath = Paths.get("").toAbsolutePath().getParent().resolve("lv-scripting");
-    ScriptingTools tools = new ScriptingTools(viToolsPath);
-    EditableVI vi = new EditableVI(tools, new VIPath(viToolsPath, "target3.vi"));
+    Path projectPath = Paths.get(System.getProperty(ScriptingTools.SCRIPTING_TOOLS_PATH));
+    ScriptingTools tools = new ScriptingTools();
+    EditableVI vi = new EditableVI(tools, new VIPath(projectPath, "target3.vi"));
     //vi.create();
     UID b1 = vi.inlineCNodeCreate("b1");
     UID b2 = vi.inlineCNodeCreate("b2");

@@ -5,20 +5,27 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import com.jacob.com.Dispatch;
+import com.jacob.samples.DLLFromJARClassLoader;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import stupaq.labview.Application;
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.tools.ScriptingTool;
 
 public class ScriptingTools extends Application {
+  static {
+    DLLFromJARClassLoader.loadLibrary();
+  }
 
+  public static final String SCRIPTING_TOOLS_PATH = "scripting.tools.path";
   private final LoadingCache<Class<ScriptingTool>, ScriptingTool> tools;
   private Path viToolsPath;
 
-  public ScriptingTools(Path viToolsPath) {
-    this.viToolsPath = viToolsPath;
+  public ScriptingTools() {
+    viToolsPath = Paths.get(System.getProperty(SCRIPTING_TOOLS_PATH, Paths.get("").toString()))
+        .toAbsolutePath();
     tools = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .build(new CacheLoader<Class<ScriptingTool>, ScriptingTool>() {

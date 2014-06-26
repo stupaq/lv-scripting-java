@@ -13,6 +13,14 @@
     <groupId>stupaq</groupId>
     <artifactId>lv-scripting-java</artifactId>
     <version>0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <repositories>
+        <repository>
+            <id>lib-local-repository</id>
+            <url>file://${basedir}/lib</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -24,26 +32,6 @@
             <groupId>net.sf.jacob-project</groupId>
             <artifactId>jacob</artifactId>
             <version>1.18-M2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/jacob-1.18-M2.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.jacob-project</groupId>
-            <artifactId>jacob</artifactId>
-            <version>1.18-M2</version>
-            <type>dll</type>
-            <classifier>x64</classifier>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/jacob-1.18-M2-x64.dll</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.jacob-project</groupId>
-            <artifactId>jacob</artifactId>
-            <version>1.18-M2</version>
-            <type>dll</type>
-            <classifier>x86</classifier>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/jacob-1.18-M2-x86.dll</systemPath>
         </dependency>
     </dependencies>
 
@@ -51,16 +39,21 @@
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>stupaq.Main</mainClass>
-                        </manifest>
-                    </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
