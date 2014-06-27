@@ -24,8 +24,7 @@ public class ScriptingTools extends Application {
   private Path viToolsPath;
 
   public ScriptingTools() {
-    viToolsPath = Paths.get(System.getProperty(SCRIPTING_TOOLS_PATH, Paths.get("").toString()))
-        .toAbsolutePath();
+    viToolsPath = systemScriptingToolsPath().toAbsolutePath();
     tools = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .build(new CacheLoader<Class<ScriptingTool>, ScriptingTool>() {
@@ -34,6 +33,10 @@ public class ScriptingTools extends Application {
             return aClass.getConstructor(ScriptingTools.class).newInstance(ScriptingTools.this);
           }
         });
+  }
+
+  private Path systemScriptingToolsPath() {
+    return Paths.get(System.getProperty(SCRIPTING_TOOLS_PATH, Paths.get("").toString()));
   }
 
   @SuppressWarnings("unchecked")

@@ -17,6 +17,10 @@ public class VIPath implements ActiveXType {
     this.path = dir.resolve(name).toString();
   }
 
+  public VIPath(String path) {
+    this.path = path;
+  }
+
   @Override
   public String toString() {
     return path;
