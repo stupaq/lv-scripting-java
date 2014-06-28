@@ -19,12 +19,12 @@ public class ScriptingTools extends Application {
     DLLFromJARClassLoader.loadLibrary();
   }
 
-  public static final String SCRIPTING_TOOLS_PATH = "scripting.tools.path";
+  private static final String SCRIPTING_TOOLS_PATH = "scripting.tools.path";
   private final LoadingCache<Class<ScriptingTool>, ScriptingTool> tools;
   private Path viToolsPath;
 
   public ScriptingTools() {
-    viToolsPath = systemScriptingToolsPath().toAbsolutePath();
+    viToolsPath = getScriptingToolsPath().toAbsolutePath();
     tools = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .build(new CacheLoader<Class<ScriptingTool>, ScriptingTool>() {
@@ -35,7 +35,7 @@ public class ScriptingTools extends Application {
         });
   }
 
-  private Path systemScriptingToolsPath() {
+  public Path getScriptingToolsPath() {
     return Paths.get(System.getProperty(SCRIPTING_TOOLS_PATH, Paths.get("").toString()));
   }
 
@@ -50,6 +50,6 @@ public class ScriptingTools extends Application {
   }
 
   public VIPath resolveToolPath(String name) {
-    return new VIPath(viToolsPath, name);
+    return new VIPath(viToolsPath.resolve(name));
   }
 }

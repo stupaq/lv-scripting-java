@@ -1,6 +1,6 @@
 package stupaq.labview;
 
-public class VIErrorException extends Exception {
+public class VIErrorException extends RuntimeException {
   public VIErrorException(int errCode, String errSource) {
     super("VIError:" + errCode + ": " + errSource);
   }
