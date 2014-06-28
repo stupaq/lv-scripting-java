@@ -1,28 +1,24 @@
 package com.jacob.samples;
 
+import com.google.common.io.Files;
+import com.google.common.io.Resources;
+
 import com.jacob.com.LibraryLoader;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.IOException;
 
 public class DLLFromJARClassLoader {
   public static void loadLibrary() {
     try {
-      InputStream inputStream = DLLFromJARClassLoader.class.getResource(
-          "/" + LibraryLoader.getPreferredDLLName() + ".dll").openStream();
-      File temporaryDll = File.createTempFile(LibraryLoader.getPreferredDLLName(), ".dll");
-      FileOutputStream outputStream = new FileOutputStream(temporaryDll);
-      byte[] array = new byte[8192];
-      for (int i = inputStream.read(array); i != -1; i = inputStream.read(array)) {
-        outputStream.write(array, 0, i);
-      }
-      outputStream.close();
+      String dllName = LibraryLoader.getPreferredDLLName();
+      File temporaryDll = File.createTempFile(dllName, ".dll");
       temporaryDll.deleteOnExit();
+      Resources.asByteSource(DLLFromJARClassLoader.class.getResource("/" + dllName + ".dll"))
+          .copyTo(Files.asByteSink(temporaryDll));
       System.setProperty(LibraryLoader.JACOB_DLL_PATH, temporaryDll.getPath());
       LibraryLoader.loadJacobLibrary();
-    } catch (Throwable e) {
-      e.printStackTrace(System.err);
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }

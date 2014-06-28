@@ -50,6 +50,6 @@ public class ScriptingTools extends Application {
   }
 
   public VIPath resolveToolPath(String name) {
-    return new VIPath(viToolsPath.resolve(name));
+    return new VIPath(viToolsPath, name);
   }
 }

@@ -18,6 +18,10 @@ public class VIPath extends ForwardingObject implements ActiveXType {
     this.path = path;
   }
 
+  public VIPath(Path dir, String name) {
+    this(dir.resolve(name));
+  }
+
   public VIPath(String path) {
     Preconditions.checkNotNull(path);
     this.path = Paths.get(path);

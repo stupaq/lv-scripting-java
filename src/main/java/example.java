@@ -28,10 +28,10 @@ public class example {
       UID t1 = vi.inlineCNodeAddIO(b1, false, "out 1");
       UID t2 = vi.inlineCNodeAddIO(b2, true, "in 2");
       UID w1 = vi.connectWire(t1, t2, "wire 1");
-      UID j1 = vi.inlineCNodeAddIO(b1, true, "to be removed 1");
+      UID b3 = vi.inlineCNodeCreate("to be removed 1");
       vi.cleanUpDiagram();
-      System.out.println(b1 + " " + b2 + " " + t1 + " " + t2 + " " + w1 + " " + j1);
-      //vi.removeObject(j1);
+      System.out.println(b1 + " " + b2 + " " + t1 + " " + t2 + " " + w1 + " " + b3);
+      vi.removeObject(b3);
     } else {
       throw new IllegalArgumentException("Arguments: path-to-a-VI");
     }
