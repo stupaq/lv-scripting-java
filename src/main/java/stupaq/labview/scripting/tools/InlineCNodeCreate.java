@@ -12,7 +12,7 @@ public class InlineCNodeCreate extends ScriptingTool {
     super(application);
   }
 
-  public UID apply(VIPath targetVi, String content) throws VIErrorException {
-    return new UID(vi.stdCall(targetVi.toVariant(), new Variant(content)));
+  public UID apply(VIPath targetVi, String content, String label) throws VIErrorException {
+    return new UID(vi.stdCall(targetVi.toVariant(), new Variant(content), new Variant(label)));
   }
 }

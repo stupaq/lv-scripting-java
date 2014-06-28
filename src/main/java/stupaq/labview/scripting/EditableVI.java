@@ -23,8 +23,8 @@ public class EditableVI {
     tools.getTool(VICreate.class).apply(viPath);
   }
 
-  public UID inlineCNodeCreate(String content) throws VIErrorException {
-    return tools.getTool(InlineCNodeCreate.class).apply(viPath, content);
+  public UID inlineCNodeCreate(String content, String label) throws VIErrorException {
+    return tools.getTool(InlineCNodeCreate.class).apply(viPath, content, label);
   }
 
   public UID inlineCNodeAddIO(UID uid, boolean isInput, String name) throws VIErrorException {
