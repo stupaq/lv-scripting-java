@@ -1,12 +1,13 @@
 package stupaq.labview;
 
+import com.google.common.collect.ForwardingObject;
 import com.google.common.primitives.UnsignedInts;
 
 import com.jacob.com.Variant;
 
 import stupaq.activex.ActiveXType;
 
-public class UID implements ActiveXType {
+public class UID extends ForwardingObject implements ActiveXType, Comparable<UID> {
   private final int uid;
 
   public UID(Variant controlValue) {
@@ -19,7 +20,17 @@ public class UID implements ActiveXType {
   }
 
   @Override
+  protected Integer delegate() {
+    return Integer.valueOf(uid);
+  }
+
+  @Override
   public String toString() {
     return "UID{" + UnsignedInts.toString(uid) + '}';
+  }
+
+  @Override
+  public int compareTo(UID o) {
+    return delegate().compareTo(o.delegate());
   }
 }
