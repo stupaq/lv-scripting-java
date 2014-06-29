@@ -1,7 +1,6 @@
 package stupaq.labview;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ForwardingObject;
 
 import com.jacob.com.Variant;
 
@@ -10,7 +9,7 @@ import java.nio.file.Paths;
 
 import stupaq.activex.ActiveXType;
 
-public class VIPath extends ForwardingObject implements ActiveXType {
+public class VIPath implements ActiveXType {
   private final Path path;
 
   public VIPath(Path path) {
@@ -32,8 +31,19 @@ public class VIPath extends ForwardingObject implements ActiveXType {
   }
 
   @Override
-  protected Object delegate() {
-    return path;
+  public String toString() {
+    return path.toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return this == o ||
+        !(o == null || getClass() != o.getClass()) && path.equals(((VIPath) o).path);
+  }
+
+  @Override
+  public int hashCode() {
+    return path.hashCode();
   }
 
   @Override
