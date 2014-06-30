@@ -1,5 +1,7 @@
 package stupaq.labview;
 
+import com.google.common.base.Preconditions;
+
 import com.jacob.com.SafeArray;
 import com.jacob.com.Variant;
 
@@ -34,11 +36,18 @@ public class StdCallVI extends VirtualInstrument {
     return getControlValue(RETURN_CONTROL);
   }
 
-  public Variant stdCall(ActiveXType... args) throws VIErrorException {
+  public Variant stdCall(Object... args) throws VIErrorException {
     Variant[] args1 = new Variant[args.length];
     int index = 0;
-    for (ActiveXType arg : args) {
-      args1[index++] = arg.toVariant();
+    for (Object arg : args) {
+      Preconditions.checkNotNull(arg);
+      if (arg instanceof Variant) {
+        args1[index++] = (Variant) arg;
+      } else if (arg instanceof ActiveXType) {
+        args1[index++] = ((ActiveXType) arg).toVariant();
+      } else {
+        args1[index++] = new Variant(arg);
+      }
     }
     return stdCall(args1);
   }

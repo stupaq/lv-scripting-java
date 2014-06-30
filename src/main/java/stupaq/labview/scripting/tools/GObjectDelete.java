@@ -5,8 +5,8 @@ import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
 
-public class DeleteGObject extends ScriptingTool {
-  public DeleteGObject(ScriptingTools application) {
+public class GObjectDelete extends ScriptingTool {
+  public GObjectDelete(ScriptingTools application) {
     super(application);
   }
 

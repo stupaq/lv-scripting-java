@@ -7,6 +7,7 @@ import com.jacob.com.Variant;
 import stupaq.activex.ActiveXType;
 
 public class UID implements ActiveXType, Comparable<UID> {
+  public static final UID ZERO = new UID(new Variant(0));
   private final int uid;
 
   public UID(Variant controlValue) {
@@ -19,13 +20,13 @@ public class UID implements ActiveXType, Comparable<UID> {
   }
 
   @Override
-  public String toString() {
-    return "UID{" + UnsignedInts.toString(uid) + '}';
+  public int compareTo(UID o) {
+    return Integer.valueOf(uid).compareTo(o.uid);
   }
 
   @Override
-  public int compareTo(UID o) {
-    return Integer.valueOf(uid).compareTo(o.uid);
+  public int hashCode() {
+    return uid;
   }
 
   @Override
@@ -34,7 +35,7 @@ public class UID implements ActiveXType, Comparable<UID> {
   }
 
   @Override
-  public int hashCode() {
-    return uid;
+  public String toString() {
+    return "UID{" + UnsignedInts.toString(uid) + '}';
   }
 }

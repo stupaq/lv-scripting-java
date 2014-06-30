@@ -31,8 +31,8 @@ public class VIPath implements ActiveXType {
   }
 
   @Override
-  public String toString() {
-    return path.toString();
+  public int hashCode() {
+    return path.hashCode();
   }
 
   @Override
@@ -42,8 +42,8 @@ public class VIPath implements ActiveXType {
   }
 
   @Override
-  public int hashCode() {
-    return path.hashCode();
+  public String toString() {
+    return path.toString();
   }
 
   @Override
