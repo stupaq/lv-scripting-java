@@ -6,8 +6,8 @@ import stupaq.labview.VIPath;
 import stupaq.labview.scripting.tools.CleanUpDiagram;
 import stupaq.labview.scripting.tools.ConnectWire;
 import stupaq.labview.scripting.tools.DeleteGObject;
-import stupaq.labview.scripting.tools.InlineCNodeAddIO;
-import stupaq.labview.scripting.tools.InlineCNodeCreate;
+import stupaq.labview.scripting.tools.FormulaNodeAddIO;
+import stupaq.labview.scripting.tools.FormulaNodeCreate;
 import stupaq.labview.scripting.tools.VICreate;
 
 public class EditableVI {
@@ -23,12 +23,14 @@ public class EditableVI {
     tools.getTool(VICreate.class).apply(viPath);
   }
 
-  public UID inlineCNodeCreate(String content, String label) throws VIErrorException {
-    return tools.getTool(InlineCNodeCreate.class).apply(viPath, content, label);
+  public UID formulaNodeCreate(String content, String label, boolean isInlineCNode)
+      throws VIErrorException {
+    return tools.getTool(FormulaNodeCreate.class).apply(viPath, content, label, isInlineCNode);
   }
 
-  public UID inlineCNodeAddIO(UID uid, boolean isInput, String name) throws VIErrorException {
-    return tools.getTool(InlineCNodeAddIO.class).apply(viPath, uid, isInput, name);
+  public UID formulaNodeAddIO(UID uid, boolean isInput, String name, boolean isInlineCNode)
+      throws VIErrorException {
+    return tools.getTool(FormulaNodeAddIO.class).apply(viPath, uid, isInput, name, isInlineCNode);
   }
 
   public UID connectWire(UID source, UID destination, String label) throws VIErrorException {
