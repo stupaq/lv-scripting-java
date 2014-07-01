@@ -14,6 +14,10 @@ public class UID implements ActiveXType, Comparable<UID> {
     uid = controlValue.getInt();
   }
 
+  public UID(int uid) {
+    this.uid = uid;
+  }
+
   @Override
   public Variant toVariant() {
     return new Variant(uid);
