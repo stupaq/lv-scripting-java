@@ -12,6 +12,13 @@ import stupaq.labview.scripting.tools.SubVICreate;
 public final class SubVI extends ConcreteGObject {
   private final List<Terminal<SubVI>> terminals = Lists.newArrayList();
 
+  private SubVI(Generic owner, Entry<UID, List<UID>> subViAndTerminals) {
+    this(owner, subViAndTerminals.getKey());
+    for (UID term : subViAndTerminals.getValue()) {
+      terminals.add(new EagerTerminal<>(this, term));
+    }
+  }
+
   public SubVI(Generic owner, UID uid) {
     super(owner, uid);
   }
@@ -20,13 +27,6 @@ public final class SubVI extends ConcreteGObject {
     this(owner, owner.scriptingTools()
         .getTool(SubVICreate.class)
         .apply(owner.viPath(), owner.uid(), path, label));
-  }
-
-  private SubVI(Generic owner, Entry<UID, List<UID>> subViAndTerminals) {
-    this(owner, subViAndTerminals.getKey());
-    for (UID term : subViAndTerminals.getValue()) {
-      terminals.add(new Terminal<>(this, term));
-    }
   }
 
   public List<Terminal<SubVI>> terminals() {

@@ -4,8 +4,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 import stupaq.labview.UID;
-import stupaq.labview.VIPath;
-import stupaq.labview.scripting.ScriptingTools;
 
 public abstract class ConcreteGObject extends GObject {
   private final Optional<UID> uid;
@@ -24,33 +22,7 @@ public abstract class ConcreteGObject extends GObject {
   }
 
   @Override
-  protected final ScriptingTools scriptingTools() {
-    return owner().scriptingTools();
-  }
-
-  @Override
   protected Generic owner() {
     return owner;
-  }
-
-  @Override
-  protected final VIPath viPath() {
-    return owner().viPath();
-  }
-
-  @Override
-  public int hashCode() {
-    return uid.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    return this == o ||
-        !(o == null || getClass() != o.getClass()) && uid.equals(((ConcreteGObject) o).uid);
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName() + "{" + "uid=" + uid.get() + '}';
   }
 }

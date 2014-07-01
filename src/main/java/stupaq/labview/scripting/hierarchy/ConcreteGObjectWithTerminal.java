@@ -15,7 +15,7 @@ public class ConcreteGObjectWithTerminal<T extends GObject> extends ConcreteGObj
   @SuppressWarnings("unchecked")
   protected ConcreteGObjectWithTerminal(Generic owner, UID uid, UID terminal) {
     super(owner, uid);
-    this.terminal = new Terminal<>((T) this, terminal);
+    this.terminal = new EagerTerminal<>((T) this, terminal);
   }
 
   protected ConcreteGObjectWithTerminal(Generic owner, Entry<UID, UID> objectAndTerminal) {

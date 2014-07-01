@@ -24,13 +24,13 @@ public class VI extends Generic {
   }
 
   @Override
-  protected ScriptingTools scriptingTools() {
-    return tools;
+  protected Generic owner() {
+    return this;
   }
 
   @Override
-  protected Generic owner() {
-    return this;
+  protected ScriptingTools scriptingTools() {
+    return tools;
   }
 
   @Override

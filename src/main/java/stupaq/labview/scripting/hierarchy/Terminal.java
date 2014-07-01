@@ -1,19 +1,11 @@
 package stupaq.labview.scripting.hierarchy;
 
-import stupaq.labview.UID;
 import stupaq.labview.VIErrorException;
 import stupaq.labview.scripting.tools.GObjectDelete;
 
-public final class Terminal<T extends GObject> extends ConcreteGObject {
-  public Terminal(T owner, UID uid) {
-    super(owner, uid);
-  }
-
-  @SuppressWarnings("unchecked")
+public abstract class Terminal<T extends GObject> extends GObject {
   @Override
-  protected T owner() {
-    return (T) super.owner();
-  }
+  protected abstract T owner();
 
   @Override
   public void delete() throws VIErrorException {
