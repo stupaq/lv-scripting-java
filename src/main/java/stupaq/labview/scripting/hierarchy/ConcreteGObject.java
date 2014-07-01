@@ -29,7 +29,7 @@ public abstract class ConcreteGObject extends GObject {
   }
 
   @Override
-  protected final Generic owner() {
+  protected Generic owner() {
     return owner;
   }
 
@@ -39,18 +39,18 @@ public abstract class ConcreteGObject extends GObject {
   }
 
   @Override
+  public int hashCode() {
+    return uid.hashCode();
+  }
+
+  @Override
   public boolean equals(Object o) {
     return this == o ||
         !(o == null || getClass() != o.getClass()) && uid.equals(((ConcreteGObject) o).uid);
   }
 
   @Override
-  public int hashCode() {
-    return uid.hashCode();
-  }
-
-  @Override
   public String toString() {
-    return getClass().getSimpleName() + "{" + "uid=" + uid + '}';
+    return getClass().getSimpleName() + "{" + "uid=" + uid.get() + '}';
   }
 }

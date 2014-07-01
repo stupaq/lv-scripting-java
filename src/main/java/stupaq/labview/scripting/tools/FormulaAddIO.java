@@ -1,5 +1,10 @@
 package stupaq.labview.scripting.tools;
 
+import com.jacob.com.SafeArray;
+
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map.Entry;
+
 import stupaq.labview.UID;
 import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
@@ -10,8 +15,9 @@ public class FormulaAddIO extends ScriptingTool {
     super(application);
   }
 
-  public UID apply(VIPath targetVi, int formulaType, UID uid, boolean isInput, String name)
-      throws VIErrorException {
-    return new UID(vi.stdCall(targetVi, formulaType, uid, isInput, name));
+  public Entry<UID, UID> apply(VIPath targetVi, int formulaType, UID uid, boolean isInput,
+      String name) throws VIErrorException {
+    SafeArray result = vi.stdCall(targetVi, formulaType, uid, isInput, name).toSafeArray();
+    return new SimpleImmutableEntry<>(new UID(result.getVariant(0)), new UID(result.getVariant(1)));
   }
 }

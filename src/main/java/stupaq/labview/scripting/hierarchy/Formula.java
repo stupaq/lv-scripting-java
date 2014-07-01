@@ -15,27 +15,26 @@ public abstract class Formula extends Node {
         .apply(owner.viPath(), owner.uid(), formulaType, content, label));
   }
 
-  public final Terminal addIO(boolean isInput, String name) {
-    UID terminal = scriptingTools().getTool(FormulaAddIO.class)
-        .apply(viPath(), formulaType(), uid().get(), isInput, name);
-    return new Terminal(this, terminal);
+  public final Terminal<FormulaParameter> addIO(boolean isInput, String name) {
+    return new FormulaParameter(this, scriptingTools().getTool(FormulaAddIO.class)
+        .apply(viPath(), formulaType(), uid().get(), isInput, name)).terminal();
   }
 
   protected abstract int formulaType();
 
-  public final Terminal addInput() {
+  public final Terminal<FormulaParameter> addInput() {
     return addInput("");
   }
 
-  public final Terminal addInput(String name) {
+  public final Terminal<FormulaParameter> addInput(String name) {
     return addIO(true, name);
   }
 
-  public final Terminal addOutput() {
+  public final Terminal<FormulaParameter> addOutput() {
     return addOutput("");
   }
 
-  public final Terminal addOutput(String name) {
+  public final Terminal<FormulaParameter> addOutput(String name) {
     return addIO(false, name);
   }
 }
