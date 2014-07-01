@@ -8,9 +8,9 @@ public class Indicator extends ConcreteGObjectWithTerminal<Indicator> {
     super(owner, uid, terminal);
   }
 
-  public Indicator(Generic owner, int style, String label) {
+  public Indicator(Generic owner, int style, String label, int connPaneIndex) {
     super(owner, owner.scriptingTools()
         .getTool(ControlCreate.class)
-        .apply(owner.viPath(), owner.uid(), true, style, label));
+        .apply(owner.viPath(), owner.uid(), true, style, label, connPaneIndex));
   }
 }

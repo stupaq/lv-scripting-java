@@ -8,9 +8,9 @@ public class Control extends ConcreteGObjectWithTerminal<Control> {
     super(owner, uid, terminal);
   }
 
-  public Control(Generic owner, int style, String label) {
+  public Control(Generic owner, int style, String label, int connPaneIndex) {
     super(owner, owner.scriptingTools()
         .getTool(ControlCreate.class)
-        .apply(owner.viPath(), owner.uid(), false, style, label));
+        .apply(owner.viPath(), owner.uid(), false, style, label, connPaneIndex));
   }
 }

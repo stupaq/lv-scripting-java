@@ -38,8 +38,9 @@ public class example {
       Terminal t3 = b2.addInput("in 1");
       Wire w1 = new Wire(t1, t3, "wire 1");
       Formula b3 = new FormulaNode(vi.generic(), "this node will be removed", "this label too");
-      Control c0 = new Control(vi.generic(), ControlCreate.NUMERIC, "control 0");
-      Indicator i0 = new Indicator(vi.generic(), ControlCreate.NUMERIC, "indicator 0");
+      Control c0 = new Control(vi.generic(), ControlCreate.NUMERIC, "control 0", 0);
+      Indicator i0 = new Indicator(vi.generic(), ControlCreate.NUMERIC, "indicator 0",
+          ControlCreate.DO_NOT_CONNECT);
       Wire w2 = new Wire(c0.terminal(), i0.terminal(), "wire 2");
       vi.cleanUpDiagram();
       b3.delete();
