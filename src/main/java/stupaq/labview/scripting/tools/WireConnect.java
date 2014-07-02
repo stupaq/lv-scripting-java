@@ -1,5 +1,7 @@
 package stupaq.labview.scripting.tools;
 
+import com.google.common.base.Optional;
+
 import stupaq.labview.UID;
 import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
@@ -10,8 +12,8 @@ public class WireConnect extends ScriptingTool {
     super(application);
   }
 
-  public UID apply(VIPath targetVi, UID source, UID destination, String label)
+  public UID apply(VIPath targetVi, UID source, UID destination, Optional<String> label)
       throws VIErrorException {
-    return new UID(vi.stdCall(targetVi, source, destination, label));
+    return new UID(vi.stdCall(targetVi, source, destination, label.or("")));
   }
 }

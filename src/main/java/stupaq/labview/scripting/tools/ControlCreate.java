@@ -14,8 +14,8 @@ import stupaq.labview.scripting.ScriptingTools;
 
 public class ControlCreate extends ScriptingTool {
   public static final int DO_NOT_CONNECT = -1;
-  public static final int VARIANT = 3310, BOOLEAN = 21002, NUMERIC = 21003, STRING = 21071,
-      ARRAY = 21608;
+  public static final int VARIANT = 3310, BOOLEAN = 21002, NUMERIC = 21003, STRING = 21071, ARRAY =
+      21608;
 
   public ControlCreate(ScriptingTools application) {
     super(application);

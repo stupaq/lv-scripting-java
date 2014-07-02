@@ -43,7 +43,7 @@ public class VIPath implements ActiveXType {
 
   @Override
   public String toString() {
-    return path.toString();
+    return "VIPath{" + path.toString() + '}';
   }
 
   @Override
