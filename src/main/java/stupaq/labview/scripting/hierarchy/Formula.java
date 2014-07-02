@@ -13,7 +13,7 @@ public abstract class Formula extends Node {
     super(owner, uid);
   }
 
-  protected Formula(Generic owner, int formulaType, String content, String label) {
+  protected Formula(Generic owner, int formulaType, String content, Optional<String> label) {
     super(owner, owner.scriptingTools()
         .getTool(FormulaCreate.class)
         .apply(owner.viPath(), owner.uid(), formulaType, content, label));

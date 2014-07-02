@@ -34,14 +34,14 @@ public class example {
       Files.deleteIfExists(path0.path());
       VI vi0 = new VI(tools, path0);
       vi0.create();
-      Formula vi0b1 = new InlineCNode(vi0, "block 1", "label 1");
+      Formula vi0b1 = new InlineCNode(vi0, "block 1", of("label 1"));
       Terminal vi0t0 = vi0b1.addInput("in 0");
       Terminal vi0t1 = vi0b1.addOutput("out 1");
       Terminal vi0t2 = vi0b1.addOutput("this output will be removed");
-      Formula vi0b2 = new FormulaNode(vi0, "block 2", "label 2");
+      Formula vi0b2 = new FormulaNode(vi0, "block 2", of("label 2"));
       Terminal vi0t3 = vi0b2.addInput("in 1");
       Wire vi0w1 = new Wire(vi0t1, vi0t3, of("wire 1"));
-      Formula vi0b3 = new FormulaNode(vi0, "this node will be removed", "this label too");
+      Formula vi0b3 = new FormulaNode(vi0, "this node will be removed", of("this label too"));
       Control vi0c0 = new Control(vi0, ControlCreate.NUMERIC, "control 0", 0);
       Indicator vi0i0 =
           new Indicator(vi0, ControlCreate.NUMERIC, "indicator 0", ControlCreate.DO_NOT_CONNECT);

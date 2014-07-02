@@ -15,7 +15,8 @@ public class FormulaCreate extends ScriptingTool {
   }
 
   public UID apply(VIPath targetVi, Optional<UID> owner, int formulaType, String content,
-      String label) throws VIErrorException {
-    return new UID(vi.stdCall(targetVi, encapsulateOwner(owner), formulaType, content, label));
+      Optional<String> label) throws VIErrorException {
+    return new UID(
+        vi.stdCall(targetVi, encapsulateOwner(owner), formulaType, content, label.or("")));
   }
 }
