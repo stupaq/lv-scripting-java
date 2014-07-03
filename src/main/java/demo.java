@@ -1,4 +1,5 @@
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import stupaq.labview.VIPath;
@@ -17,7 +18,7 @@ import stupaq.labview.scripting.tools.ControlCreate;
 import static com.google.common.base.Optional.of;
 
 @SuppressWarnings("deprecation")
-public class example {
+public class demo {
 
   public static void main(String[] args) {
     try {
@@ -30,7 +31,9 @@ public class example {
   private static void run(String[] args) throws Exception {
     if (args.length == 1) {
       ScriptingTools tools = new ScriptingTools();
-      VIPath path0 = new VIPath(Paths.get(args[0]), "example.vi");
+      Path dir = Paths.get(args[0]);
+      Files.createDirectory(dir);
+      VIPath path0 = new VIPath(dir, "example.vi");
       Files.deleteIfExists(path0.path());
       VI vi0 = new VI(tools, path0);
       vi0.create();
