@@ -32,6 +32,6 @@ public abstract class Generic {
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + "{" + "uid=" + uid().get() + '}';
+    return getClass().getSimpleName() + "{uid=" + uid().get() + '}';
   }
 }

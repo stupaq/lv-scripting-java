@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 
 import stupaq.labview.UID;
 
-public abstract class ConcreteGObject extends GObject {
+abstract class ConcreteGObject extends GObject {
   private final Optional<UID> uid;
   private final Generic owner;
 

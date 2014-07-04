@@ -1,16 +1,18 @@
 package stupaq.labview.scripting.hierarchy;
 
-import stupaq.labview.UID;
+import com.google.common.base.Optional;
+
 import stupaq.labview.scripting.tools.ControlCreate;
+import stupaq.labview.scripting.tools.ControlCreate.ControlStyle;
 
-public class Indicator extends ConcreteGObjectWithTerminal<Indicator> {
-  public Indicator(Generic owner, UID uid, Terminal<Indicator> terminal) {
-    super(owner, uid, terminal);
-  }
-
-  public Indicator(Generic owner, int style, String label, int connPaneIndex) {
+public class Indicator extends ConcreteGObjectWithOptionalTerminal<Indicator> {
+  public Indicator(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex) {
     super(owner, owner.scriptingTools()
         .getTool(ControlCreate.class)
-        .apply(owner.viPath(), owner.uid(), true, style, label, connPaneIndex));
+        .apply(owner.viPath(), owner.uid(), true, style, label, connPaneIndex, hasTerminal(owner)));
+  }
+
+  private static boolean hasTerminal(Generic owner) {
+    return !(owner instanceof Indicator || owner instanceof Control);
   }
 }
