@@ -20,7 +20,7 @@ public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
     super(owner, objectAndTerminal);
   }
 
-  private static boolean hasTerminal(Generic owner) {
+  protected static boolean hasTerminal(Generic owner) {
     return !(owner instanceof Indicator || owner instanceof Control);
   }
 }

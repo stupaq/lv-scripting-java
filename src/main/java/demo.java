@@ -8,12 +8,10 @@ import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
 import stupaq.labview.scripting.hierarchy.Control;
 import stupaq.labview.scripting.hierarchy.ControlArray;
-import stupaq.labview.scripting.hierarchy.ControlArray.ControlSupplier;
 import stupaq.labview.scripting.hierarchy.Formula;
 import stupaq.labview.scripting.hierarchy.FormulaNode;
 import stupaq.labview.scripting.hierarchy.Indicator;
 import stupaq.labview.scripting.hierarchy.IndicatorArray;
-import stupaq.labview.scripting.hierarchy.IndicatorArray.IndicatorSupplier;
 import stupaq.labview.scripting.hierarchy.InlineCNode;
 import stupaq.labview.scripting.hierarchy.SubVI;
 import stupaq.labview.scripting.hierarchy.Terminal;
@@ -59,10 +57,8 @@ public class demo {
           new Indicator(vi0, NUMERIC, of("indicator 1"), ControlCreate.DO_NOT_CONNECT);
       Wire vi0w2 = new Wire(vi0, vi0c0.endpoint().get(), vi0i0.endpoint().get(), of("wire 2"));
       // and some more complicated ones.
-      ControlArray vi0c1 =
-          new ControlArray(vi0, of("control 1"), 1, 3, new ControlSupplier(NUMERIC));
-      IndicatorArray vi0i2 =
-          new IndicatorArray(vi0, of("indicator 2"), 1, 3, new IndicatorSupplier(NUMERIC));
+      ControlArray vi0c1 = new ControlArray(vi0, 3, NUMERIC, of("control 1"), 1);
+      IndicatorArray vi0i2 = new IndicatorArray(vi0, 3, NUMERIC, of("indicator 2"), 1);
       Wire vi0w3 = new Wire(vi0, vi0c1.endpoint().get(), vi0i2.endpoint().get(), of("wire 2"));
       // Create the VI that will be attached as a SubVI, ...
       VIPath path1 = new VIPath(Paths.get(args[0]), "example1.vi");
