@@ -20,7 +20,8 @@ import stupaq.labview.scripting.hierarchy.Wire;
 import stupaq.labview.scripting.tools.ControlCreate;
 
 import static com.google.common.base.Optional.of;
-import static stupaq.labview.scripting.tools.ControlCreate.ControlStyle.NUMERIC;
+import static stupaq.labview.scripting.tools.ControlStyle.NUMERIC_DBL;
+import static stupaq.labview.scripting.tools.ControlStyle.NUMERIC_I32;
 
 @SuppressWarnings("deprecation")
 public class demo {
@@ -50,15 +51,15 @@ public class demo {
       // Connect formula nodes.
       Wire vi0w1 = new Wire(vi0, vi0t1, vi0t3, of("wire 1"));
       // Create some simple controls, ...
-      Control vi0c0 = new Control(vi0, NUMERIC, of("control 0"), 0);
+      Control vi0c0 = new Control(vi0, NUMERIC_I32, of("control 0"), 0);
       Indicator vi0i0 =
-          new Indicator(vi0, NUMERIC, of("indicator 0"), ControlCreate.DO_NOT_CONNECT);
+          new Indicator(vi0, NUMERIC_I32, of("indicator 0"), ControlCreate.DO_NOT_CONNECT);
       Indicator vi0i1 =
-          new Indicator(vi0, NUMERIC, of("indicator 1"), ControlCreate.DO_NOT_CONNECT);
+          new Indicator(vi0, NUMERIC_I32, of("indicator 1"), ControlCreate.DO_NOT_CONNECT);
       Wire vi0w2 = new Wire(vi0, vi0c0.endpoint().get(), vi0i0.endpoint().get(), of("wire 2"));
       // and some more complicated ones.
-      ControlArray vi0c1 = new ControlArray(vi0, 3, NUMERIC, of("control 1"), 1);
-      IndicatorArray vi0i2 = new IndicatorArray(vi0, 3, NUMERIC, of("indicator 2"), 1);
+      ControlArray vi0c1 = new ControlArray(vi0, 3, NUMERIC_DBL, of("control 1"), 1);
+      IndicatorArray vi0i2 = new IndicatorArray(vi0, 3, NUMERIC_DBL, of("indicator 2"), 1);
       Wire vi0w3 = new Wire(vi0, vi0c1.endpoint().get(), vi0i2.endpoint().get(), of("wire 2"));
       // Create the VI that will be attached as a SubVI, ...
       VIPath path1 = new VIPath(Paths.get(args[0]), "example1.vi");
@@ -66,7 +67,7 @@ public class demo {
       VI vi1 = new VI(tools, path1);
       vi1.create();
       // fill it's interface, ...
-      Indicator v1i1 = new Indicator(vi1, NUMERIC, of("indicator 0"), 0);
+      Indicator v1i1 = new Indicator(vi1, NUMERIC_I32, of("indicator 0"), 0);
       // attach to the main VI, ...
       SubVI vi0sub0 = new SubVI(vi0, path1, "sub vi 0");
       // and wire to one of the outputs.

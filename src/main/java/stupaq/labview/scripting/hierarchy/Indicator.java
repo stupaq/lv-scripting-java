@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import stupaq.labview.UID;
 import stupaq.labview.scripting.tools.ControlCreate;
-import stupaq.labview.scripting.tools.ControlCreate.ControlStyle;
+import stupaq.labview.scripting.tools.ControlStyle;
 
 public class Indicator extends ConcreteGObjectWithOptionalTerminal<Indicator> {
   public Indicator(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex) {
