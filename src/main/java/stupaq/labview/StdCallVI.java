@@ -5,9 +5,13 @@ import com.google.common.base.Preconditions;
 import com.jacob.com.SafeArray;
 import com.jacob.com.Variant;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import stupaq.activex.ActiveXType;
 
 public class StdCallVI extends VirtualInstrument {
+  private static final Logger STD_CALL_TRACE = LoggerFactory.getLogger("STD_CALL_TRACE");
   public static final String ARGS_CONTROL = "__args";
   public static final String ERR_STATUS_CONTROL = "__errStatus";
   public static final String ERR_CODE_CONTROL = "__errCode";
@@ -28,6 +32,16 @@ public class StdCallVI extends VirtualInstrument {
   }
 
   public Variant stdCall(Variant... args) throws VIErrorException {
+    if (STD_CALL_TRACE.isDebugEnabled()) {
+      StringBuilder message = new StringBuilder(getVIPath().path().getFileName().toString());
+      boolean isFirst = true;
+      for (Variant arg : args) {
+        message.append(isFirst ? "(" : ", ").append(arg.toJavaObject());
+        isFirst = false;
+      }
+      message.append(")");
+      STD_CALL_TRACE.debug(message.toString());
+    }
     SafeArray args1 = new SafeArray(Variant.VariantVariant, args.length);
     args1.fromVariantArray(args);
     setControlValue(ARGS_CONTROL, new Variant(args1));

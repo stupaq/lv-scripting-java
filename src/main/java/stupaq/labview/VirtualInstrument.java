@@ -8,9 +8,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public abstract class VirtualInstrument {
+  private final VIPath viPath;
   private final ActiveXComponent activeX;
 
   protected VirtualInstrument(Application application, VIPath viPath) {
+    this.viPath = viPath;
     activeX = new ActiveXComponent(application.openVI(viPath));
   }
 
@@ -40,5 +42,9 @@ public abstract class VirtualInstrument {
 
   public void setControlValue(String controlName, Variant controlValue) {
     activeX.invoke("SetControlValue", new Variant(controlName), controlValue);
+  }
+
+  public VIPath getVIPath() {
+    return viPath;
   }
 }
