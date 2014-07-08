@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
+import stupaq.labview.scripting.hierarchy.CompoundArithmetic;
 import stupaq.labview.scripting.hierarchy.Control;
 import stupaq.labview.scripting.hierarchy.ControlArray;
 import stupaq.labview.scripting.hierarchy.Formula;
@@ -17,6 +18,7 @@ import stupaq.labview.scripting.hierarchy.SubVI;
 import stupaq.labview.scripting.hierarchy.Terminal;
 import stupaq.labview.scripting.hierarchy.VI;
 import stupaq.labview.scripting.hierarchy.Wire;
+import stupaq.labview.scripting.tools.CompoundArithmeticCreate.ArithmeticMode;
 import stupaq.labview.scripting.tools.ControlCreate;
 
 import static com.google.common.base.Optional.of;
@@ -61,6 +63,20 @@ public class demo {
       ControlArray vi0c1 = new ControlArray(vi0, 3, NUMERIC_DBL, of("control 1"), 1);
       IndicatorArray vi0i2 = new IndicatorArray(vi0, 3, NUMERIC_DBL, of("indicator 2"), 1);
       Wire vi0w3 = new Wire(vi0, vi0c1.endpoint().get(), vi0i2.endpoint().get(), of("wire 2"));
+      // Create compound arithmetic node...
+      Control vi0c2 = new Control(vi0, NUMERIC_I32, of("control 2"), 0);
+      CompoundArithmetic vi0a0 =
+          new CompoundArithmetic(vi0, ArithmeticMode.ADD, 3, "compound add 0");
+      CompoundArithmetic vi0a1 =
+          new CompoundArithmetic(vi0, ArithmeticMode.XOR, 1, "compound xor 0");
+      CompoundArithmetic vi0a2 =
+          new CompoundArithmetic(vi0, ArithmeticMode.MULTIPLY, 1, "compound mul 0");
+      // and connect them.
+      new Wire(vi0, vi0c2.endpoint().get(), vi0a0.inputs().get(0), of("to add"));
+      new Wire(vi0, vi0c2.endpoint().get(), vi0a0.inputs().get(1), of("to add"));
+      new Wire(vi0, vi0c2.endpoint().get(), vi0a0.inputs().get(2), of("to add"));
+      new Wire(vi0, vi0a0.output(), vi0a1.inputs().get(0), of("add to xor"));
+      new Wire(vi0, vi0a0.output(), vi0a2.inputs().get(0), of("add to mul"));
       // Create the VI that will be attached as a SubVI, ...
       VIPath path1 = new VIPath(Paths.get(args[0]), "example1.vi");
       Files.deleteIfExists(path1.path());

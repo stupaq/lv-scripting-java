@@ -13,14 +13,10 @@ public final class SubVI extends ConcreteGObject {
   private final List<Terminal<SubVI>> terminals = Lists.newArrayList();
 
   private SubVI(Generic owner, Entry<UID, List<UID>> subViAndTerminals) {
-    this(owner, subViAndTerminals.getKey());
+    super(owner, subViAndTerminals.getKey());
     for (UID term : subViAndTerminals.getValue()) {
       terminals.add(new EagerTerminal<>(this, term));
     }
-  }
-
-  public SubVI(Generic owner, UID uid) {
-    super(owner, uid);
   }
 
   public SubVI(Generic owner, VIPath path, String label) {
