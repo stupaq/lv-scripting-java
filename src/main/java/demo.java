@@ -66,11 +66,11 @@ public class demo {
       // Create compound arithmetic node...
       Control vi0c2 = new Control(vi0, NUMERIC_I32, of("control 2"), 0);
       CompoundArithmetic vi0a0 =
-          new CompoundArithmetic(vi0, ArithmeticMode.ADD, 3, "compound add 0");
+          new CompoundArithmetic(vi0, ArithmeticMode.ADD, 3, of("compound add 0"));
       CompoundArithmetic vi0a1 =
-          new CompoundArithmetic(vi0, ArithmeticMode.XOR, 1, "compound xor 0");
+          new CompoundArithmetic(vi0, ArithmeticMode.XOR, 1, of("compound xor 0"));
       CompoundArithmetic vi0a2 =
-          new CompoundArithmetic(vi0, ArithmeticMode.MULTIPLY, 1, "compound mul 0");
+          new CompoundArithmetic(vi0, ArithmeticMode.MULTIPLY, 1, of("compound mul 0"));
       // and connect them.
       new Wire(vi0, vi0c2.endpoint().get(), vi0a0.inputs().get(0), of("to add"));
       new Wire(vi0, vi0c2.endpoint().get(), vi0a0.inputs().get(1), of("to add"));
@@ -85,7 +85,7 @@ public class demo {
       // fill it's interface, ...
       Indicator v1i1 = new Indicator(vi1, NUMERIC_I32, of("indicator 0"), 0);
       // attach to the main VI, ...
-      SubVI vi0sub0 = new SubVI(vi0, path1, "sub vi 0");
+      SubVI vi0sub0 = new SubVI(vi0, path1, of("sub vi 0"));
       // and wire to one of the outputs.
       Wire vi0w4 = new Wire(vi0, vi0sub0.terminals().get(0), vi0i1.endpoint().get(), of("wire 3"));
       // Distribute main VI elements.

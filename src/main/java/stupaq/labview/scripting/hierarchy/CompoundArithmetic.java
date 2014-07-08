@@ -1,5 +1,6 @@
 package stupaq.labview.scripting.hierarchy;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Verify;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
@@ -25,7 +26,8 @@ public final class CompoundArithmetic extends Node {
     }
   }
 
-  public CompoundArithmetic(Generic owner, ArithmeticMode mode, int inputs, String label) {
+  public CompoundArithmetic(Generic owner, ArithmeticMode mode, int inputs,
+      Optional<String> label) {
     this(owner, owner.scriptingTools()
         .getTool(CompoundArithmeticCreate.class)
         .apply(owner.viPath(), owner.uid(), mode, inputs, label));

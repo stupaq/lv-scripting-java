@@ -22,9 +22,9 @@ public class CompoundArithmeticCreate extends ScriptingTool {
   }
 
   public Entry<UID, List<UID>> apply(VIPath targetVi, Optional<UID> owner, ArithmeticMode mode,
-      int inputs, String label) throws VIErrorException {
+      int inputs, Optional<String> label) throws VIErrorException {
     SafeArray result =
-        vi.stdCall(targetVi, encapsulateOwner(owner), mode, inputs, label).toSafeArray();
+        vi.stdCall(targetVi, encapsulateOwner(owner), mode, inputs, label.or("")).toSafeArray();
     SafeArray terminals = result.getVariant(1).toSafeArray();
     List<UID> terminals1 = Lists.newArrayList();
     for (int term : terminals.toIntArray()) {

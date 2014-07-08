@@ -1,5 +1,6 @@
 package stupaq.labview.scripting.hierarchy;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -19,10 +20,10 @@ public final class SubVI extends ConcreteGObject {
     }
   }
 
-  public SubVI(Generic owner, VIPath path, String label) {
+  public SubVI(Generic owner, VIPath path, Optional<String> description) {
     this(owner, owner.scriptingTools()
         .getTool(SubVICreate.class)
-        .apply(owner.viPath(), owner.uid(), path, label));
+        .apply(owner.viPath(), owner.uid(), path, description));
   }
 
   public List<Terminal<SubVI>> terminals() {

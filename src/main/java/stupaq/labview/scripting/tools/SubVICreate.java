@@ -20,8 +20,9 @@ public class SubVICreate extends ScriptingTool {
   }
 
   public Entry<UID, List<UID>> apply(VIPath targetVi, Optional<UID> owner, VIPath path,
-      String label) throws VIErrorException {
-    SafeArray result = vi.stdCall(targetVi, encapsulateOwner(owner), path, label).toSafeArray();
+      Optional<String> description) throws VIErrorException {
+    SafeArray result =
+        vi.stdCall(targetVi, encapsulateOwner(owner), path, description.or("")).toSafeArray();
     SafeArray terminals = result.getVariant(1).toSafeArray();
     List<UID> terminals1 = Lists.newArrayList();
     for (int term : terminals.toIntArray()) {
