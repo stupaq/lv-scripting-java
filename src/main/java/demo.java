@@ -14,16 +14,19 @@ import stupaq.labview.scripting.hierarchy.FormulaNode;
 import stupaq.labview.scripting.hierarchy.Indicator;
 import stupaq.labview.scripting.hierarchy.IndicatorArray;
 import stupaq.labview.scripting.hierarchy.InlineCNode;
+import stupaq.labview.scripting.hierarchy.RingConstant;
 import stupaq.labview.scripting.hierarchy.SubVI;
 import stupaq.labview.scripting.hierarchy.Terminal;
 import stupaq.labview.scripting.hierarchy.VI;
 import stupaq.labview.scripting.hierarchy.Wire;
 import stupaq.labview.scripting.tools.CompoundArithmeticCreate.ArithmeticMode;
-import stupaq.labview.scripting.tools.ControlCreate;
 
 import static com.google.common.base.Optional.of;
+import static java.util.Collections.singletonMap;
+import static stupaq.labview.scripting.tools.ControlCreate.DO_NOT_CONNECT;
 import static stupaq.labview.scripting.tools.ControlStyle.NUMERIC_DBL;
 import static stupaq.labview.scripting.tools.ControlStyle.NUMERIC_I32;
+import static stupaq.labview.scripting.tools.DataRepresentation.I32;
 
 @SuppressWarnings("deprecation")
 public class demo {
@@ -54,17 +57,16 @@ public class demo {
       Wire vi0w1 = new Wire(vi0, vi0t1, vi0t3, of("wire 1"));
       // Create some simple controls, ...
       Control vi0c0 = new Control(vi0, NUMERIC_I32, of("control 0"), 0);
-      Indicator vi0i0 =
-          new Indicator(vi0, NUMERIC_I32, of("indicator 0"), ControlCreate.DO_NOT_CONNECT);
-      Indicator vi0i1 =
-          new Indicator(vi0, NUMERIC_I32, of("indicator 1"), ControlCreate.DO_NOT_CONNECT);
+      Indicator vi0i0 = new Indicator(vi0, NUMERIC_I32, of("indicator 0"), DO_NOT_CONNECT);
+      Indicator vi0i1 = new Indicator(vi0, NUMERIC_I32, of("indicator 1"), DO_NOT_CONNECT);
       Wire vi0w2 = new Wire(vi0, vi0c0.endpoint().get(), vi0i0.endpoint().get(), of("wire 2"));
       // and some more complicated ones.
       ControlArray vi0c1 = new ControlArray(vi0, 3, NUMERIC_DBL, of("control 1"), 1);
       IndicatorArray vi0i2 = new IndicatorArray(vi0, 3, NUMERIC_DBL, of("indicator 2"), 1);
       Wire vi0w3 = new Wire(vi0, vi0c1.endpoint().get(), vi0i2.endpoint().get(), of("wire 2"));
       // Create compound arithmetic node...
-      Control vi0c2 = new Control(vi0, NUMERIC_I32, of("control 2"), 0);
+      RingConstant vi0c2 =
+          new RingConstant(vi0, singletonMap("ring string", 0), I32, of("control 2"));
       CompoundArithmetic vi0a0 =
           new CompoundArithmetic(vi0, ArithmeticMode.ADD, 3, of("compound add 0"));
       CompoundArithmetic vi0a1 =

@@ -2,32 +2,34 @@ package stupaq.labview.scripting.tools;
 
 import com.jacob.com.Variant;
 
+import static stupaq.labview.scripting.tools.DataRepresentation.*;
+
 public enum ControlStyle {
-  VARIANT(3310, -1),
-  BOOLEAN(21002, -1),
-  NUMERIC_EXT(21003, 0),
-  NUMERIC_DBL(21003, 1),
-  NUMERIC_SGL(21003, 2),
-  NUMERIC_I32(21003, 3),
-  NUMERIC_I16(21003, 4),
-  NUMERIC_I8(21003, 5),
-  NUMERIC_U32(21003, 6),
-  NUMERIC_U16(21003, 7),
-  NUMERIC_U8(21003, 8),
-  NUMERIC_CXT(21003, 9),
-  NUMERIC_CDB(21003, 10),
-  NUMERIC_CSG(21003, 11),
-  NUMERIC_I64(21003, 12),
-  NUMERIC_U64(21003, 13),
-  NUMERIC_FXP(21003, 14),
-  STRING(21071, -1);
+  VARIANT(3310, UNKNOWN),
+  BOOLEAN(21002, UNKNOWN),
+  NUMERIC_EXT(21003, EXT),
+  NUMERIC_DBL(21003, DBL),
+  NUMERIC_SGL(21003, SGL),
+  NUMERIC_I32(21003, I32),
+  NUMERIC_I16(21003, I16),
+  NUMERIC_I8(21003, I8),
+  NUMERIC_U32(21003, U32),
+  NUMERIC_U16(21003, U16),
+  NUMERIC_U8(21003, U8),
+  NUMERIC_CXT(21003, CXT),
+  NUMERIC_CDB(21003, CDB),
+  NUMERIC_CSG(21003, CSG),
+  NUMERIC_I64(21003, I64),
+  NUMERIC_U64(21003, U64),
+  NUMERIC_FXP(21003, FXP),
+  STRING(21071, UNKNOWN);
 
   private final int style;
-  private final byte representation;
+  private final DataRepresentation representation;
 
-  ControlStyle(int style, int representation) {
+  private ControlStyle(int style, DataRepresentation representation) {
     this.style = style;
-    this.representation = (byte) representation;
+    this.representation = representation;
   }
 
   public Variant style() {
@@ -35,6 +37,6 @@ public enum ControlStyle {
   }
 
   public Variant representation() {
-    return new Variant(representation);
+    return representation.toVariant();
   }
 }
