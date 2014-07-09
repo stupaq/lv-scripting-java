@@ -22,7 +22,7 @@ public enum ControlStyle {
   NUMERIC_I64(21003, I64),
   NUMERIC_U64(21003, U64),
   NUMERIC_FXP(21003, FXP),
-  STRING(21071, UNKNOWN);
+  STRING(21701, UNKNOWN);
 
   private final int style;
   private final DataRepresentation representation;

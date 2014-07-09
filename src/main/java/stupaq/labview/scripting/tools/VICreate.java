@@ -9,7 +9,7 @@ public class VICreate extends ScriptingTool {
     super(application);
   }
 
-  public void apply(VIPath targetVi) throws VIErrorException {
-    vi.stdCall(targetVi);
+  public void apply(VIPath targetVi, ConnectorPanePattern pattern) throws VIErrorException {
+    vi.stdCall(targetVi, pattern);
   }
 }

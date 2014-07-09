@@ -10,10 +10,10 @@ import stupaq.labview.UID;
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.tools.SubVICreate;
 
-public final class SubVI extends ConcreteGObject {
+public class SubVI extends ConcreteGObject {
   private final List<Terminal<SubVI>> terminals = Lists.newArrayList();
 
-  private SubVI(Generic owner, Entry<UID, List<UID>> subViAndTerminals) {
+  protected SubVI(Generic owner, Entry<UID, List<UID>> subViAndTerminals) {
     super(owner, subViAndTerminals.getKey());
     for (UID term : subViAndTerminals.getValue()) {
       terminals.add(new EagerTerminal<>(this, term));

@@ -21,6 +21,6 @@ public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
   }
 
   protected static boolean hasTerminal(Generic owner) {
-    return !(owner instanceof Indicator || owner instanceof Control);
+    return !(owner instanceof Control);
   }
 }

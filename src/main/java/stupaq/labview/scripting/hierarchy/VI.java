@@ -7,15 +7,17 @@ import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
 import stupaq.labview.scripting.tools.CleanUpDiagram;
+import stupaq.labview.scripting.tools.ConnectorPanePattern;
 import stupaq.labview.scripting.tools.VICreate;
 
 public class VI extends Generic {
   private final ScriptingTools tools;
   private final VIPath viPath;
 
-  public VI(ScriptingTools tools, VIPath viPath) {
+  public VI(ScriptingTools tools, VIPath viPath, ConnectorPanePattern pattern) {
     this.tools = tools;
     this.viPath = viPath;
+    tools.getTool(VICreate.class).apply(viPath, pattern);
   }
 
   @Override
@@ -36,10 +38,6 @@ public class VI extends Generic {
   @Override
   protected VIPath viPath() {
     return viPath;
-  }
-
-  public void create() throws VIErrorException {
-    tools.getTool(VICreate.class).apply(viPath);
   }
 
   public void cleanUpDiagram() throws VIErrorException {
