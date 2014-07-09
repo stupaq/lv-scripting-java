@@ -26,7 +26,7 @@ public class SubVI extends ConcreteGObject {
         .apply(owner.viPath(), owner.uid(), path, description));
   }
 
-  public List<Terminal<SubVI>> terminals() {
-    return terminals;
+  public Terminal terminal(int index) {
+    return terminals.get(index);
   }
 }

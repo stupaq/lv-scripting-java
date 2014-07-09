@@ -114,26 +114,26 @@ public class Demos {
   public void demoSubVI() throws IOException {
     // Create sub VI.
     VIPath subViPath = overwrite("sub_vi_other_vi");
-    VI sub = new VI(tools, subViPath, ConnectorPanePattern.P4803);
+    VI sub = new VI(tools, subViPath, ConnectorPanePattern.P4801);
     new Control(sub, BOOLEAN, of("sub in"), 0);
     new Indicator(sub, BOOLEAN, of("sub out"), 1);
     // Create main VI.
-    VI vi = new VI(tools, overwrite("sub_vi_the_vi"), ConnectorPanePattern.P4803);
+    VI vi = new VI(tools, overwrite("sub_vi_the_vi"), ConnectorPanePattern.P4801);
     Control c0 = new Control(vi, BOOLEAN, of("in"), 0);
     Indicator c1 = new Indicator(vi, BOOLEAN, of("out"), 1);
     // Attach to the main VI.
     SubVI sv1 = new SubVI(vi, subViPath, of("sub vi 1"));
     SubVI sv2 = new SubVI(vi, subViPath, of("sub vi 2"));
     // And wire.
-    new Wire(vi, c0.endpoint().get(), sv1.terminals().get(0));
-    new Wire(vi, sv1.terminals().get(1), sv2.terminals().get(0), of("wire connecting sub VIs"));
-    new Wire(vi, sv2.terminals().get(1), c1.endpoint().get());
+    new Wire(vi, c0.endpoint().get(), sv1.terminal(0));
+    new Wire(vi, sv1.terminal(1), sv2.terminal(0), of("wire connecting sub VIs"));
+    new Wire(vi, sv2.terminal(1), c1.endpoint().get());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
 
   public void demoControlAndIndicatorArray() throws IOException {
-    VI vi = new VI(tools, overwrite("control_and_indicator_arrays"), ConnectorPanePattern.P4835);
+    VI vi = new VI(tools, overwrite("control_and_indicator_arrays"), ConnectorPanePattern.P4800);
     /// Create some controls.
     ControlArray c0 = new ControlArray(vi, 1, BOOLEAN, of("boolean control 1"), DO_NOT_CONNECT);
     ControlArray c1 = new ControlArray(vi, 2, NUMERIC_DBL, of("double control 2"), DO_NOT_CONNECT);
