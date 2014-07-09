@@ -15,4 +15,8 @@ public final class Wire extends ConcreteGObject {
         .getTool(WireConnect.class)
         .apply(source.viPath(), source.uid().get(), sink.uid().get(), label));
   }
+
+  public Wire(Generic owner, Terminal source, Terminal sink) {
+    this(owner, source, sink, Optional.<String>absent());
+  }
 }

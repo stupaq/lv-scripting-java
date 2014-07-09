@@ -3,8 +3,7 @@ package stupaq.labview;
 import com.google.common.primitives.UnsignedInts;
 
 import com.jacob.com.Variant;
-
-import stupaq.activex.ActiveXType;
+import com.jacob.extensions.ActiveXType;
 
 public class UID implements ActiveXType, Comparable<UID> {
   public static final UID ZERO = new UID(new Variant(0));

@@ -1,4 +1,4 @@
-package stupaq.activex;
+package com.jacob.extensions;
 
 import com.jacob.com.Variant;
 

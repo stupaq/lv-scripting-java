@@ -3,11 +3,10 @@ package stupaq.labview;
 import com.google.common.base.Preconditions;
 
 import com.jacob.com.Variant;
+import com.jacob.extensions.ActiveXType;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import stupaq.activex.ActiveXType;
 
 public class VIPath implements ActiveXType {
   private final Path path;

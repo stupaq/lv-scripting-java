@@ -1,8 +1,7 @@
 package stupaq.labview.scripting.tools;
 
 import com.jacob.com.Variant;
-
-import stupaq.activex.ActiveXType;
+import com.jacob.extensions.ActiveXType;
 
 public enum DataRepresentation implements ActiveXType {
   UNKNOWN(-1),

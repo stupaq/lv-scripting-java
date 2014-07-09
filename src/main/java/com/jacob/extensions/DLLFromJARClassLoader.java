@@ -1,4 +1,4 @@
-package com.jacob.samples;
+package com.jacob.extensions;
 
 import com.google.common.io.Files;
 import com.google.common.io.Resources;

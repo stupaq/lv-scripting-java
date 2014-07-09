@@ -5,7 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import com.jacob.com.Dispatch;
-import com.jacob.samples.DLLFromJARClassLoader;
+import com.jacob.extensions.DLLFromJARClassLoader;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

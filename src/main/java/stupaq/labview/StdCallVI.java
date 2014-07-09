@@ -4,19 +4,18 @@ import com.google.common.base.Preconditions;
 
 import com.jacob.com.SafeArray;
 import com.jacob.com.Variant;
+import com.jacob.extensions.ActiveXType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import stupaq.activex.ActiveXType;
-
 public class StdCallVI extends VirtualInstrument {
-  private static final Logger STD_CALL_TRACE = LoggerFactory.getLogger("STD_CALL_TRACE");
   public static final String ARGS_CONTROL = "__args";
   public static final String ERR_STATUS_CONTROL = "__errStatus";
   public static final String ERR_CODE_CONTROL = "__errCode";
   public static final String ERR_SOURCE_CONTROL = "__errSource";
   public static final String RETURN_CONTROL = "__return";
+  private static final Logger STD_CALL_TRACE = LoggerFactory.getLogger("STD_CALL_TRACE");
 
   public StdCallVI(Application application, VIPath viPath) {
     super(application, viPath);

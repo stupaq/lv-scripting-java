@@ -1,11 +1,11 @@
 package stupaq.labview.scripting.tools;
 
 import com.jacob.com.Variant;
-
-import stupaq.activex.ActiveXType;
+import com.jacob.extensions.ActiveXType;
 
 public enum ConnectorPanePattern implements ActiveXType {
   P4800(4800),
+  P4803(4803),
   P4835(4835);
 
   private final int pattern;
