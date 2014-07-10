@@ -221,7 +221,11 @@ public class Demos {
     Control c1 = new Control(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
     Indicator i1 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
     Indicator i2 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
+    Indicator i3 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
+    Indicator i4 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
     // Create a few tunnels...
+    new Wire(vi, u1.outputs().get(0), i3.endpoint().get());
+    new Wire(vi, u2.outputs().get(0), i4.endpoint().get());
     // ...and shift registers.
     RightShiftRegister r1 = l1.addShiftRegister();
     RightShiftRegister r2 = l2.addShiftRegister(2);
