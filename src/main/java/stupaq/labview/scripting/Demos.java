@@ -9,23 +9,7 @@ import java.nio.file.Path;
 import java.util.Map;
 
 import stupaq.labview.VIPath;
-import stupaq.labview.scripting.hierarchy.Bundler;
-import stupaq.labview.scripting.hierarchy.CompoundArithmetic;
-import stupaq.labview.scripting.hierarchy.Control;
-import stupaq.labview.scripting.hierarchy.ControlArray;
-import stupaq.labview.scripting.hierarchy.ControlCluster;
-import stupaq.labview.scripting.hierarchy.Formula;
-import stupaq.labview.scripting.hierarchy.FormulaNode;
-import stupaq.labview.scripting.hierarchy.Indicator;
-import stupaq.labview.scripting.hierarchy.IndicatorArray;
-import stupaq.labview.scripting.hierarchy.IndicatorCluster;
-import stupaq.labview.scripting.hierarchy.InlineCNode;
-import stupaq.labview.scripting.hierarchy.RingConstant;
-import stupaq.labview.scripting.hierarchy.SubVI;
-import stupaq.labview.scripting.hierarchy.Terminal;
-import stupaq.labview.scripting.hierarchy.Unbundler;
-import stupaq.labview.scripting.hierarchy.VI;
-import stupaq.labview.scripting.hierarchy.Wire;
+import stupaq.labview.scripting.hierarchy.*;
 import stupaq.labview.scripting.tools.ConnectorPanePattern;
 
 import static com.google.common.base.Optional.of;
@@ -69,6 +53,7 @@ public class Demos {
     demoRingConstant();
     demoCompoundArithmetic();
     demoBundle();
+    demoLoop();
   }
 
   public void demoFormula() throws IOException {
@@ -218,6 +203,40 @@ public class Demos {
     new Wire(vi, b3.output(), u1.input());
     new Wire(vi, u1.outputs().get(0), u2.input());
     new Wire(vi, u1.outputs().get(1), u3.input());
+    // Cleanup diagram for inspection.
+    vi.cleanUpDiagram();
+  }
+
+  public void demoLoop() throws IOException {
+    VI vi = new VI(tools, overwrite("loop"), ConnectorPanePattern.P4800);
+    // Create loops.
+    WhileLoop l1 = new WhileLoop(vi, of("while loop"));
+    ForLoop l2 = new ForLoop(vi, of("for loop"));
+    // Some controls inside...
+    Bundler b1 = new Bundler(l1.diagram(), 1, NO_LABEL);
+    Unbundler u1 = new Unbundler(l1.diagram(), 1, NO_LABEL);
+    Bundler b2 = new Bundler(l2.diagram(), 1, NO_LABEL);
+    Unbundler u2 = new Unbundler(l2.diagram(), 1, NO_LABEL);
+    // ...and outside.
+    Control c1 = new Control(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
+    Indicator i1 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
+    Indicator i2 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
+    // Create a few tunnels...
+    // ...and shift registers.
+    RightShiftRegister r1 = l1.addShiftRegister();
+    RightShiftRegister r2 = l2.addShiftRegister(2);
+    // And wire together...
+    new Wire(vi, c1.endpoint().get(), r1.left(0).outer());
+    new Wire(l1.diagram(), r1.left(0).inner(), b1.inputs().get(0));
+    new Wire(l1.diagram(), b1.output(), u1.input());
+    new Wire(l1.diagram(), u1.outputs().get(0), r1.inner());
+    new Wire(vi, r1.outer(), i1.endpoint().get());
+    // ...the second one too...
+    new Wire(vi, c1.endpoint().get(), r2.left(0).outer());
+    new Wire(l2.diagram(), r2.left(0).inner(), b2.inputs().get(0));
+    new Wire(l2.diagram(), b2.output(), u2.input());
+    new Wire(l2.diagram(), u2.outputs().get(0), r2.inner());
+    new Wire(vi, r2.outer(), i2.endpoint().get());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
