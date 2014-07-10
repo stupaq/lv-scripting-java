@@ -233,7 +233,7 @@ public class Demos {
     new Wire(vi, r1.outer(), i1.endpoint().get());
     // ...the second one too...
     new Wire(vi, c1.endpoint().get(), r2.left(0).outer());
-    new Wire(l2.diagram(), r2.left(0).inner(), b2.inputs().get(0));
+    new Wire(l2.diagram(), r2.left(1).inner(), b2.inputs().get(0));
     new Wire(l2.diagram(), b2.output(), u2.input());
     new Wire(l2.diagram(), u2.outputs().get(0), r2.inner());
     new Wire(vi, r2.outer(), i2.endpoint().get());
