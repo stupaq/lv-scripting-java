@@ -1,7 +1,6 @@
 package stupaq.labview.scripting.hierarchy;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 
 import stupaq.labview.UID;
@@ -27,18 +26,6 @@ public final class LazyTerminal<T extends GObject> extends Terminal<T> {
   @Override
   public Optional<UID> uid() {
     return Optional.of(terminal().uid().get());
-  }
-
-  @Override
-  public int hashCode() {
-    Preconditions.checkState(terminal != null);
-    return super.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    Preconditions.checkState(terminal != null);
-    return super.equals(o);
   }
 
   @Override

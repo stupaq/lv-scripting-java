@@ -10,8 +10,7 @@ public class demo {
     try {
       Preconditions.checkArgument(args.length == 1, "Missing argument: path-to-demo-dir");
       Path dir = Paths.get(args[0]);
-      // FIXME new Demos(dir).demoAll();
-      new Demos(dir).demoLoop();
+      new Demos(dir).demoAll();
     } catch (Throwable t) {
       t.printStackTrace();
     }

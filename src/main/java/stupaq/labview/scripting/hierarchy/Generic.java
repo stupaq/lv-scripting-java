@@ -20,14 +20,13 @@ public abstract class Generic {
   }
 
   @Override
-  public int hashCode() {
-    return uid().hashCode();
+  public final int hashCode() {
+    return super.hashCode();
   }
 
   @Override
-  public boolean equals(Object o) {
-    return this == o ||
-        !(o == null || getClass() != o.getClass()) && uid().equals(((ConcreteGObject) o).uid());
+  public final boolean equals(Object o) {
+    return super.equals(o);
   }
 
   @Override
