@@ -11,7 +11,7 @@ import stupaq.labview.scripting.tools.ControlStyle;
 public class Indicator extends ConcreteGObjectWithOptionalTerminal<Indicator> {
   public Indicator(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex) {
     super(owner, owner.scriptingTools()
-        .getTool(ControlCreate.class)
+        .get(ControlCreate.class)
         .apply(owner.viPath(), owner.uid(), true, style, label, connPaneIndex, hasTerminal(owner)));
   }
 

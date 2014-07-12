@@ -3,18 +3,18 @@ package stupaq.labview.scripting.hierarchy;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
+import stupaq.labview.scripting.tools.ConnectorPanePattern;
 import stupaq.labview.scripting.tools.ControlArrayCreate;
-import stupaq.labview.scripting.tools.ControlCreate;
 import stupaq.labview.scripting.tools.ControlStyle;
 
 public class IndicatorArray extends Indicator {
   public IndicatorArray(Generic owner, int dimensions, ControlStyle style, Optional<String> label,
       int connPaneIndex) {
     super(owner, owner.scriptingTools()
-        .getTool(ControlArrayCreate.class)
+        .get(ControlArrayCreate.class)
         .apply(owner.viPath(), owner.uid(), true, dimensions, label, connPaneIndex,
             hasTerminal(owner)));
     Preconditions.checkArgument(dimensions > 0);
-    new Indicator(this, style, Optional.<String>absent(), ControlCreate.DO_NOT_CONNECT);
+    new Indicator(this, style, Optional.<String>absent(), ConnectorPanePattern.DO_NOT_CONNECT);
   }
 }

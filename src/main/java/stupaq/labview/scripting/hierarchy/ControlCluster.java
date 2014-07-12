@@ -7,7 +7,7 @@ import stupaq.labview.scripting.tools.ControlClusterCreate;
 public class ControlCluster extends Control {
   public ControlCluster(Generic owner, Optional<String> label, int connPaneIndex) {
     super(owner, owner.scriptingTools()
-        .getTool(ControlClusterCreate.class)
+        .get(ControlClusterCreate.class)
         .apply(owner.viPath(), owner.uid(), false, label, connPaneIndex, hasTerminal(owner)));
   }
 }

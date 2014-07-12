@@ -1,4 +1,4 @@
-package stupaq.labview.scripting.tools;
+package stupaq.labview.scripting.tools.activex;
 
 import com.google.common.base.Optional;
 
@@ -7,12 +7,12 @@ import com.jacob.com.Variant;
 
 import stupaq.labview.StdCallVI;
 import stupaq.labview.UID;
-import stupaq.labview.scripting.ScriptingTools;
+import stupaq.labview.scripting.ScriptingTools.ScriptingTool;
 
-public abstract class ScriptingTool {
+abstract class ActiveXScriptingTool implements ScriptingTool {
   protected final StdCallVI vi;
 
-  public ScriptingTool(ScriptingTools tools) {
+  public ActiveXScriptingTool(ActiveXScriptingTools tools) {
     vi = new StdCallVI(tools, tools.resolveToolPath(getClass().getSimpleName() + ".vi"));
   }
 

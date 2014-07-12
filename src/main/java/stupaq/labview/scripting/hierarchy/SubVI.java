@@ -22,7 +22,7 @@ public class SubVI extends ConcreteGObject {
 
   public SubVI(Generic owner, VIPath path, Optional<String> description) {
     this(owner, owner.scriptingTools()
-        .getTool(SubVICreate.class)
+        .get(SubVICreate.class)
         .apply(owner.viPath(), owner.uid(), path, description));
   }
 

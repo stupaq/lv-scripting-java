@@ -2,14 +2,8 @@ package stupaq.labview.scripting.tools;
 
 import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
-import stupaq.labview.scripting.ScriptingTools;
+import stupaq.labview.scripting.ScriptingTools.ScriptingTool;
 
-public class CleanUpDiagram extends ScriptingTool {
-  public CleanUpDiagram(ScriptingTools application) {
-    super(application);
-  }
-
-  public void apply(VIPath targetVi) throws VIErrorException {
-    vi.stdCall(targetVi);
-  }
+public interface CleanUpDiagram extends ScriptingTool {
+  void apply(VIPath targetVi) throws VIErrorException;
 }

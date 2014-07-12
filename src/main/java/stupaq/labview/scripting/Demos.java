@@ -29,14 +29,15 @@ import stupaq.labview.scripting.hierarchy.Unbundler;
 import stupaq.labview.scripting.hierarchy.VI;
 import stupaq.labview.scripting.hierarchy.WhileLoop;
 import stupaq.labview.scripting.tools.ConnectorPanePattern;
+import stupaq.labview.scripting.tools.activex.ActiveXScriptingTools;
 
 import static com.google.common.base.Optional.of;
 import static java.util.Collections.singletonMap;
-import static stupaq.labview.scripting.tools.CompoundArithmeticCreate.ArithmeticMode.ADD;
-import static stupaq.labview.scripting.tools.CompoundArithmeticCreate.ArithmeticMode.AND;
-import static stupaq.labview.scripting.tools.CompoundArithmeticCreate.ArithmeticMode.MULTIPLY;
-import static stupaq.labview.scripting.tools.CompoundArithmeticCreate.ArithmeticMode.OR;
-import static stupaq.labview.scripting.tools.ControlCreate.DO_NOT_CONNECT;
+import static stupaq.labview.scripting.tools.ArithmeticMode.ADD;
+import static stupaq.labview.scripting.tools.ArithmeticMode.AND;
+import static stupaq.labview.scripting.tools.ArithmeticMode.MULTIPLY;
+import static stupaq.labview.scripting.tools.ArithmeticMode.OR;
+import static stupaq.labview.scripting.tools.ConnectorPanePattern.DO_NOT_CONNECT;
 import static stupaq.labview.scripting.tools.ControlStyle.BOOLEAN;
 import static stupaq.labview.scripting.tools.ControlStyle.NUMERIC_DBL;
 import static stupaq.labview.scripting.tools.ControlStyle.NUMERIC_I32;
@@ -53,7 +54,7 @@ public class Demos {
     this.dir = dir;
     Files.createDirectories(dir);
     // Initialise scripting tools and COM bridge (LabVIEW must be available at this point).
-    tools = new ScriptingTools();
+    tools = new ActiveXScriptingTools();
   }
 
   private VIPath overwrite(String name) throws IOException {

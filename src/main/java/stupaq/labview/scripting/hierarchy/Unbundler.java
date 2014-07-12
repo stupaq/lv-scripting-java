@@ -9,7 +9,7 @@ import stupaq.labview.scripting.tools.BundlerCreate;
 public final class Unbundler extends GrowableFunction<Unbundler> {
   public Unbundler(Generic owner, int outputs, Optional<String> label) {
     super(owner, owner.scriptingTools()
-        .getTool(BundlerCreate.class)
+        .get(BundlerCreate.class)
         .apply(owner.viPath(), owner.uid(), false, outputs, label));
   }
 

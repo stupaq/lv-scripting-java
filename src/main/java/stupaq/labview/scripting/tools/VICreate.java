@@ -2,14 +2,8 @@ package stupaq.labview.scripting.tools;
 
 import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
-import stupaq.labview.scripting.ScriptingTools;
+import stupaq.labview.scripting.ScriptingTools.ScriptingTool;
 
-public class VICreate extends ScriptingTool {
-  public VICreate(ScriptingTools application) {
-    super(application);
-  }
-
-  public void apply(VIPath targetVi, ConnectorPanePattern pattern) throws VIErrorException {
-    vi.stdCall(targetVi, pattern);
-  }
+public interface VICreate extends ScriptingTool {
+  void apply(VIPath targetVi, ConnectorPanePattern pattern) throws VIErrorException;
 }

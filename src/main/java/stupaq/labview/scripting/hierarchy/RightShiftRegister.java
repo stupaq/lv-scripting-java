@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-import stupaq.labview.scripting.tools.LoopAddShiftRegister;
 import stupaq.labview.scripting.tools.LoopAddShiftRegister.Result;
 
 public class RightShiftRegister extends ShiftRegister {
@@ -24,7 +23,7 @@ public class RightShiftRegister extends ShiftRegister {
 
   RightShiftRegister(Generic owner, int stackLevel) {
     this(owner, owner.scriptingTools()
-        .getTool(LoopAddShiftRegister.class)
+        .get(stupaq.labview.scripting.tools.LoopAddShiftRegister.class)
         .apply(owner.viPath(), owner.uid().get(), stackLevel));
   }
 

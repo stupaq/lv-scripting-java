@@ -12,7 +12,7 @@ public final class Wire extends ConcreteGObject {
 
   Wire(Generic owner, Terminal source, Terminal sink, Optional<String> label) {
     this(owner, owner.scriptingTools()
-        .getTool(WireConnect.class)
+        .get(WireConnect.class)
         .apply(source.viPath(), source.uid().get(), sink.uid().get(), label));
   }
 }

@@ -12,7 +12,7 @@ public abstract class Loop extends Structure {
 
   protected Loop(Generic owner, int loopType, Optional<String> label) {
     this(owner, owner.scriptingTools()
-        .getTool(LoopCreate.class)
+        .get(LoopCreate.class)
         .apply(owner.viPath(), owner.uid(), loopType, label));
   }
 

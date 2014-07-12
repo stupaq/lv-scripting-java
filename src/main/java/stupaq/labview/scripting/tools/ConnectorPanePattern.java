@@ -16,7 +16,6 @@ public enum ConnectorPanePattern implements ActiveXType {
   P4803(4803),
   P4805(4805),
   P4835(4835);
-
   private static final TreeMap<Integer, ConnectorPanePattern> countToPattern = Maps.newTreeMap();
 
   static {
@@ -27,6 +26,7 @@ public enum ConnectorPanePattern implements ActiveXType {
     countToPattern.put(28, P4835);
   }
 
+  public static int DO_NOT_CONNECT = -1;
   private final int pattern;
 
   private ConnectorPanePattern(int pattern) {

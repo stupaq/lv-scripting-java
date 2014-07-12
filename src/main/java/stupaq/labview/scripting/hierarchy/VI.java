@@ -17,7 +17,7 @@ public class VI extends Generic {
   public VI(ScriptingTools tools, VIPath viPath, ConnectorPanePattern pattern) {
     this.tools = tools;
     this.viPath = viPath;
-    tools.getTool(VICreate.class).apply(viPath, pattern);
+    tools.get(VICreate.class).apply(viPath, pattern);
   }
 
   @Override
@@ -41,6 +41,6 @@ public class VI extends Generic {
   }
 
   public void cleanUpDiagram() throws VIErrorException {
-    tools.getTool(CleanUpDiagram.class).apply(viPath);
+    tools.get(CleanUpDiagram.class).apply(viPath);
   }
 }

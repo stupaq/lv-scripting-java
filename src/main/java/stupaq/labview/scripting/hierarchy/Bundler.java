@@ -9,7 +9,7 @@ import stupaq.labview.scripting.tools.BundlerCreate;
 public final class Bundler extends GrowableFunction<Bundler> {
   public Bundler(Generic owner, int inputs, Optional<String> label) {
     super(owner, owner.scriptingTools()
-        .getTool(BundlerCreate.class)
+        .get(BundlerCreate.class)
         .apply(owner.viPath(), owner.uid(), true, inputs, label));
   }
 

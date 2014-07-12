@@ -4,14 +4,14 @@ import com.google.common.base.Optional;
 
 import java.util.List;
 
+import stupaq.labview.scripting.tools.ArithmeticMode;
 import stupaq.labview.scripting.tools.CompoundArithmeticCreate;
-import stupaq.labview.scripting.tools.CompoundArithmeticCreate.ArithmeticMode;
 
 public final class CompoundArithmetic extends GrowableFunction<CompoundArithmetic> {
   public CompoundArithmetic(Generic owner, ArithmeticMode mode, int inputs,
       Optional<String> label) {
     super(owner, owner.scriptingTools()
-        .getTool(CompoundArithmeticCreate.class)
+        .get(CompoundArithmeticCreate.class)
         .apply(owner.viPath(), owner.uid(), mode, inputs, label));
   }
 

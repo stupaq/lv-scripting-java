@@ -19,6 +19,6 @@ public abstract class Terminal<T extends GObject> extends GObject {
 
   @Override
   public void delete() throws VIErrorException {
-    scriptingTools().getTool(GObjectDelete.class).apply(viPath(), owner().uid().get());
+    scriptingTools().get(GObjectDelete.class).apply(viPath(), owner().uid().get());
   }
 }
