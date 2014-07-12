@@ -26,7 +26,6 @@ public class RingConstantCreate extends ScriptingTool {
     SafeArray values = new SafeArray(Variant.VariantVariant, stringsAndValues.size());
     int index = 0;
     for (Entry<String, ?> entry : stringsAndValues.entrySet()) {
-      System.out.println(entry.toString());
       strings.setVariant(index, new Variant(entry.getKey()));
       values.setVariant(index, new Variant(entry.getValue()));
       ++index;
