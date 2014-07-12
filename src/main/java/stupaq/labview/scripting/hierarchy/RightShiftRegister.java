@@ -12,12 +12,6 @@ public class RightShiftRegister extends ShiftRegister {
   private final Terminal<RightShiftRegister> outer;
   private final List<LeftShiftRegister> lefts = Lists.newArrayList();
 
-  RightShiftRegister(Generic owner, int stackLevel) {
-    this(owner, owner.scriptingTools()
-        .getTool(LoopAddShiftRegister.class)
-        .apply(owner.viPath(), owner.uid().get(), stackLevel));
-  }
-
   private RightShiftRegister(Generic owner, Result result) {
     super(owner, result.right);
     this.inner = new EagerTerminal<>(this, result.rightInner);
@@ -26,6 +20,12 @@ public class RightShiftRegister extends ShiftRegister {
       lefts.add(new LeftShiftRegister(owner, result.left.get(i), result.leftInner.get(i),
           result.leftOuter.get(i), this));
     }
+  }
+
+  RightShiftRegister(Generic owner, int stackLevel) {
+    this(owner, owner.scriptingTools()
+        .getTool(LoopAddShiftRegister.class)
+        .apply(owner.viPath(), owner.uid().get(), stackLevel));
   }
 
   public Terminal<RightShiftRegister> inner() {

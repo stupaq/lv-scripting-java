@@ -9,7 +9,25 @@ import java.nio.file.Path;
 import java.util.Map;
 
 import stupaq.labview.VIPath;
-import stupaq.labview.scripting.hierarchy.*;
+import stupaq.labview.scripting.hierarchy.Bundler;
+import stupaq.labview.scripting.hierarchy.CompoundArithmetic;
+import stupaq.labview.scripting.hierarchy.Control;
+import stupaq.labview.scripting.hierarchy.ControlArray;
+import stupaq.labview.scripting.hierarchy.ControlCluster;
+import stupaq.labview.scripting.hierarchy.ForLoop;
+import stupaq.labview.scripting.hierarchy.Formula;
+import stupaq.labview.scripting.hierarchy.FormulaNode;
+import stupaq.labview.scripting.hierarchy.Indicator;
+import stupaq.labview.scripting.hierarchy.IndicatorArray;
+import stupaq.labview.scripting.hierarchy.IndicatorCluster;
+import stupaq.labview.scripting.hierarchy.InlineCNode;
+import stupaq.labview.scripting.hierarchy.RightShiftRegister;
+import stupaq.labview.scripting.hierarchy.RingConstant;
+import stupaq.labview.scripting.hierarchy.SubVI;
+import stupaq.labview.scripting.hierarchy.Terminal;
+import stupaq.labview.scripting.hierarchy.Unbundler;
+import stupaq.labview.scripting.hierarchy.VI;
+import stupaq.labview.scripting.hierarchy.WhileLoop;
 import stupaq.labview.scripting.tools.ConnectorPanePattern;
 
 import static com.google.common.base.Optional.of;
@@ -71,10 +89,10 @@ public class Demos {
     Terminal f2o1 = f2.addOutput("out1");
     Terminal f3i1 = f3.addInput("in1");
     // Connect them.
-    new Wire(vi, f1o1, f2i1, of("wire 1"));
-    new Wire(vi, f1o1, f2i2, of("wire 2"));
-    new Wire(vi, f1o2, f2i3, of("wire 3"));
-    new Wire(vi, f2o1, f3i1, of("wire 4"));
+    f1o1.connectTo(f2i1, of("wire 1"));
+    f1o1.connectTo(f2i2, of("wire 2"));
+    f1o2.connectTo(f2i3, of("wire 3"));
+    f2o1.connectTo(f3i1, of("wire 4"));
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
@@ -89,9 +107,9 @@ public class Demos {
     Indicator i1 = new Indicator(vi, NUMERIC_DBL, of("double indicator -> 4"), 4);
     Indicator i2 = new Indicator(vi, NUMERIC_I32, of("int indicator -> x"), DO_NOT_CONNECT);
     // Connect them.
-    new Wire(vi, c0.endpoint().get(), i0.endpoint().get());
-    new Wire(vi, c1.endpoint().get(), i1.endpoint().get());
-    new Wire(vi, c2.endpoint().get(), i2.endpoint().get());
+    c0.terminal().connectTo(i0.terminal());
+    c1.terminal().connectTo(i1.terminal());
+    c2.terminal().connectTo(i2.terminal());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
@@ -110,9 +128,9 @@ public class Demos {
     SubVI sv1 = new SubVI(vi, subViPath, of("sub vi 1"));
     SubVI sv2 = new SubVI(vi, subViPath, of("sub vi 2"));
     // And wire.
-    new Wire(vi, c0.endpoint().get(), sv1.terminal(0));
-    new Wire(vi, sv1.terminal(1), sv2.terminal(0), of("wire connecting sub VIs"));
-    new Wire(vi, sv2.terminal(1), c1.endpoint().get());
+    c0.terminal().connectTo(sv1.terminal(0));
+    sv1.terminal(1).connectTo(sv2.terminal(0), of("wire connecting sub VIs"));
+    sv2.terminal(1).connectTo(c1.terminal());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
@@ -130,9 +148,9 @@ public class Demos {
     IndicatorArray i2 =
         new IndicatorArray(vi, 3, NUMERIC_I32, of("int indicator 3"), DO_NOT_CONNECT);
     // Connect them.
-    new Wire(vi, c0.endpoint().get(), i0.endpoint().get());
-    new Wire(vi, c1.endpoint().get(), i1.endpoint().get());
-    new Wire(vi, c2.endpoint().get(), i2.endpoint().get());
+    c0.terminal().connectTo(i0.terminal());
+    c1.terminal().connectTo(i1.terminal());
+    c2.terminal().connectTo(i2.terminal());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
@@ -147,7 +165,7 @@ public class Demos {
     new Indicator(i1, NUMERIC_I32, of("indicator 2 element 0"), DO_NOT_CONNECT);
     new Indicator(i1, STRING, of("indicator 2 element 1"), DO_NOT_CONNECT);
     // Connect them.
-    new Wire(vi, c1.endpoint().get(), i1.endpoint().get());
+    c1.terminal().connectTo(i1.terminal());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
@@ -174,12 +192,12 @@ public class Demos {
     CompoundArithmetic a3 = new CompoundArithmetic(vi, OR, 2, of("compound or"));
     CompoundArithmetic a4 = new CompoundArithmetic(vi, AND, 2, of("compound and"));
     // Connect them.
-    new Wire(vi, r1.endpoint().get(), a1.inputs().get(0));
-    new Wire(vi, r1.endpoint().get(), a2.inputs().get(0));
-    new Wire(vi, a1.output(), a3.inputs().get(0));
-    new Wire(vi, a2.output(), a3.inputs().get(1));
-    new Wire(vi, a1.output(), a4.inputs().get(0));
-    new Wire(vi, a2.output(), a4.inputs().get(1));
+    r1.terminal().connectTo(a1.inputs().get(0));
+    r1.terminal().connectTo(a2.inputs().get(0));
+    a1.output().connectTo(a3.inputs().get(0));
+    a2.output().connectTo(a3.inputs().get(1));
+    a1.output().connectTo(a4.inputs().get(0));
+    a2.output().connectTo(a4.inputs().get(1));
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
@@ -196,13 +214,13 @@ public class Demos {
     Unbundler u2 = new Unbundler(vi, 1, NO_LABEL);
     Unbundler u3 = new Unbundler(vi, 1, NO_LABEL);
     // Connect them in a nice bidirectional tree.
-    new Wire(vi, r1.endpoint().get(), b1.inputs().get(0));
-    new Wire(vi, r1.endpoint().get(), b2.inputs().get(0));
-    new Wire(vi, b1.output(), b3.inputs().get(0));
-    new Wire(vi, b2.output(), b3.inputs().get(1));
-    new Wire(vi, b3.output(), u1.input());
-    new Wire(vi, u1.outputs().get(0), u2.input());
-    new Wire(vi, u1.outputs().get(1), u3.input());
+    r1.terminal().connectTo(b1.inputs().get(0));
+    r1.terminal().connectTo(b2.inputs().get(0));
+    b1.output().connectTo(b3.inputs().get(0));
+    b2.output().connectTo(b3.inputs().get(1));
+    b3.output().connectTo(u1.input());
+    u1.outputs().get(0).connectTo(u2.input());
+    u1.outputs().get(1).connectTo(u3.input());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }
@@ -224,23 +242,23 @@ public class Demos {
     Indicator i3 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
     Indicator i4 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
     // Create a few tunnels...
-    new Wire(vi, u1.outputs().get(0), i3.endpoint().get());
-    new Wire(vi, u2.outputs().get(0), i4.endpoint().get());
+    u1.outputs().get(0).connectTo(i3.terminal());
+    u2.outputs().get(0).connectTo(i4.terminal());
     // ...and shift registers.
     RightShiftRegister r1 = l1.addShiftRegister();
     RightShiftRegister r2 = l2.addShiftRegister(2);
     // And wire together...
-    new Wire(vi, c1.endpoint().get(), r1.left(0).outer());
-    new Wire(l1.diagram(), r1.left(0).inner(), b1.inputs().get(0));
-    new Wire(l1.diagram(), b1.output(), u1.input());
-    new Wire(l1.diagram(), u1.outputs().get(0), r1.inner());
-    new Wire(vi, r1.outer(), i1.endpoint().get());
+    c1.terminal().connectTo(r1.left(0).outer());
+    r1.left(0).inner().connectTo(b1.inputs().get(0));
+    b1.output().connectTo(u1.input());
+    u1.outputs().get(0).connectTo(r1.inner());
+    r1.outer().connectTo(i1.terminal());
     // ...the second one too...
-    new Wire(vi, c1.endpoint().get(), r2.left(0).outer());
-    new Wire(l2.diagram(), r2.left(1).inner(), b2.inputs().get(0));
-    new Wire(l2.diagram(), b2.output(), u2.input());
-    new Wire(l2.diagram(), u2.outputs().get(0), r2.inner());
-    new Wire(vi, r2.outer(), i2.endpoint().get());
+    c1.terminal().connectTo(r2.left(0).outer());
+    r2.left(1).inner().connectTo(b2.inputs().get(0));
+    b2.output().connectTo(u2.input());
+    u2.outputs().get(0).connectTo(r2.inner());
+    r2.outer().connectTo(i2.terminal());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
   }

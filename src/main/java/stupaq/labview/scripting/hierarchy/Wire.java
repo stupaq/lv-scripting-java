@@ -10,13 +10,9 @@ public final class Wire extends ConcreteGObject {
     super(owner, uid);
   }
 
-  public Wire(Generic owner, Terminal source, Terminal sink, Optional<String> label) {
-    this(owner, source.scriptingTools()
+  Wire(Generic owner, Terminal source, Terminal sink, Optional<String> label) {
+    this(owner, owner.scriptingTools()
         .getTool(WireConnect.class)
         .apply(source.viPath(), source.uid().get(), sink.uid().get(), label));
-  }
-
-  public Wire(Generic owner, Terminal source, Terminal sink) {
-    this(owner, source, sink, Optional.<String>absent());
   }
 }

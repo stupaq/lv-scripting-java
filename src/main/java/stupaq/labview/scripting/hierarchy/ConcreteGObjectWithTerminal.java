@@ -12,8 +12,9 @@ abstract class ConcreteGObjectWithTerminal<T extends GObject>
     super(owner, objectAndTerminal.getKey(), Optional.of(objectAndTerminal.getValue()));
   }
 
+  @Override
   public Terminal<T> terminal() {
-    return endpoint().get();
+    return super.terminal();
   }
 
   @Override

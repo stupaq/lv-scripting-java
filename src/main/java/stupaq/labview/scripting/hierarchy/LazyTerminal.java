@@ -33,9 +33,9 @@ public final class LazyTerminal<T extends GObject> extends Terminal<T> {
     if (terminal != null) {
       return super.toString();
     } else if (supplier != null) {
-      return getClass().getSimpleName() + "{not created}";
+      return Terminal.class.getSimpleName() + "{not created}";
     } else {
-      return getClass().getSimpleName() + "{deleted}";
+      return Terminal.class.getSimpleName() + "{deleted}";
     }
   }
 

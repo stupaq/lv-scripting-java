@@ -35,6 +35,10 @@ abstract class ConcreteGObjectWithOptionalTerminal<T extends GObject> extends Co
     return terminal;
   }
 
+  public Terminal<T> terminal() throws IllegalStateException {
+    return terminal.get();
+  }
+
   @Override
   public String toString() {
     return getClass().getSimpleName() + "{uid=" + uid().get() + ", terminal=" +
