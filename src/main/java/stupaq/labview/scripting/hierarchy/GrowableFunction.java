@@ -17,7 +17,7 @@ public abstract class GrowableFunction<T extends GObject> extends Node {
   protected GrowableFunction(Generic owner, Entry<UID, List<UID>> singleAndMultiple) {
     super(owner, singleAndMultiple.getKey());
     List<UID> terminals = singleAndMultiple.getValue();
-    Verify.verify(terminals.size() >= 1);
+    Verify.verify(terminals.size() >= 1, "Missing terminals on one side.");
     single = new EagerTerminal<>((T) this, terminals.get(0));
     for (UID term : FluentIterable.from(terminals).skip(1)) {
       multiple.add(new EagerTerminal<>((T) this, term));
