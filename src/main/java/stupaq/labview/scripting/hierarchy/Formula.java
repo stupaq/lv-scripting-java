@@ -2,6 +2,7 @@ package stupaq.labview.scripting.hierarchy;
 
 import com.google.common.base.Optional;
 
+import stupaq.labview.scripting.tools.FormulaCleanup;
 import stupaq.labview.scripting.tools.FormulaCreate;
 
 import static com.google.common.base.Optional.of;
@@ -27,5 +28,9 @@ public abstract class Formula extends Node {
 
   public final Terminal<FormulaParameter> addOutput(String name) {
     return addIO(false, of(name));
+  }
+
+  public final void cleanupFormula() {
+    scriptingTools().get(FormulaCleanup.class).apply(viPath(), formulaType(), uid().get());
   }
 }

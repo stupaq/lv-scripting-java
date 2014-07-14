@@ -94,7 +94,10 @@ public class Demos {
     f1o1.connectTo(f2i2, of("wire 2"));
     f1o2.connectTo(f2i3, of("wire 3"));
     f2o1.connectTo(f3i1, of("wire 4"));
-    // Cleanup diagram for inspection.
+    // Cleanup formula and diagram for inspection.
+    f1.cleanupFormula();
+    f2.cleanupFormula();
+    f3.cleanupFormula();
     vi.cleanUpDiagram();
   }
 
