@@ -44,33 +44,6 @@
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
             </resource>
-
-            <!--
-            <resource>
-                <directory>${basedir}/lv-scripting</directory>
-                <includes>
-                    <include>CleanUpDiagram.vi</include>
-                    <include>ControlCreate.vi</include>
-                    <include>ControlStyleReference.vi</include>
-                    <include>FormulaAddIO.vi</include>
-                    <include>FormulaCreate.vi</include>
-                    <include>GetReferenceByUID.vi</include>
-                    <include>GObjectDelete.vi</include>
-                    <include>NewCustomVIOwnerByUID.vi</include>
-                    <include>NewVIObjectOwnerByUID.vi</include>
-                    <include>SubVICreate.vi</include>
-                    <include>VICreate.vi</include>
-                    <include>WireConnect.vi</include>
-                </includes>
-                <excludes>
-                    <exclude>**/.gitignore</exclude>
-                    <exclude>**/*.aliases</exclude>
-                    <exclude>**/*.lvlps</exclude>
-                    <exclude>**/*.lvproj</exclude>
-                    <exclude>**/*.vit</exclude>
-                </excludes>
-            </resource>
-            -->
         </resources>
 
         <plugins>
@@ -91,6 +64,22 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <packageName>com.labview.xmlschema</packageName>
+                </configuration>
             </plugin>
         </plugins>
     </build>
