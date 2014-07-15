@@ -5,8 +5,8 @@ import java.nio.file.Paths;
 
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
-import stupaq.labview.scripting.reading.VIReader;
-import stupaq.labview.scripting.tools.activex.ActiveXScriptingTools;
+import stupaq.labview.scripting.reading.VIParser;
+import stupaq.labview.scripting.tools.fake.FakeScriptingTools;
 
 public class demo_read {
   public static void main(String[] args) {
@@ -14,8 +14,8 @@ public class demo_read {
       Preconditions.checkArgument(args.length == 1, "Missing argument: path-to-demo-dir");
       Path dir = Paths.get(args[0]);
       VIPath vi = new VIPath(dir, "formula.vi");
-      ScriptingTools tools = new ActiveXScriptingTools();
-      new VIReader(tools, vi);
+      ScriptingTools tools = new FakeScriptingTools();
+      new VIParser(tools, vi);
     } catch (Throwable t) {
       t.printStackTrace();
     }

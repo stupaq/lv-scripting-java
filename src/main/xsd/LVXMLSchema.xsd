@@ -97,34 +97,31 @@
         </xsd:complexContent>
     </xsd:complexType>
 
-    <!-- Unsafe conversion from unsigned to signed type. -->
     <xsd:complexType name="U8Type">
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:byte" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:unsignedByte" minOccurs="1"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
-    <!-- Unsafe conversion from unsigned to signed type. -->
     <xsd:complexType name="U16Type">
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:short" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:unsignedShort" minOccurs="1"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
-    <!-- Unsafe conversion from unsigned to signed type. -->
     <xsd:complexType name="U32Type">
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:int" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:unsignedInt" minOccurs="1"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
