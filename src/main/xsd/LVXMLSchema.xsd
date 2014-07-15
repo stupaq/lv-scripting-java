@@ -59,49 +59,85 @@
     <!--Basic elements-->
     <xsd:complexType name="I8Type">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:byte" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="I16Type">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:short" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="I32Type">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:int" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="I64Type">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:long" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
+    <!-- Unsafe conversion from unsigned to signed type. -->
     <xsd:complexType name="U8Type">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:byte" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
+    <!-- Unsafe conversion from unsigned to signed type. -->
     <xsd:complexType name="U16Type">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:short" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
+    <!-- Unsafe conversion from unsigned to signed type. -->
     <xsd:complexType name="U32Type">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:int" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
+    <!-- Unsafe conversion from unsigned to signed type. -->
     <xsd:complexType name="U64Type">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:long" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
@@ -131,55 +167,75 @@
 
     <xsd:complexType name="SGLType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:float" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="DBLType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:double" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="EXTType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataTypeRaw"/>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="CSGType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataTypeRaw"/>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="CDBType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataTypeRaw"/>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="CXTType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataTypeRaw"/>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="BooleanType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:boolean" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="PathType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:string" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="StringType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:string" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
@@ -221,14 +277,23 @@
 
     <xsd:complexType name="DAQChannelType">
         <xsd:complexContent>
-            <xsd:extension base="lv:LVDataType"/>
+            <xsd:extension base="lv:LVDataTypeRaw"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="LVDataTypeRaw">
+        <xsd:complexContent>
+            <xsd:extension base="lv:LVDataType">
+                <xsd:sequence>
+                    <xsd:element name="Val" type="xsd:string" minOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="LVDataType">
         <xsd:sequence>
             <xsd:element name="Name" type="xsd:string" minOccurs="1"/>
-            <xsd:element name="Val" type="xsd:string" minOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
 
@@ -237,7 +302,7 @@
         <xsd:sequence>
             <xsd:element name="Name" type="xsd:string"/>
             <xsd:sequence>
-                <xsd:element name="Dimsize" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                <xsd:element name="Dimsize" type="xsd:int" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>
             <xsd:choice minOccurs="0" maxOccurs="unbounded">
                 <xsd:element name="I8" type="lv:I8Type"/>
@@ -292,7 +357,7 @@
     <xsd:complexType name="ClusterType">
         <xsd:sequence>
             <xsd:element name="Name" type="xsd:string"/>
-            <xsd:element name="NumElts" type="xsd:string"/>
+            <xsd:element name="NumElts" type="xsd:int"/>
             <xsd:choice minOccurs="0" maxOccurs="unbounded">
                 <xsd:element name="I8" type="lv:I8Type"/>
                 <xsd:element name="I16" type="lv:I16Type"/>
