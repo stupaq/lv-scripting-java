@@ -5,8 +5,8 @@ import java.nio.file.Paths;
 
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.ScriptingTools;
-import stupaq.labview.scripting.reading.VIParser;
-import stupaq.labview.scripting.tools.fake.FakeScriptingTools;
+import stupaq.labview.retrieval.VIParser;
+import stupaq.labview.scripting.fake.FakeScriptingTools;
 
 public class demo_read {
   public static void main(String[] args) {
