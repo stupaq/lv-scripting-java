@@ -8,6 +8,8 @@ import stupaq.labview.scripting.tools.ArithmeticMode;
 import stupaq.labview.scripting.tools.CompoundArithmeticCreate;
 
 public final class CompoundArithmetic extends GrowableFunction<CompoundArithmetic> {
+  public static final String XML_NAME = "CompoundArithmetic";
+
   public CompoundArithmetic(Generic owner, ArithmeticMode mode, int inputs,
       Optional<String> label) {
     super(owner, owner.scriptingTools()

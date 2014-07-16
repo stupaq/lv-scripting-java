@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Verify;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Maps;
 
 import com.ni.labview.ArrayType;
 import com.ni.labview.ClusterType;
@@ -11,6 +12,7 @@ import com.ni.labview.LVDataTypeRaw;
 import com.ni.labview.StringType;
 
 import java.util.List;
+import java.util.Map;
 
 import stupaq.labview.UID;
 
@@ -38,7 +40,15 @@ public interface LVPropertyCast<T> {
   public static final LVPropertyCast<Integer> castInteger = new LVPropertyCast<Integer>() {
     @Override
     public Integer get(Object value) {
-      return Integer.valueOf(((LVDataTypeRaw) value).getVal());
+      String rep = castRaw.get(value);
+      return rep.isEmpty() ? 0 : Integer.valueOf(rep);
+    }
+  };
+  public static final LVPropertyCast<Double> castDouble = new LVPropertyCast<Double>() {
+    @Override
+    public Double get(Object value) {
+      String rep = castRaw.get(value);
+      return rep.isEmpty() ? 0.0 : Double.valueOf(rep);
     }
   };
   public static final LVPropertyCast<UID> castUID = new LVPropertyCast<UID>() {
@@ -79,6 +89,19 @@ public interface LVPropertyCast<T> {
           boolean isGObject = castBoolean.get(cluster.getI8OrI16OrI32().get(0));
           UID uid = castUID.get(cluster.getI8OrI16OrI32().get(1));
           return isGObject ? Optional.of(uid) : Optional.<UID>absent();
+        }
+      };
+  public static final LVPropertyCast<Map<String, Object>> castMapFromStrings =
+      new LVPropertyCast<Map<String, Object>>() {
+        @Override
+        public Map<String, Object> get(Object value) {
+          Map<String, Object> map = Maps.newHashMap();
+          for (Object object : castList.get(value)) {
+            ClusterType cluster = (ClusterType) object;
+            map.put(castString.get(cluster.getI8OrI16OrI32().get(0)),
+                castDouble.get(cluster.getI8OrI16OrI32().get(1)));
+          }
+          return map;
         }
       };
 

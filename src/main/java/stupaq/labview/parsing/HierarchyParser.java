@@ -34,12 +34,21 @@ import javax.xml.validation.SchemaFactory;
 
 import stupaq.labview.UID;
 import stupaq.labview.VIPath;
+import stupaq.labview.hierarchy.Bundler;
+import stupaq.labview.hierarchy.CompoundArithmetic;
+import stupaq.labview.hierarchy.Control;
+import stupaq.labview.hierarchy.ControlCluster;
 import stupaq.labview.hierarchy.Formula;
 import stupaq.labview.hierarchy.FormulaNode;
 import stupaq.labview.hierarchy.GObject;
 import stupaq.labview.hierarchy.Generic;
+import stupaq.labview.hierarchy.GrowableFunction;
 import stupaq.labview.hierarchy.InlineCNode;
 import stupaq.labview.hierarchy.Node;
+import stupaq.labview.hierarchy.RingConstant;
+import stupaq.labview.hierarchy.SubVI;
+import stupaq.labview.hierarchy.Terminal;
+import stupaq.labview.hierarchy.Unbundler;
 import stupaq.labview.hierarchy.Wire;
 import stupaq.labview.scripting.ScriptingTools;
 import stupaq.labview.scripting.tools.ReadVI;
@@ -70,8 +79,11 @@ public class HierarchyParser {
     }
     Map<String, ElementParser> parsers = createParsers(visitor);
     for (Entry<String, ElementParser> entry : parsers.entrySet()) {
-      for (Element object : lists.get(entry.getKey()).getCluster()) {
-        entry.getValue().parse(object, new ElementProperties(object));
+      ElementList list = lists.get(entry.getKey());
+      if (list != null) {
+        for (Element object : list.getCluster()) {
+          entry.getValue().parse(object, new ElementProperties(object));
+        }
       }
     }
   }
@@ -109,33 +121,117 @@ public class HierarchyParser {
   }
 
   private static Map<String, ElementParser> createParsers(final HierarchyVisitor visitor) {
+    ElementParser parser;
     Map<String, ElementParser> parsers = Maps.newLinkedHashMap();
-    parsers.put(Wire.XML_NAME, new ElementParser() {
+    /** {@link Wire} */
+    parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
-        Optional<UID> ownerUID = Generic.Owner.get(p);
+        Optional<UID> owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         Optional<String> label = GObject.Label.get(p);
-        visitor.Wire(ownerUID, uid, label);
+        visitor.Wire(owner, uid, label);
       }
-    });
-    parsers.put(FormulaNode.XML_NAME, new ElementParser() {
+    };
+    parsers.put(Wire.XML_NAME, parser);
+    /** {@link Terminal} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        Optional<UID> owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        UID wire = Terminal.Wire.get(p);
+        boolean isSource = Terminal.IsSource.get(p);
+        String name = Terminal.Name.get(p);
+        visitor.Terminal(owner, uid, wire, isSource, name);
+      }
+    };
+    parsers.put(Terminal.XML_NAME, parser);
+    /** {@link Formula} */
+    parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
         String className = Generic.ClassName.get(p);
-        Optional<UID> ownerUID = Generic.Owner.get(p);
+        Optional<UID> owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         Optional<String> label = GObject.Label.get(p);
         String expression = Formula.Expression.get(p);
         List<UID> terms = Node.Terminals.get(p);
-        if (FormulaNode.XML_NAME.equals(className)) {
-          visitor.FormulaNode(ownerUID, uid, expression, label, terms);
-        } else if (InlineCNode.XML_NAME.equals(className)) {
-          visitor.InlineCNode(ownerUID, uid, expression, label, terms);
+        switch (className) {
+          case FormulaNode.XML_NAME:
+            visitor.FormulaNode(owner, uid, expression, label, terms);
+            break;
+          case InlineCNode.XML_NAME:
+            visitor.InlineCNode(owner, uid, expression, label, terms);
+            break;
         }
       }
-    });
-    parsers.put(InlineCNode.XML_NAME, parsers.get(FormulaNode.XML_NAME));
+    };
+    parsers.put(InlineCNode.XML_NAME, parser);
+    parsers.put(FormulaNode.XML_NAME, parser);
+    /** {@link GrowableFunction} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        String className = Generic.ClassName.get(p);
+        Optional<UID> owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        List<UID> terms = Node.Terminals.get(p);
+        Verify.verify(!terms.isEmpty());
+        UID single = terms.get(0);
+        terms.remove(0);
+        switch (className) {
+          case CompoundArithmetic.XML_NAME:
+            visitor.CompoundArithmetic(owner, uid, single, terms);
+            break;
+          case Bundler.XML_NAME:
+            visitor.Bundler(owner, uid, single, terms);
+            break;
+          case Unbundler.XML_NAME:
+            visitor.Unbundler(owner, uid, single, terms);
+            break;
+        }
+      }
+    };
+    parsers.put(CompoundArithmetic.XML_NAME, parser);
+    parsers.put(Bundler.XML_NAME, parser);
+    parsers.put(Unbundler.XML_NAME, parser);
+    /** {@link NumericControl} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        // FIXME
+      }
+    };
+    parsers.put(Control.NUMERIC_XML_NAME, parser);
+    /** {@link ControlCluster} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        // FIXME
+      }
+    };
+    parsers.put(ControlCluster.XML_NAME, parser);
+    /** {@link RingConstant} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        Optional<UID> owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        UID terminal = Node.Terminal.get(p);
+        Map<String, Object> stringsAndValues = RingConstant.StringsAndValues.get(p);
+        visitor.RingConstant(owner, uid, terminal, stringsAndValues);
+      }
+    };
+    parsers.put(RingConstant.XML_NAME, parser);
+    /** {@link SubVI} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        // FIXME
+      }
+    };
+    parsers.put(SubVI.XML_NAME, parser);
     return parsers;
   }
 }

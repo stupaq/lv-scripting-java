@@ -9,6 +9,8 @@ import stupaq.labview.scripting.tools.ControlCreate;
 import stupaq.labview.scripting.tools.ControlStyle;
 
 public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
+  public static final String NUMERIC_XML_NAME = "Numeric";
+
   public Control(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex) {
     super(owner, owner.scriptingTools()
         .get(ControlCreate.class)
