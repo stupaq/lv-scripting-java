@@ -1,11 +1,16 @@
 package stupaq.labview.parsing;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Verify;
+import com.google.common.collect.FluentIterable;
 
+import com.ni.labview.ArrayType;
 import com.ni.labview.ClusterType;
 import com.ni.labview.LVDataTypeRaw;
 import com.ni.labview.StringType;
+
+import java.util.List;
 
 import stupaq.labview.UID;
 
@@ -42,10 +47,27 @@ public interface LVPropertyCast<T> {
       return new UID(castInteger.get(value));
     }
   };
+  public static final LVPropertyCast<List<Object>> castList = new LVPropertyCast<List<Object>>() {
+    @Override
+    public List<Object> get(Object value) {
+      return ((ArrayType) value).getI8OrI16OrI32();
+    }
+  };
+  public static final LVPropertyCast<List<UID>> castListUID = new LVPropertyCast<List<UID>>() {
+    @Override
+    public List<UID> get(Object value) {
+      return FluentIterable.from(castList.get(value)).transform(new Function<Object, UID>() {
+        @Override
+        public UID apply(Object input) {
+          return castUID.get(input);
+        }
+      }).toList();
+    }
+  };
   public static final LVPropertyCast<Boolean> castBoolean = new LVPropertyCast<Boolean>() {
     @Override
     public Boolean get(Object value) {
-      return Boolean.parseBoolean(castRaw.get(value));
+      return Boolean.parseBoolean(castRaw.get(value)) || castInteger.get(value) != 0;
     }
   };
   public static final LVPropertyCast<Optional<UID>> castOwner =

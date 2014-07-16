@@ -1,6 +1,7 @@
 package stupaq.labview.parsing;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Verify;
 import com.google.common.collect.Maps;
 
 import com.ni.labview.Element;
@@ -20,7 +21,9 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -33,7 +36,11 @@ import stupaq.labview.UID;
 import stupaq.labview.VIPath;
 import stupaq.labview.hierarchy.Formula;
 import stupaq.labview.hierarchy.FormulaNode;
+import stupaq.labview.hierarchy.GObject;
+import stupaq.labview.hierarchy.Generic;
 import stupaq.labview.hierarchy.InlineCNode;
+import stupaq.labview.hierarchy.Node;
+import stupaq.labview.hierarchy.Wire;
 import stupaq.labview.scripting.ScriptingTools;
 import stupaq.labview.scripting.tools.ReadVI;
 
@@ -43,33 +50,41 @@ public class HierarchyParser {
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
   private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyParser.class);
 
-  public HierarchyParser(ScriptingTools tools, VIPath viPath, VIDump root) {
-    Map<String, ElementParser> parsers = createParsers(this);
+  private HierarchyParser() {
+  }
+
+  public static void visitVI(ScriptingTools tools, VIPath viPath, HierarchyVisitor visitor)
+      throws JAXBException, SAXException, IOException {
+    visitVI(parseVI(tools, viPath), visitor);
+  }
+
+  public static void visitVI(VIDump root, HierarchyVisitor visitor) {
+    Map<String, ElementList> lists = Maps.newHashMap();
     for (ElementList objects : root.getArray()) {
       if (!objects.getCluster().isEmpty() && objects.getDimsize() > 0) {
-        // We can trim the number of parser look-ups because we know that elements are emitted into
-        // arrays by type.
         String name = objects.getCluster().get(0).getName();
-        ElementParser parser = parsers.get(name);
-        if (parser != null) {
-          for (Element object : objects.getCluster()) {
-            parser.parse(object);
-          }
-        }
+        Verify.verify(!name.isEmpty());
+        Verify.verify(!lists.containsKey(name));
+        lists.put(name, objects);
+      }
+    }
+    Map<String, ElementParser> parsers = createParsers(visitor);
+    for (Entry<String, ElementParser> entry : parsers.entrySet()) {
+      for (Element object : lists.get(entry.getKey()).getCluster()) {
+        entry.getValue().parse(object, new ElementProperties(object));
       }
     }
   }
 
   @SuppressWarnings("unchecked")
-  public static HierarchyParser parseVI(ScriptingTools tools, VIPath viPath)
+  public static VIDump parseVI(ScriptingTools tools, stupaq.labview.VIPath viPath)
   throws IOException, SAXException, JAXBException {
     try (Reader xmlReader = openVIXML(tools, viPath)) {
       Schema schema = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI)
           .newSchema(HierarchyParser.class.getResource(XML_SCHEMA_RESOURCE));
       Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
       unmarshaller.setSchema(schema);
-      VIDump root = ((JAXBElement<VIDump>) unmarshaller.unmarshal(xmlReader)).getValue();
-      return new HierarchyParser(tools, viPath, root);
+      return ((JAXBElement<VIDump>) unmarshaller.unmarshal(xmlReader)).getValue();
     }
   }
 
@@ -93,25 +108,34 @@ public class HierarchyParser {
     }
   }
 
-  private static Map<String, ElementParser> createParsers(final HierarchyParser hierarchy) {
-    Map<String, ElementParser> parsers = Maps.newHashMap();
-    parsers.put(Formula.XML_NAME, new ElementParser() {
+  private static Map<String, ElementParser> createParsers(final HierarchyVisitor visitor) {
+    Map<String, ElementParser> parsers = Maps.newLinkedHashMap();
+    parsers.put(Wire.XML_NAME, new ElementParser() {
       @Override
-      public void parse(Element element) {
-        ElementProperties p = new ElementProperties(element);
-        UID uid = Formula.UID.get(p);
-        String className = Formula.ClassName.get(p);
-        Optional<UID> ownerUID = Formula.Owner.get(p);
-        // FIXME
-        String expression = Formula.Expression.get(p);
-        Optional<String> label = Formula.Label.get(p);
-        Formula formula;
-        if (FormulaNode.XML_NAME.equals(className)) {
-        } else if (InlineCNode.XML_NAME.equals(className)) {
-        }
-        System.out.println(uid + " | " + className);
+      public void parse(Element element, ElementProperties p) {
+        Optional<UID> ownerUID = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        Optional<String> label = GObject.Label.get(p);
+        visitor.Wire(ownerUID, uid, label);
       }
     });
+    parsers.put(FormulaNode.XML_NAME, new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        String className = Generic.ClassName.get(p);
+        Optional<UID> ownerUID = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        Optional<String> label = GObject.Label.get(p);
+        String expression = Formula.Expression.get(p);
+        List<UID> terms = Node.Terminals.get(p);
+        if (FormulaNode.XML_NAME.equals(className)) {
+          visitor.FormulaNode(ownerUID, uid, expression, label, terms);
+        } else if (InlineCNode.XML_NAME.equals(className)) {
+          visitor.InlineCNode(ownerUID, uid, expression, label, terms);
+        }
+      }
+    });
+    parsers.put(InlineCNode.XML_NAME, parsers.get(FormulaNode.XML_NAME));
     return parsers;
   }
 }
