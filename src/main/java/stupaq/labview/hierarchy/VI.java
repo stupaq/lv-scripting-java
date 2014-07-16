@@ -26,7 +26,7 @@ public class VI extends Generic {
   }
 
   @Override
-  protected Generic owner() {
+  public Generic owner() {
     return this;
   }
 

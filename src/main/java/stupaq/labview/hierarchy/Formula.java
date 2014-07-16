@@ -8,6 +8,8 @@ import stupaq.labview.scripting.tools.FormulaCreate;
 import static com.google.common.base.Optional.of;
 
 public abstract class Formula extends Node {
+  public static final String XML_NAME = "Formula";
+
   protected Formula(Generic owner, int formulaType, String content, Optional<String> label) {
     super(owner, owner.scriptingTools()
         .get(FormulaCreate.class)

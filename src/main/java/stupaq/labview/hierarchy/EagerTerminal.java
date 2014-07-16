@@ -19,7 +19,7 @@ public final class EagerTerminal<T extends GObject> extends Terminal<T> {
   }
 
   @Override
-  protected T owner() {
+  public T owner() {
     return owner;
   }
 }

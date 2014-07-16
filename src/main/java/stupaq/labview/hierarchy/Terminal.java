@@ -15,7 +15,7 @@ public abstract class Terminal<T extends GObject> extends GObject {
   }
 
   @Override
-  protected abstract T owner();
+  public abstract T owner();
 
   @Override
   public void delete() throws VIErrorException {

@@ -40,7 +40,7 @@ public final class LazyTerminal<T extends GObject> extends Terminal<T> {
   }
 
   @Override
-  protected T owner() {
+  public T owner() {
     return terminal().owner();
   }
 

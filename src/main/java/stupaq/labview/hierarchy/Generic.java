@@ -9,7 +9,7 @@ import stupaq.labview.scripting.ScriptingTools;
 public abstract class Generic {
   public abstract Optional<UID> uid();
 
-  protected abstract Generic owner();
+  public abstract Generic owner();
 
   protected ScriptingTools scriptingTools() {
     return owner().scriptingTools();

@@ -11,18 +11,19 @@
     <xsd:complexType name="VIDump">
         <xsd:sequence>
             <xsd:any processContents="skip" minOccurs="2" maxOccurs="2"/>
-            <xsd:element name="Array" type="lv:GObjectList" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="Array" type="lv:ElementList" minOccurs="1" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="GObjectList">
+    <xsd:complexType name="ElementList">
         <xsd:sequence>
-            <xsd:any processContents="skip" minOccurs="2" maxOccurs="2"/>
-            <xsd:element name="Cluster" minOccurs="0" maxOccurs="unbounded" type="lv:GObject"/>
+            <xsd:any processContents="skip" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="Dimsize" type="xsd:int"/>
+            <xsd:element name="Cluster" minOccurs="0" maxOccurs="unbounded" type="lv:Element"/>
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="GObject">
+    <xsd:complexType name="Element">
         <xsd:sequence>
             <xsd:element name="Name" type="xsd:string"/>
             <xsd:any processContents="skip"/>
@@ -71,7 +72,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:byte" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:byte" default="0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -81,7 +82,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:short" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:short" default="0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -91,7 +92,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:int" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:int" default="0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -101,7 +102,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:long" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:long" default="0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -111,7 +112,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:unsignedByte" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:unsignedByte" default="0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -121,7 +122,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:unsignedShort" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:unsignedShort" default="0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -131,7 +132,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:unsignedInt" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:unsignedInt" default="0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -142,7 +143,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:long" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:long" default="0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -176,7 +177,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:float" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:float" default="0.0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -186,7 +187,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:double" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:double" default="0.0"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -220,7 +221,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:boolean" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:boolean" default="false"/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -230,7 +231,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:string" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:string" default=""/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -240,7 +241,7 @@
         <xsd:complexContent>
             <xsd:extension base="lv:LVDataType">
                 <xsd:sequence>
-                    <xsd:element name="Val" type="xsd:string" minOccurs="1"/>
+                    <xsd:element name="Val" type="xsd:string" default=""/>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>

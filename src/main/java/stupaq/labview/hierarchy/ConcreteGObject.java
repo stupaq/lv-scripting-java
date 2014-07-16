@@ -22,7 +22,7 @@ abstract class ConcreteGObject extends GObject {
   }
 
   @Override
-  protected Generic owner() {
+  public Generic owner() {
     return owner;
   }
 }

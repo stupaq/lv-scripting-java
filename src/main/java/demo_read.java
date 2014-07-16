@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import stupaq.labview.VIPath;
-import stupaq.labview.retrieval.ParsedVI;
+import stupaq.labview.hierarchy.ParsedHierarchy;
 import stupaq.labview.scripting.ScriptingTools;
 import stupaq.labview.scripting.activex.ActiveXScriptingTools;
 import stupaq.labview.scripting.fake.FakeScriptingTools;
@@ -22,7 +22,7 @@ public class demo_read {
       } else {
         tools = new FakeScriptingTools();
       }
-      ParsedVI.parseVI(tools, vi);
+      ParsedHierarchy.parseVI(tools, vi);
     } catch (Throwable t) {
       t.printStackTrace();
     }
