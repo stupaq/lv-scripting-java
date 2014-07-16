@@ -2,10 +2,13 @@ package stupaq.labview.hierarchy;
 
 import com.google.common.base.Optional;
 
+import com.ni.labview.ClusterType;
+
 import java.util.Map.Entry;
 
 import stupaq.labview.UID;
 import stupaq.labview.parsing.LVProperty;
+import stupaq.labview.parsing.LVPropertyCast;
 import stupaq.labview.scripting.tools.ControlCreate;
 import stupaq.labview.scripting.tools.ControlStyle;
 
@@ -17,7 +20,19 @@ public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
   public static final String NUMERIC_XML_NAME = "Numeric";
   public static final LVProperty<Boolean> IsIndicator = Cast("Indicator", castBoolean);
   public static final LVProperty<Integer> Style = Cast("Style", castInteger);
-  public static final LVProperty<Integer> Representation = Cast("Representation", castInteger);
+  public static final LVProperty<Optional<Integer>> Representation =
+      Cast("Rep", new LVPropertyCast<Optional<Integer>>() {
+        @Override
+        public Optional<Integer> get(Object value) {
+          if (value == null) {
+            return Optional.absent();
+          } else {
+            ClusterType cluster = (ClusterType) value;
+            return Optional.of(
+                castInteger.get(cluster.getI8OrI16OrI32().get(cluster.getNumElts() - 1)));
+          }
+        }
+      });
 
   public Control(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex) {
     super(owner, owner.scriptingTools()

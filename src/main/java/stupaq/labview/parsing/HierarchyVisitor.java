@@ -20,14 +20,14 @@ public interface HierarchyVisitor {
   public void FormulaNode(Optional<UID> ownerUID, UID uid, String expression,
       Optional<String> label, List<UID> terms);
 
-  public void CompoundArithmetic(Optional<UID> owner, UID uid, UID single, List<UID> terms);
+  public void CompoundArithmetic(Optional<UID> owner, UID uid, List<UID> terms);
 
-  public void Bundler(Optional<UID> owner, UID uid, UID single, List<UID> terms);
+  public void Bundler(Optional<UID> owner, UID uid, List<UID> terms);
 
-  public void Unbundler(Optional<UID> owner, UID uid, UID single, List<UID> terms);
+  public void Unbundler(Optional<UID> owner, UID uid, List<UID> terms);
 
   public void Numeric(Optional<UID> owner, UID uid, Optional<String> label, UID terminal,
-      boolean isIndicator, int style, int representation);
+      boolean isIndicator, int style, Optional<Integer> representation);
 
   public void Cluster(Optional<UID> owner, UID uid, Optional<String> label, UID terminal,
       boolean isIndicator, int style);

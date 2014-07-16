@@ -178,17 +178,15 @@ public class HierarchyParser {
         UID uid = GObject.UID.get(p);
         List<UID> terms = Node.Terminals.get(p);
         Verify.verify(!terms.isEmpty());
-        UID single = terms.get(0);
-        terms.remove(0);
         switch (className) {
           case CompoundArithmetic.XML_NAME:
-            visitor.CompoundArithmetic(owner, uid, single, terms);
+            visitor.CompoundArithmetic(owner, uid, terms);
             break;
           case Bundler.XML_NAME:
-            visitor.Bundler(owner, uid, single, terms);
+            visitor.Bundler(owner, uid, terms);
             break;
           case Unbundler.XML_NAME:
-            visitor.Unbundler(owner, uid, single, terms);
+            visitor.Unbundler(owner, uid, terms);
             break;
         }
       }
@@ -196,34 +194,27 @@ public class HierarchyParser {
     parsers.put(CompoundArithmetic.XML_NAME, parser);
     parsers.put(Bundler.XML_NAME, parser);
     parsers.put(Unbundler.XML_NAME, parser);
-    /** {@link NumericControl} */
+    /** {@link Control} */
     parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
+        String className = Generic.ClassName.get(p);
         Optional<UID> owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         Optional<String> label = GObject.Label.get(p);
         UID terminal = Node.Terminal.get(p);
         boolean isIndicator = Control.IsIndicator.get(p);
         int style = Control.Style.get(p);
-        int representation = Control.Representation.get(p);
-        visitor.Numeric(owner, uid, label, terminal, isIndicator, style, representation);
+        Optional<Integer> representation = Control.Representation.get(p);
+        // TODO
+        if (style == 21003) {
+          visitor.Numeric(owner, uid, label, terminal, isIndicator, style, representation);
+        } else {
+          visitor.Cluster(owner, uid, label, terminal, isIndicator, style);
+        }
       }
     };
     parsers.put(Control.NUMERIC_XML_NAME, parser);
-    /** {@link ControlCluster} */
-    parser = new ElementParser() {
-      @Override
-      public void parse(Element element, ElementProperties p) {
-        Optional<UID> owner = Generic.Owner.get(p);
-        UID uid = GObject.UID.get(p);
-        Optional<String> label = GObject.Label.get(p);
-        UID terminal = Node.Terminal.get(p);
-        boolean isIndicator = Control.IsIndicator.get(p);
-        int style = Control.Style.get(p);
-        visitor.Cluster(owner, uid, label, terminal, isIndicator, style);
-      }
-    };
     parsers.put(ControlCluster.XML_NAME, parser);
     /** {@link RingConstant} */
     parser = new ElementParser() {
