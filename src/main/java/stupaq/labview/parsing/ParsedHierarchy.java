@@ -1,4 +1,4 @@
-package stupaq.labview.hierarchy;
+package stupaq.labview.parsing;
 
 import com.google.common.collect.Maps;
 
@@ -28,7 +28,13 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import stupaq.labview.UID;
 import stupaq.labview.VIPath;
+import stupaq.labview.hierarchy.Formula;
+import stupaq.labview.hierarchy.FormulaNode;
+import stupaq.labview.hierarchy.GObject;
+import stupaq.labview.hierarchy.Generic;
+import stupaq.labview.hierarchy.InlineCNode;
 import stupaq.labview.scripting.ScriptingTools;
 import stupaq.labview.scripting.tools.ReadVI;
 
@@ -93,17 +99,15 @@ public class ParsedHierarchy {
     parsers.put(Formula.XML_NAME, new ElementParser() {
       @Override
       public void parse(Element element) {
+        ElementProperties p = new ElementProperties(element);
+        UID uid = GObject.UID.get(p);
+        String className = Generic.ClassName.get(p);
+        if (FormulaNode.XML_NAME.equals(className)) {
+        } else if (InlineCNode.XML_NAME.equals(className)) {
+        }
+        System.out.println(uid + " | " + className);
       }
     });
     return parsers;
-  }
-
-  private static abstract class ElementParser {
-    public abstract void parse(Element element);
-  }
-
-  private static class ElementProperties {
-    public ElementProperties(Element element) {
-    }
   }
 }

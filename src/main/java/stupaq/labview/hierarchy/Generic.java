@@ -4,9 +4,15 @@ import com.google.common.base.Optional;
 
 import stupaq.labview.UID;
 import stupaq.labview.VIPath;
+import stupaq.labview.parsing.LVProperty;
 import stupaq.labview.scripting.ScriptingTools;
 
+import static stupaq.labview.parsing.LVProperty.Cast;
+import static stupaq.labview.parsing.LVPropertyCast.castString;
+
 public abstract class Generic {
+  public static final LVProperty<String> ClassName = Cast("ClassName", castString);
+
   public abstract Optional<UID> uid();
 
   public abstract Generic owner();

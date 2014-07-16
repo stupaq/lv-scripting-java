@@ -5,6 +5,8 @@ import com.google.common.base.Optional;
 import stupaq.labview.scripting.tools.FormulaCreate;
 
 public class FormulaNode extends Formula {
+  public static final String XML_NAME = "Formula";
+
   public FormulaNode(Generic owner, String content, Optional<String> label) {
     super(owner, FormulaCreate.FORMULA_NODE, content, label);
   }
