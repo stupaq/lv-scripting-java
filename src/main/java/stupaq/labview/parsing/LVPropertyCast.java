@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import stupaq.labview.UID;
+import stupaq.labview.VIPath;
 
 public interface LVPropertyCast<T> {
   public static final LVPropertyCast<String> castRaw = new LVPropertyCast<String>() {
@@ -104,6 +105,12 @@ public interface LVPropertyCast<T> {
           return map;
         }
       };
+  public static final LVPropertyCast<VIPath> castVIPath = new LVPropertyCast<VIPath>() {
+    @Override
+    public VIPath get(Object value) {
+      return new VIPath(castString.get(value));
+    }
+  };
 
   public T get(Object value);
 }
