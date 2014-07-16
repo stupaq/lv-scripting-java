@@ -8,10 +8,12 @@ import stupaq.labview.parsing.LVProperty;
 import stupaq.labview.scripting.ScriptingTools;
 
 import static stupaq.labview.parsing.LVProperty.Cast;
+import static stupaq.labview.parsing.LVPropertyCast.castOwner;
 import static stupaq.labview.parsing.LVPropertyCast.castString;
 
 public abstract class Generic {
   public static final LVProperty<String> ClassName = Cast("ClassName", castString);
+  public static final LVProperty<Optional<stupaq.labview.UID>> Owner = Cast("Owner", castOwner);
 
   public abstract Optional<UID> uid();
 

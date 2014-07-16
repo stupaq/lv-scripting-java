@@ -9,12 +9,12 @@ public final class LVProperty<T> {
     this.cast = cast;
   }
 
-  public T get(ElementProperties properties) {
-    return cast.get(properties.get(name));
-  }
-
   public static <T> LVProperty<T> Cast(String name, LVPropertyCast<T> cast) {
     return new LVProperty<>(name, cast);
+  }
+
+  public T get(ElementProperties properties) {
+    return cast.get(properties.get(name));
   }
 }
 

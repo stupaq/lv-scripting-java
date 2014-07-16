@@ -1,5 +1,6 @@
 package stupaq.labview.parsing;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 
 import com.ni.labview.Element;
@@ -32,19 +33,17 @@ import stupaq.labview.UID;
 import stupaq.labview.VIPath;
 import stupaq.labview.hierarchy.Formula;
 import stupaq.labview.hierarchy.FormulaNode;
-import stupaq.labview.hierarchy.GObject;
-import stupaq.labview.hierarchy.Generic;
 import stupaq.labview.hierarchy.InlineCNode;
 import stupaq.labview.scripting.ScriptingTools;
 import stupaq.labview.scripting.tools.ReadVI;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
-public class ParsedHierarchy {
+public class HierarchyParser {
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
-  private static final Logger LOGGER = LoggerFactory.getLogger(ParsedHierarchy.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyParser.class);
 
-  public ParsedHierarchy(VIPath viPath, VIDump root) {
+  public HierarchyParser(ScriptingTools tools, VIPath viPath, VIDump root) {
     Map<String, ElementParser> parsers = createParsers(this);
     for (ElementList objects : root.getArray()) {
       if (!objects.getCluster().isEmpty() && objects.getDimsize() > 0) {
@@ -62,15 +61,15 @@ public class ParsedHierarchy {
   }
 
   @SuppressWarnings("unchecked")
-  public static ParsedHierarchy parseVI(ScriptingTools tools, VIPath viPath)
-      throws IOException, SAXException, JAXBException {
+  public static HierarchyParser parseVI(ScriptingTools tools, VIPath viPath)
+  throws IOException, SAXException, JAXBException {
     try (Reader xmlReader = openVIXML(tools, viPath)) {
       Schema schema = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI)
-          .newSchema(ParsedHierarchy.class.getResource(XML_SCHEMA_RESOURCE));
+          .newSchema(HierarchyParser.class.getResource(XML_SCHEMA_RESOURCE));
       Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
       unmarshaller.setSchema(schema);
       VIDump root = ((JAXBElement<VIDump>) unmarshaller.unmarshal(xmlReader)).getValue();
-      return new ParsedHierarchy(viPath, root);
+      return new HierarchyParser(tools, viPath, root);
     }
   }
 
@@ -94,14 +93,19 @@ public class ParsedHierarchy {
     }
   }
 
-  private static Map<String, ElementParser> createParsers(final ParsedHierarchy hierarchy) {
+  private static Map<String, ElementParser> createParsers(final HierarchyParser hierarchy) {
     Map<String, ElementParser> parsers = Maps.newHashMap();
     parsers.put(Formula.XML_NAME, new ElementParser() {
       @Override
       public void parse(Element element) {
         ElementProperties p = new ElementProperties(element);
-        UID uid = GObject.UID.get(p);
-        String className = Generic.ClassName.get(p);
+        UID uid = Formula.UID.get(p);
+        String className = Formula.ClassName.get(p);
+        Optional<UID> ownerUID = Formula.Owner.get(p);
+        // FIXME
+        String expression = Formula.Expression.get(p);
+        Optional<String> label = Formula.Label.get(p);
+        Formula formula;
         if (FormulaNode.XML_NAME.equals(className)) {
         } else if (InlineCNode.XML_NAME.equals(className)) {
         }

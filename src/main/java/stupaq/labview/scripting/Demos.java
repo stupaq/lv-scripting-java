@@ -28,9 +28,8 @@ import stupaq.labview.hierarchy.Terminal;
 import stupaq.labview.hierarchy.Unbundler;
 import stupaq.labview.hierarchy.VI;
 import stupaq.labview.hierarchy.WhileLoop;
-import stupaq.labview.scripting.ScriptingTools;
-import stupaq.labview.scripting.tools.ConnectorPanePattern;
 import stupaq.labview.scripting.activex.ActiveXScriptingTools;
+import stupaq.labview.scripting.tools.ConnectorPanePattern;
 
 import static com.google.common.base.Optional.of;
 import static java.util.Collections.singletonMap;
