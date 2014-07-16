@@ -1,7 +1,7 @@
 package stupaq.labview.retrieval;
 
-import com.ni.labview.LVDataRootType;
 import com.ni.labview.ObjectFactory;
+import com.ni.labview.VIDump;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +33,10 @@ public class ParsedVI {
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
   private static final Logger LOGGER = LoggerFactory.getLogger(ParsedVI.class);
 
-  public ParsedVI(VIPath viPath) throws IOException, JAXBException, SAXException {
+  public ParsedVI(VIPath viPath) {
   }
 
+  @SuppressWarnings("unchecked")
   public static ParsedVI parseVI(ScriptingTools tools, VIPath viPath)
       throws IOException, SAXException, JAXBException {
     try (Reader xmlReader = openVIXML(tools, viPath)) {
@@ -43,10 +44,9 @@ public class ParsedVI {
           .newSchema(ParsedVI.class.getResource(XML_SCHEMA_RESOURCE));
       Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
       unmarshaller.setSchema(schema);
-      LVDataRootType root =
-          ((JAXBElement<LVDataRootType>) unmarshaller.unmarshal(xmlReader)).getValue();
+      VIDump root = ((JAXBElement<VIDump>) unmarshaller.unmarshal(xmlReader)).getValue();
       // FIXME
-      System.out.println(root.getVersionOrI8OrI16());
+      System.out.println(root.getArray().get(0).getCluster().size());
       // FIXME
       return new ParsedVI(viPath);
     }
@@ -64,11 +64,8 @@ public class ParsedVI {
       LOGGER.debug("Querying LabVIEW for XML description of: {}", viFile.getPath());
       String xmlString = tools.get(ReadVI.class).apply(viPath);
       xmlString = xmlString.replace("<Val></Val>", "<Val>0</Val>");
-      StringBuilder builder = new StringBuilder();
-      builder.append("<LVData xmlns=\"http://www.ni.com/labview\">");
-      builder.append(xmlString);
-      builder.append("</LVData>");
-      xmlString = builder.toString();
+      xmlString = "<Cluster xmlns=\"http://www.ni.com/labview\">\n" +
+          xmlString.substring("<Cluster>".length());
       try (PrintWriter writer = new PrintWriter(xmlFile)) {
         writer.println(xmlString);
       }
