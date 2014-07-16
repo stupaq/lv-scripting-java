@@ -6,7 +6,7 @@ import com.jacob.com.Variant;
 import com.jacob.extensions.ActiveXType;
 
 public class UID implements ActiveXType, Comparable<UID> {
-  public static final UID ZERO = new UID(new Variant(0));
+  public static final UID ZERO = new UID(0);
   private final int uid;
 
   public UID(Variant controlValue) {
