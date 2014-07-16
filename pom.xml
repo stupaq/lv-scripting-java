@@ -44,6 +44,12 @@
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
             </resource>
+            <resource>
+                <directory>${basedir}/src/main/xsd</directory>
+                <includes>
+                    <include>LVXMLSchema.xsd</include>
+                </includes>
+            </resource>
         </resources>
 
         <plugins>
