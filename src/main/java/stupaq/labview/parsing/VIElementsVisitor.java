@@ -12,6 +12,8 @@ public interface VIElementsVisitor {
 
   public void Diagram(Optional<UID> owner, UID uid);
 
+  public void Panel(Optional<UID> owner, UID uid);
+
   public void Wire(Optional<UID> ownerUID, UID uid, Optional<String> label);
 
   public void Terminal(Optional<UID> owner, UID uid, UID wire, boolean isSource, String name);

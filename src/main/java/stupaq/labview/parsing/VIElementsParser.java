@@ -47,6 +47,7 @@ import stupaq.labview.hierarchy.Generic;
 import stupaq.labview.hierarchy.GrowableFunction;
 import stupaq.labview.hierarchy.InlineCNode;
 import stupaq.labview.hierarchy.Node;
+import stupaq.labview.hierarchy.Panel;
 import stupaq.labview.hierarchy.RingConstant;
 import stupaq.labview.hierarchy.SubVI;
 import stupaq.labview.hierarchy.Terminal;
@@ -65,7 +66,7 @@ public class VIElementsParser {
   }
 
   public static void visitVI(ScriptingTools tools, VIPath viPath, VIElementsVisitor visitor)
-  throws JAXBException, SAXException, IOException {
+      throws JAXBException, SAXException, IOException {
     visitVI(parseVI(tools, viPath), visitor);
   }
 
@@ -134,7 +135,16 @@ public class VIElementsParser {
         visitor.Diagram(owner, uid);
       }
     };
-    parsers.put(Diagram.XML_NAME, parser);
+    /** {@link Panel} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        Optional<UID> owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        visitor.Panel(owner, uid);
+      }
+    };
+    parsers.put(Panel.XML_NAME, parser);
     /** {@link Wire} */
     parser = new ElementParser() {
       @Override
