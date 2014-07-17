@@ -108,7 +108,7 @@ public interface LVPropertyCast<T> {
   public static final LVPropertyCast<VIPath> castVIPath = new LVPropertyCast<VIPath>() {
     @Override
     public VIPath get(Object value) {
-      return new VIPath(castString.get(value));
+      return new VIPath(castRaw.get(value));
     }
   };
 

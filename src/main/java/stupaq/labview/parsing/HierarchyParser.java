@@ -206,12 +206,7 @@ public class HierarchyParser {
         boolean isIndicator = Control.IsIndicator.get(p);
         int style = Control.Style.get(p);
         Optional<Integer> representation = Control.Representation.get(p);
-        // TODO
-        if (style == 21003) {
-          visitor.Numeric(owner, uid, label, terminal, isIndicator, style, representation);
-        } else {
-          visitor.Cluster(owner, uid, label, terminal, isIndicator, style);
-        }
+        visitor.Control(owner, uid, label, terminal, isIndicator, style, representation);
       }
     };
     parsers.put(Control.NUMERIC_XML_NAME, parser);

@@ -1,12 +1,17 @@
 package stupaq.labview.scripting;
 
 import com.google.common.base.Optional;
+import com.google.common.base.StandardSystemProperty;
 import com.google.common.collect.Maps;
+
+import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+
+import javax.xml.bind.JAXBException;
 
 import stupaq.labview.VIPath;
 import stupaq.labview.hierarchy.Bundler;
@@ -28,11 +33,14 @@ import stupaq.labview.hierarchy.Terminal;
 import stupaq.labview.hierarchy.Unbundler;
 import stupaq.labview.hierarchy.VI;
 import stupaq.labview.hierarchy.WhileLoop;
+import stupaq.labview.parsing.PrintingVisitor;
 import stupaq.labview.scripting.activex.ActiveXScriptingTools;
+import stupaq.labview.scripting.fake.FakeScriptingTools;
 import stupaq.labview.scripting.tools.ConnectorPanePattern;
 
 import static com.google.common.base.Optional.of;
 import static java.util.Collections.singletonMap;
+import static stupaq.labview.parsing.HierarchyParser.visitVI;
 import static stupaq.labview.scripting.tools.ArithmeticMode.ADD;
 import static stupaq.labview.scripting.tools.ArithmeticMode.AND;
 import static stupaq.labview.scripting.tools.ArithmeticMode.MULTIPLY;
@@ -52,30 +60,69 @@ public class Demos {
 
   public Demos(Path dir) throws IOException {
     this.dir = dir;
-    Files.createDirectories(dir);
+    if (!Files.exists(dir)) {
+      Files.createDirectories(dir);
+    }
     // Initialise scripting tools and COM bridge (LabVIEW must be available at this point).
-    tools = new ActiveXScriptingTools();
+    if (StandardSystemProperty.OS_NAME.value().toLowerCase().contains("windows")) {
+      tools = new ActiveXScriptingTools();
+    } else {
+      tools = new FakeScriptingTools();
+    }
   }
 
   private VIPath overwrite(String name) throws IOException {
-    VIPath path = new VIPath(dir, name.endsWith(".vi") ? name : name + ".vi");
+    VIPath path = resolve(name);
     Files.deleteIfExists(path.path());
     return path;
   }
 
-  public void demoAll() throws IOException {
-    demoFormula();
-    demoControlAndIndicator();
-    demoSubVI();
-    demoControlAndIndicatorArray();
-    demoControlAndIndicatorClusters();
-    demoRingConstant();
-    demoCompoundArithmetic();
-    demoBundle();
-    demoLoop();
+  private VIPath resolve(String name) {
+    return new VIPath(dir, name.endsWith(".vi") ? name : name + ".vi");
   }
 
-  public void demoFormula() throws IOException {
+  public void writeAll() throws IOException {
+    writeFormula();
+    writeControlAndIndicator();
+    writeSubVI();
+    writeControlAndIndicatorArray();
+    writeControlAndIndicatorClusters();
+    writeRingConstant();
+    writeCompoundArithmetic();
+    writeBundle();
+    writeLoop();
+  }
+
+  public void readAll() throws IOException, JAXBException, SAXException {
+    readFormula();
+    readControlAndIndicator();
+    readSubVI();
+    readControlAndIndicatorArray();
+    readControlAndIndicatorClusters();
+    readRingConstant();
+    readCompoundArithmetic();
+    readBundle();
+    readLoop();
+  }
+
+  public void readControlAndIndicatorClusters() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("control_and_indicator_clusters"), PrintingVisitor.create());
+  }
+
+  public void readControlAndIndicatorArray() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("control_and_indicator_arrays"), PrintingVisitor.create());
+  }
+
+  public void readSubVI() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("sub_vi_other_vi"), PrintingVisitor.create());
+    visitVI(tools, resolve("sub_vi_the_vi"), PrintingVisitor.create());
+  }
+
+  public void readControlAndIndicator() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("control_and_indicator"), PrintingVisitor.create());
+  }
+
+  public void writeFormula() throws IOException {
     VI vi = new VI(tools, overwrite("formula"), ConnectorPanePattern.P4800);
     // Create a few formula nodes.
     Formula f1 = new InlineCNode(vi, "inline C node", of("label of inline c node"));
@@ -101,7 +148,11 @@ public class Demos {
     vi.cleanUpDiagram();
   }
 
-  public void demoControlAndIndicator() throws IOException {
+  public void readFormula() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("formula"), PrintingVisitor.create());
+  }
+
+  public void writeControlAndIndicator() throws IOException {
     VI vi = new VI(tools, overwrite("control_and_indicator"), ConnectorPanePattern.P4835);
     // Create some controls.
     Control c0 = new Control(vi, BOOLEAN, of("boolean control -> 0"), 0);
@@ -118,7 +169,7 @@ public class Demos {
     vi.cleanUpDiagram();
   }
 
-  public void demoSubVI() throws IOException {
+  public void writeSubVI() throws IOException {
     // Create sub VI.
     VIPath subViPath = overwrite("sub_vi_other_vi");
     VI sub = new VI(tools, subViPath, ConnectorPanePattern.P4801);
@@ -139,7 +190,7 @@ public class Demos {
     vi.cleanUpDiagram();
   }
 
-  public void demoControlAndIndicatorArray() throws IOException {
+  public void writeControlAndIndicatorArray() throws IOException {
     VI vi = new VI(tools, overwrite("control_and_indicator_arrays"), ConnectorPanePattern.P4800);
     /// Create some controls.
     ControlArray c0 = new ControlArray(vi, 1, BOOLEAN, of("boolean control 1"), DO_NOT_CONNECT);
@@ -159,7 +210,7 @@ public class Demos {
     vi.cleanUpDiagram();
   }
 
-  public void demoControlAndIndicatorClusters() throws IOException {
+  public void writeControlAndIndicatorClusters() throws IOException {
     VI vi = new VI(tools, overwrite("control_and_indicator_clusters"), ConnectorPanePattern.P4800);
     /// Create some controls.
     ControlCluster c1 = new ControlCluster(vi, of("control 2"), DO_NOT_CONNECT);
@@ -174,7 +225,7 @@ public class Demos {
     vi.cleanUpDiagram();
   }
 
-  public void demoRingConstant() throws IOException {
+  public void writeRingConstant() throws IOException {
     VI vi = new VI(tools, overwrite("ring_constant"), ConnectorPanePattern.P4800);
     /// Create some constants.
     new RingConstant(vi, singletonMap("string for 0", 0), I32, of("ring constant"));
@@ -186,7 +237,11 @@ public class Demos {
     vi.cleanUpDiagram();
   }
 
-  public void demoCompoundArithmetic() throws IOException {
+  public void readRingConstant() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("ring_constant"), PrintingVisitor.create());
+  }
+
+  public void writeCompoundArithmetic() throws IOException {
     VI vi = new VI(tools, overwrite("compound_arithmetic"), ConnectorPanePattern.P4800);
     // This is necessary to establish type.
     RingConstant r1 = new RingConstant(vi, singletonMap("value", 0), I32, NO_LABEL);
@@ -206,7 +261,11 @@ public class Demos {
     vi.cleanUpDiagram();
   }
 
-  public void demoBundle() throws IOException {
+  public void readCompoundArithmetic() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("compound_arithmetic"), PrintingVisitor.create());
+  }
+
+  public void writeBundle() throws IOException {
     VI vi = new VI(tools, overwrite("bundle"), ConnectorPanePattern.P4800);
     // This is necessary to establish type.
     RingConstant r1 = new RingConstant(vi, singletonMap("value", 0), I32, NO_LABEL);
@@ -229,7 +288,11 @@ public class Demos {
     vi.cleanUpDiagram();
   }
 
-  public void demoLoop() throws IOException {
+  public void readBundle() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("bundler"), PrintingVisitor.create());
+  }
+
+  public void writeLoop() throws IOException {
     VI vi = new VI(tools, overwrite("loop"), ConnectorPanePattern.P4800);
     // Create loops.
     WhileLoop l1 = new WhileLoop(vi, of("while loop"));
@@ -265,5 +328,9 @@ public class Demos {
     r2.outer().connectTo(i2.terminal());
     // Cleanup diagram for inspection.
     vi.cleanUpDiagram();
+  }
+
+  public void readLoop() throws IOException, JAXBException, SAXException {
+    visitVI(tools, resolve("loop"), PrintingVisitor.create());
   }
 }

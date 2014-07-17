@@ -26,11 +26,8 @@ public interface HierarchyVisitor {
 
   public void Unbundler(Optional<UID> owner, UID uid, List<UID> terms);
 
-  public void Numeric(Optional<UID> owner, UID uid, Optional<String> label, UID terminal,
+  public void Control(Optional<UID> owner, UID uid, Optional<String> label, UID terminal,
       boolean isIndicator, int style, Optional<Integer> representation);
-
-  public void Cluster(Optional<UID> owner, UID uid, Optional<String> label, UID terminal,
-      boolean isIndicator, int style);
 
   public void RingConstant(Optional<UID> owner, UID uid, UID terminal,
       Map<String, Object> stringsAndValues);

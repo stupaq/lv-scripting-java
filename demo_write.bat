@@ -2,7 +2,7 @@
 
 %JAVA_HOME%\bin\java.exe ^
   -cp config;target\classes;target\dependency\* ^
-  -Dscripting.tools.path=lv-scripting demo_read ^
+  -Dscripting.tools.path=lv-scripting demo_write ^
   %target_dir%
 
 @PAUSE
