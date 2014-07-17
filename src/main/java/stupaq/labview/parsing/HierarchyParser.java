@@ -37,7 +37,9 @@ import stupaq.labview.VIPath;
 import stupaq.labview.hierarchy.Bundler;
 import stupaq.labview.hierarchy.CompoundArithmetic;
 import stupaq.labview.hierarchy.Control;
+import stupaq.labview.hierarchy.ControlArray;
 import stupaq.labview.hierarchy.ControlCluster;
+import stupaq.labview.hierarchy.Diagram;
 import stupaq.labview.hierarchy.Formula;
 import stupaq.labview.hierarchy.FormulaNode;
 import stupaq.labview.hierarchy.GObject;
@@ -123,6 +125,16 @@ public class HierarchyParser {
   private static Map<String, ElementParser> createParsers(final HierarchyVisitor visitor) {
     ElementParser parser;
     Map<String, ElementParser> parsers = Maps.newLinkedHashMap();
+    /** {@link Diagram} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        Optional<UID> owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        visitor.Diagram(owner, uid);
+      }
+    };
+    parsers.put(Diagram.XML_NAME, parser);
     /** {@link Wire} */
     parser = new ElementParser() {
       @Override
@@ -211,6 +223,7 @@ public class HierarchyParser {
     };
     parsers.put(Control.NUMERIC_XML_NAME, parser);
     parsers.put(ControlCluster.XML_NAME, parser);
+    parsers.put(ControlArray.XML_NAME, parser);
     /** {@link RingConstant} */
     parser = new ElementParser() {
       @Override

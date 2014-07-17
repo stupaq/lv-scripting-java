@@ -8,6 +8,8 @@ import stupaq.labview.scripting.tools.ControlArrayCreate;
 import stupaq.labview.scripting.tools.ControlStyle;
 
 public class ControlArray extends Control {
+  public static final String XML_NAME = "Array";
+
   public ControlArray(Generic owner, int dimensions, ControlStyle style, Optional<String> label,
       int connPaneIndex) {
     super(owner, owner.scriptingTools()

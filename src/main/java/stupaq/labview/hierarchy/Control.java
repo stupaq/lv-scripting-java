@@ -2,7 +2,7 @@ package stupaq.labview.hierarchy;
 
 import com.google.common.base.Optional;
 
-import com.ni.labview.ClusterType;
+import com.ni.labview.ELType;
 
 import java.util.Map.Entry;
 
@@ -27,9 +27,8 @@ public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
           if (value == null) {
             return Optional.absent();
           } else {
-            ClusterType cluster = (ClusterType) value;
-            return Optional.of(
-                castInteger.get(cluster.getI8OrI16OrI32().get(cluster.getNumElts() - 1)));
+            String rep = ((ELType) value).getVal();
+            return rep.isEmpty() ? Optional.<Integer>absent() : Optional.of(Integer.valueOf(rep));
           }
         }
       });
