@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -105,9 +104,8 @@ public class VIElementsParser {
 
   private static Reader openVIXML(ScriptingTools tools, VIPath viPath)
       throws FileNotFoundException {
-    Path path = viPath.path();
-    File viFile = path.toFile();
-    File xmlFile = path.resolveSibling(path.getFileName() + ".xml").toFile();
+    File viFile = viPath.path().toFile();
+    File xmlFile = viPath.path().resolveSibling(viPath.getFileName() + ".xml").toFile();
     if (xmlFile.exists() && xmlFile.lastModified() > viFile.lastModified()) {
       LOGGER.debug("Reading XML from file cache: {}", xmlFile.getPath());
       return new FileReader(xmlFile);

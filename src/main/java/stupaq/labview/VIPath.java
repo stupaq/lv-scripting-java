@@ -9,10 +9,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class VIPath implements ActiveXType {
+  public static final String VI_EXTENSION = ".vi";
   private final Path path;
 
   public VIPath(Path path) {
     Preconditions.checkNotNull(path);
+    Preconditions.checkArgument(path.toString().endsWith(VI_EXTENSION), "Bad extension: %s", path);
     this.path = path;
   }
 
@@ -21,12 +23,7 @@ public class VIPath implements ActiveXType {
   }
 
   public VIPath(String path) {
-    Preconditions.checkNotNull(path);
-    this.path = Paths.get(path);
-  }
-
-  public Path path() {
-    return path;
+    this(Paths.get(path));
   }
 
   @Override
@@ -48,5 +45,22 @@ public class VIPath implements ActiveXType {
   @Override
   public Variant toVariant() {
     return new Variant(path.toAbsolutePath().toString());
+  }
+
+  public String getBaseName() {
+    Path fileName = getFileName();
+    if (fileName == null) {
+      return null;
+    }
+    String name = fileName.toString();
+    return name.substring(0, name.length() - VI_EXTENSION.length());
+  }
+
+  public Path path() {
+    return path;
+  }
+
+  public Path getFileName() {
+    return path.getFileName();
   }
 }

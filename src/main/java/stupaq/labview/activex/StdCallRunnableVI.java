@@ -35,7 +35,7 @@ public class StdCallRunnableVI extends ActiveXRunnableVI {
 
   public Variant stdCall(Variant... args) throws VIErrorException {
     if (CALL_TRACE.isTraceEnabled()) {
-      StringBuilder message = new StringBuilder(getVIPath().path().getFileName().toString());
+      StringBuilder message = new StringBuilder(getVIPath().getBaseName());
       boolean isFirst = true;
       for (Variant arg : args) {
         message.append(isFirst ? "(" : ", ").append(arg.toJavaObject());
