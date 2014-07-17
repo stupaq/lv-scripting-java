@@ -8,7 +8,7 @@ import java.util.Map;
 import stupaq.labview.UID;
 import stupaq.labview.VIPath;
 
-public interface HierarchyVisitor {
+public interface VIElementsVisitor {
 
   public void Diagram(Optional<UID> owner, UID uid);
 

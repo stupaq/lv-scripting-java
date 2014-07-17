@@ -57,19 +57,19 @@ import stupaq.labview.scripting.tools.ReadVI;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
-public class HierarchyParser {
+public class VIElementsParser {
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
-  private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyParser.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(VIElementsParser.class);
 
-  private HierarchyParser() {
+  private VIElementsParser() {
   }
 
-  public static void visitVI(ScriptingTools tools, VIPath viPath, HierarchyVisitor visitor)
-      throws JAXBException, SAXException, IOException {
+  public static void visitVI(ScriptingTools tools, VIPath viPath, VIElementsVisitor visitor)
+  throws JAXBException, SAXException, IOException {
     visitVI(parseVI(tools, viPath), visitor);
   }
 
-  public static void visitVI(VIDump root, HierarchyVisitor visitor) {
+  public static void visitVI(VIDump root, VIElementsVisitor visitor) {
     Map<String, ElementList> lists = Maps.newHashMap();
     for (ElementList objects : root.getArray()) {
       if (!objects.getCluster().isEmpty() && objects.getDimsize() > 0) {
@@ -95,7 +95,7 @@ public class HierarchyParser {
       throws IOException, SAXException, JAXBException {
     try (Reader xmlReader = openVIXML(tools, viPath)) {
       Schema schema = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI)
-          .newSchema(HierarchyParser.class.getResource(XML_SCHEMA_RESOURCE));
+          .newSchema(VIElementsParser.class.getResource(XML_SCHEMA_RESOURCE));
       Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
       unmarshaller.setSchema(schema);
       return ((JAXBElement<VIDump>) unmarshaller.unmarshal(xmlReader)).getValue();
@@ -122,7 +122,7 @@ public class HierarchyParser {
     }
   }
 
-  private static Map<String, ElementParser> createParsers(final HierarchyVisitor visitor) {
+  private static Map<String, ElementParser> createParsers(final VIElementsVisitor visitor) {
     ElementParser parser;
     Map<String, ElementParser> parsers = Maps.newLinkedHashMap();
     /** {@link Diagram} */

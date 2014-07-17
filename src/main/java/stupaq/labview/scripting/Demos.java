@@ -40,7 +40,7 @@ import stupaq.labview.scripting.tools.ConnectorPanePattern;
 
 import static com.google.common.base.Optional.of;
 import static java.util.Collections.singletonMap;
-import static stupaq.labview.parsing.HierarchyParser.visitVI;
+import static stupaq.labview.parsing.VIElementsParser.visitVI;
 import static stupaq.labview.scripting.tools.ArithmeticMode.ADD;
 import static stupaq.labview.scripting.tools.ArithmeticMode.AND;
 import static stupaq.labview.scripting.tools.ArithmeticMode.MULTIPLY;
