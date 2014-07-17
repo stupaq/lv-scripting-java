@@ -5,6 +5,7 @@ import com.google.common.base.Optional;
 import stupaq.labview.UID;
 import stupaq.labview.VIPath;
 import stupaq.labview.parsing.LVProperty;
+import stupaq.labview.parsing.LVPropertyCast;
 import stupaq.labview.scripting.ScriptingTools;
 
 import static stupaq.labview.parsing.LVProperty.Cast;
@@ -13,7 +14,14 @@ import static stupaq.labview.parsing.LVPropertyCast.castString;
 
 public abstract class Generic {
   public static final LVProperty<String> ClassName = Cast("ClassName", castString);
-  public static final LVProperty<Optional<stupaq.labview.UID>> Owner = Cast("Owner", castOwner);
+  public static final LVProperty<Optional<UID>> OwnerOptional = Cast("Owner", castOwner);
+  public static final LVProperty<stupaq.labview.UID> Owner =
+      Cast("Owner", new LVPropertyCast<UID>() {
+        @Override
+        public UID get(Object value) {
+          return castOwner.get(value).get();
+        }
+      });
 
   public abstract Optional<UID> uid();
 

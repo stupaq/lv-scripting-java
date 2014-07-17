@@ -32,6 +32,7 @@ public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
           }
         }
       });
+  public static final LVProperty<Integer> ControlIndex = Cast("ControlIndex", castInteger);
 
   public Control(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex) {
     super(owner, owner.scriptingTools()

@@ -14,27 +14,27 @@ public interface VIElementsVisitor {
 
   public void Panel(Optional<UID> owner, UID uid);
 
-  public void Wire(Optional<UID> ownerUID, UID uid, Optional<String> label);
+  public void Terminal(UID owner, UID uid, UID wire, boolean isSource, String name);
 
-  public void Terminal(Optional<UID> owner, UID uid, UID wire, boolean isSource, String name);
+  public void Wire(UID ownerUID, UID uid, Optional<String> label);
 
-  public void InlineCNode(Optional<UID> ownerUID, UID uid, String expression,
+  public void InlineCNode(UID ownerUID, UID uid, String expression,
       Optional<String> label, List<UID> terms);
 
-  public void FormulaNode(Optional<UID> ownerUID, UID uid, String expression,
+  public void FormulaNode(UID ownerUID, UID uid, String expression,
       Optional<String> label, List<UID> terms);
 
-  public void CompoundArithmetic(Optional<UID> owner, UID uid, List<UID> terms);
+  public void CompoundArithmetic(UID owner, UID uid, List<UID> terms);
 
-  public void Bundler(Optional<UID> owner, UID uid, List<UID> terms);
+  public void Bundler(UID owner, UID uid, List<UID> terms);
 
-  public void Unbundler(Optional<UID> owner, UID uid, List<UID> terms);
+  public void Unbundler(UID owner, UID uid, List<UID> terms);
 
-  public void Control(Optional<UID> owner, UID uid, Optional<String> label, UID terminal,
-      boolean isIndicator, int style, Optional<Integer> representation);
+  public void Control(UID owner, UID uid, Optional<String> label, UID terminal, boolean isIndicator,
+      int style, Optional<Integer> representation, int controlIndex);
 
-  public void RingConstant(Optional<UID> owner, UID uid, UID terminal,
+  public void RingConstant(UID owner, UID uid, UID terminal,
       Map<String, Object> stringsAndValues);
 
-  public void SubVI(Optional<UID> owner, UID uid, List<UID> terms, VIPath viPath);
+  public void SubVI(UID owner, UID uid, List<UID> terms, VIPath viPath);
 }

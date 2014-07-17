@@ -57,11 +57,11 @@ import stupaq.labview.scripting.tools.ReadVI;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
-public class VIElementsParser {
+public class VIParser {
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
-  private static final Logger LOGGER = LoggerFactory.getLogger(VIElementsParser.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(VIParser.class);
 
-  private VIElementsParser() {
+  private VIParser() {
   }
 
   public static void visitVI(ScriptingTools tools, VIPath viPath, VIElementsVisitor visitor)
@@ -95,7 +95,7 @@ public class VIElementsParser {
       throws IOException, SAXException, JAXBException {
     try (Reader xmlReader = openVIXML(tools, viPath)) {
       Schema schema = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI)
-          .newSchema(VIElementsParser.class.getResource(XML_SCHEMA_RESOURCE));
+          .newSchema(VIParser.class.getResource(XML_SCHEMA_RESOURCE));
       Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
       unmarshaller.setSchema(schema);
       return ((JAXBElement<VIDump>) unmarshaller.unmarshal(xmlReader)).getValue();
@@ -128,7 +128,7 @@ public class VIElementsParser {
     parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
-        Optional<UID> owner = Generic.Owner.get(p);
+        Optional<UID> owner = Generic.OwnerOptional.get(p);
         UID uid = GObject.UID.get(p);
         visitor.Diagram(owner, uid);
       }
@@ -137,28 +137,17 @@ public class VIElementsParser {
     parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
-        Optional<UID> owner = Generic.Owner.get(p);
+        Optional<UID> owner = Generic.OwnerOptional.get(p);
         UID uid = GObject.UID.get(p);
         visitor.Panel(owner, uid);
       }
     };
     parsers.put(Panel.XML_NAME, parser);
-    /** {@link Wire} */
-    parser = new ElementParser() {
-      @Override
-      public void parse(Element element, ElementProperties p) {
-        Optional<UID> owner = Generic.Owner.get(p);
-        UID uid = GObject.UID.get(p);
-        Optional<String> label = GObject.Label.get(p);
-        visitor.Wire(owner, uid, label);
-      }
-    };
-    parsers.put(Wire.XML_NAME, parser);
     /** {@link Terminal} */
     parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
-        Optional<UID> owner = Generic.Owner.get(p);
+        UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         UID wire = Terminal.Wire.get(p);
         boolean isSource = Terminal.IsSource.get(p);
@@ -167,12 +156,23 @@ public class VIElementsParser {
       }
     };
     parsers.put(Terminal.XML_NAME, parser);
+    /** {@link Wire} */
+    parser = new ElementParser() {
+      @Override
+      public void parse(Element element, ElementProperties p) {
+        UID owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        Optional<String> label = GObject.Label.get(p);
+        visitor.Wire(owner, uid, label);
+      }
+    };
+    parsers.put(Wire.XML_NAME, parser);
     /** {@link Formula} */
     parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
         String className = Generic.ClassName.get(p);
-        Optional<UID> owner = Generic.Owner.get(p);
+        UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         Optional<String> label = GObject.Label.get(p);
         String expression = Formula.Expression.get(p);
@@ -194,7 +194,7 @@ public class VIElementsParser {
       @Override
       public void parse(Element element, ElementProperties p) {
         String className = Generic.ClassName.get(p);
-        Optional<UID> owner = Generic.Owner.get(p);
+        UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         List<UID> terms = Node.Terminals.get(p);
         Verify.verify(!terms.isEmpty());
@@ -219,14 +219,16 @@ public class VIElementsParser {
       @Override
       public void parse(Element element, ElementProperties p) {
         String className = Generic.ClassName.get(p);
-        Optional<UID> owner = Generic.Owner.get(p);
+        UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         Optional<String> label = GObject.Label.get(p);
         UID terminal = Node.Terminal.get(p);
         boolean isIndicator = Control.IsIndicator.get(p);
         int style = Control.Style.get(p);
         Optional<Integer> representation = Control.Representation.get(p);
-        visitor.Control(owner, uid, label, terminal, isIndicator, style, representation);
+        int controlIndex = Control.ControlIndex.get(p);
+        visitor.Control(owner, uid, label, terminal, isIndicator, style, representation,
+            controlIndex);
       }
     };
     parsers.put(Control.NUMERIC_XML_NAME, parser);
@@ -236,7 +238,7 @@ public class VIElementsParser {
     parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
-        Optional<UID> owner = Generic.Owner.get(p);
+        UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         UID terminal = Node.Terminal.get(p);
         Map<String, Object> stringsAndValues = RingConstant.StringsAndValues.get(p);
@@ -248,7 +250,7 @@ public class VIElementsParser {
     parser = new ElementParser() {
       @Override
       public void parse(Element element, ElementProperties p) {
-        Optional<UID> owner = Generic.Owner.get(p);
+        UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         List<UID> terms = Node.Terminals.get(p);
         VIPath viPath = SubVI.ViPath.get(p);
