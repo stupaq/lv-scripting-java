@@ -90,7 +90,7 @@ public class HierarchyParser {
 
   @SuppressWarnings("unchecked")
   public static VIDump parseVI(ScriptingTools tools, stupaq.labview.VIPath viPath)
-  throws IOException, SAXException, JAXBException {
+      throws IOException, SAXException, JAXBException {
     try (Reader xmlReader = openVIXML(tools, viPath)) {
       Schema schema = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI)
           .newSchema(HierarchyParser.class.getResource(XML_SCHEMA_RESOURCE));

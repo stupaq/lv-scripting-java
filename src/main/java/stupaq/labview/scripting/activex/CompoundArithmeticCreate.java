@@ -1,6 +1,7 @@
 package stupaq.labview.scripting.activex;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Verify;
 import com.google.common.collect.Lists;
 
 import com.jacob.com.SafeArray;
@@ -30,6 +31,7 @@ class CompoundArithmeticCreate extends ActiveXScriptingTool
     for (int term : terminals.toIntArray()) {
       terminals1.add(new UID(term));
     }
+    Verify.verify(terminals1.size() == inputs + 1);
     return new SimpleImmutableEntry<>(new UID(result.getVariant(0)), terminals1);
   }
 }

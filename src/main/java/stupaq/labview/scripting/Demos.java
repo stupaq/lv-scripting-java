@@ -289,7 +289,7 @@ public class Demos {
   }
 
   public void readBundle() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("bundler"), PrintingVisitor.create());
+    visitVI(tools, resolve("bundle"), PrintingVisitor.create());
   }
 
   public void writeLoop() throws IOException {
