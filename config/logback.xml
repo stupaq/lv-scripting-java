@@ -5,6 +5,14 @@
         </encoder>
     </appender>
 
+    <logger name="stupaq.labview.activex.StdCallRunnableVI" level="ALL" additivity="false">
+        <appender class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>-- %-5level | %msg%n</pattern>
+            </encoder>
+        </appender>
+    </logger>
+
     <root level="ALL">
         <appender-ref ref="STDOUT"/>
     </root>

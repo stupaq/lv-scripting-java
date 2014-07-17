@@ -18,7 +18,7 @@ public class StdCallRunnableVI extends ActiveXRunnableVI {
   public static final String ERR_CODE_CONTROL = "__errCode";
   public static final String ERR_SOURCE_CONTROL = "__errSource";
   public static final String RETURN_CONTROL = "__return";
-  private static final Logger STD_CALL_TRACE = LoggerFactory.getLogger("STD_CALL_TRACE");
+  private static final Logger CALL_TRACE = LoggerFactory.getLogger(StdCallRunnableVI.class);
 
   public StdCallRunnableVI(ActiveXApplication application, VIPath viPath) {
     super(application, viPath);
@@ -34,7 +34,7 @@ public class StdCallRunnableVI extends ActiveXRunnableVI {
   }
 
   public Variant stdCall(Variant... args) throws VIErrorException {
-    if (STD_CALL_TRACE.isDebugEnabled()) {
+    if (CALL_TRACE.isTraceEnabled()) {
       StringBuilder message = new StringBuilder(getVIPath().path().getFileName().toString());
       boolean isFirst = true;
       for (Variant arg : args) {
@@ -42,7 +42,7 @@ public class StdCallRunnableVI extends ActiveXRunnableVI {
         isFirst = false;
       }
       message.append(")");
-      STD_CALL_TRACE.debug(message.toString());
+      CALL_TRACE.trace(message.toString());
     }
     SafeArray args1 = new SafeArray(Variant.VariantVariant, args.length);
     args1.fromVariantArray(args);
