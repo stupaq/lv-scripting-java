@@ -28,9 +28,11 @@ public class PrintingVisitor {
   private PrintingVisitor() {
   }
 
-  public static VIElementsVisitor create() {
-    return (VIElementsVisitor) Proxy.newProxyInstance(PrintingVisitor.class.getClassLoader(),
-        new Class[]{VIElementsVisitor.class}, new InvocationHandler() {
+  @SuppressWarnings("unchecked")
+  public static VIElementsVisitor<RuntimeException> create() {
+    return (VIElementsVisitor<RuntimeException>) Proxy.newProxyInstance(
+        PrintingVisitor.class.getClassLoader(), new Class[]{VIElementsVisitor.class},
+        new InvocationHandler() {
           @Override
           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             LOGGER.trace("{}({})", method.getName(),

@@ -64,12 +64,13 @@ public class VIParser {
   private VIParser() {
   }
 
-  public static void visitVI(ScriptingTools tools, VIPath viPath, VIElementsVisitor visitor)
-      throws JAXBException, SAXException, IOException {
+  public static <E extends Exception> void visitVI(ScriptingTools tools, VIPath viPath,
+      VIElementsVisitor<E> visitor) throws JAXBException, SAXException, IOException, E {
     visitVI(parseVI(tools, viPath), visitor);
   }
 
-  public static void visitVI(VIDump root, VIElementsVisitor visitor) {
+  public static <E extends Exception> void visitVI(VIDump root, VIElementsVisitor<E> visitor)
+      throws E {
     Map<String, ElementList> lists = Maps.newHashMap();
     for (ElementList objects : root.getArray()) {
       if (!objects.getCluster().isEmpty() && objects.getDimsize() > 0) {
@@ -79,8 +80,8 @@ public class VIParser {
         lists.put(name, objects);
       }
     }
-    Map<String, ElementParser> parsers = createParsers(visitor);
-    for (Entry<String, ElementParser> entry : parsers.entrySet()) {
+    Map<String, ElementParser<E>> parsers = createParsers(visitor);
+    for (Entry<String, ElementParser<E>> entry : parsers.entrySet()) {
       ElementList list = lists.get(entry.getKey());
       if (list != null) {
         for (Element object : list.getCluster()) {
@@ -121,22 +122,24 @@ public class VIParser {
     }
   }
 
-  private static Map<String, ElementParser> createParsers(final VIElementsVisitor visitor) {
-    ElementParser parser;
-    Map<String, ElementParser> parsers = Maps.newLinkedHashMap();
+  private static <E extends Exception> Map<String, ElementParser<E>> createParsers(
+      final VIElementsVisitor<E> visitor) {
+    ElementParser<E> parser;
+    Map<String, ElementParser<E>> parsers = Maps.newLinkedHashMap();
     /** {@link Diagram} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
+      public void parse(Element element, ElementProperties p) throws E {
         Optional<UID> owner = Generic.OwnerOptional.get(p);
         UID uid = GObject.UID.get(p);
         visitor.Diagram(owner, uid);
       }
     };
+    parsers.put(Diagram.XML_NAME, parser);
     /** {@link Panel} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
+      public void parse(Element element, ElementProperties p) throws E {
         Optional<UID> owner = Generic.OwnerOptional.get(p);
         UID uid = GObject.UID.get(p);
         visitor.Panel(owner, uid);
@@ -144,9 +147,9 @@ public class VIParser {
     };
     parsers.put(Panel.XML_NAME, parser);
     /** {@link Terminal} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
+      public void parse(Element element, ElementProperties p) throws E {
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         UID wire = Terminal.Wire.get(p);
@@ -157,9 +160,9 @@ public class VIParser {
     };
     parsers.put(Terminal.XML_NAME, parser);
     /** {@link Wire} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
+      public void parse(Element element, ElementProperties p) throws E {
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         Optional<String> label = GObject.Label.get(p);
@@ -168,9 +171,9 @@ public class VIParser {
     };
     parsers.put(Wire.XML_NAME, parser);
     /** {@link Formula} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
+      public void parse(Element element, ElementProperties p) throws E {
         String className = Generic.ClassName.get(p);
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
@@ -190,9 +193,9 @@ public class VIParser {
     parsers.put(InlineCNode.XML_NAME, parser);
     parsers.put(FormulaNode.XML_NAME, parser);
     /** {@link GrowableFunction} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
+      public void parse(Element element, ElementProperties p) throws E {
         String className = Generic.ClassName.get(p);
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
@@ -215,10 +218,9 @@ public class VIParser {
     parsers.put(Bundler.XML_NAME, parser);
     parsers.put(Unbundler.XML_NAME, parser);
     /** {@link Control} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
-        String className = Generic.ClassName.get(p);
+      public void parse(Element element, ElementProperties p) throws E {
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         Optional<String> label = GObject.Label.get(p);
@@ -232,12 +234,14 @@ public class VIParser {
       }
     };
     parsers.put(Control.NUMERIC_XML_NAME, parser);
+    parsers.put(Control.STRING_XML_NAME, parser);
+    parsers.put(Control.VARIANT_XML_NAME, parser);
     parsers.put(ControlCluster.XML_NAME, parser);
     parsers.put(ControlArray.XML_NAME, parser);
     /** {@link RingConstant} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
+      public void parse(Element element, ElementProperties p) throws E {
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         UID terminal = Node.Terminal.get(p);
@@ -247,9 +251,9 @@ public class VIParser {
     };
     parsers.put(RingConstant.XML_NAME, parser);
     /** {@link SubVI} */
-    parser = new ElementParser() {
+    parser = new ElementParser<E>() {
       @Override
-      public void parse(Element element, ElementProperties p) {
+      public void parse(Element element, ElementProperties p) throws E {
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         List<UID> terms = Node.Terminals.get(p);

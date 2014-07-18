@@ -18,6 +18,8 @@ import static stupaq.labview.parsing.LVPropertyCast.castInteger;
 
 public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
   public static final String NUMERIC_XML_NAME = "Numeric";
+  public static final String STRING_XML_NAME = "String";
+  public static final String VARIANT_XML_NAME = "Variant";
   public static final LVProperty<Boolean> IsIndicator = Cast("Indicator", castBoolean);
   public static final LVProperty<Integer> Style = Cast("Style", castInteger);
   public static final LVProperty<Optional<Integer>> Representation =
