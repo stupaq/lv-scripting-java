@@ -33,8 +33,8 @@ public interface VIElementsVisitor<E extends Exception> {
   public void Control(UID owner, UID uid, Optional<String> label, UID terminal, boolean isIndicator,
       int style, Optional<Integer> representation, int controlIndex) throws E;
 
-  public void RingConstant(UID owner, UID uid, UID terminal, Map<String, Object> stringsAndValues)
-      throws E;
+  public void RingConstant(UID owner, UID uid, Optional<String> label, UID terminal,
+      Map<String, Object> stringsAndValues) throws E;
 
   public void SubVI(UID owner, UID uid, List<UID> terms, VIPath viPath) throws E;
 }

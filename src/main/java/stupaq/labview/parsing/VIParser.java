@@ -244,9 +244,10 @@ public class VIParser {
       public void parse(Element element, ElementProperties p) throws E {
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
+        Optional<String> label = GObject.Label.get(p);
         UID terminal = Node.Terminal.get(p);
         Map<String, Object> stringsAndValues = RingConstant.StringsAndValues.get(p);
-        visitor.RingConstant(owner, uid, terminal, stringsAndValues);
+        visitor.RingConstant(owner, uid, label, terminal, stringsAndValues);
       }
     };
     parsers.put(RingConstant.XML_NAME, parser);
