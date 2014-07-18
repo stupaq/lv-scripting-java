@@ -1,20 +1,28 @@
 package stupaq.labview.parsing;
 
-public final class LVProperty<T> {
-  private final String name;
-  private final LVPropertyCast<T> cast;
-
-  private LVProperty(String name, LVPropertyCast<T> cast) {
-    this.name = name;
-    this.cast = cast;
+public abstract class LVProperty<T> {
+  protected LVProperty() {
   }
+
+  public abstract T get(ElementProperties properties);
 
   public static <T> LVProperty<T> Cast(String name, LVPropertyCast<T> cast) {
-    return new LVProperty<>(name, cast);
+    return new LVNamedProperty<>(name, cast);
   }
 
-  public T get(ElementProperties properties) {
-    return cast.get(properties.get(name));
+  private static final class LVNamedProperty<P> extends LVProperty<P> {
+    private final String name;
+    private final LVPropertyCast<P> cast;
+
+    public LVNamedProperty(String name, LVPropertyCast<P> cast) {
+      this.name = name;
+      this.cast = cast;
+    }
+
+    @Override
+    public P get(ElementProperties properties) {
+      return cast.get(properties.get(name));
+    }
   }
 }
 
