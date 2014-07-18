@@ -236,7 +236,34 @@ public class VIParser {
     parsers.put(Control.NUMERIC_XML_NAME, parser);
     parsers.put(Control.STRING_XML_NAME, parser);
     parsers.put(Control.VARIANT_XML_NAME, parser);
+    /** {@link ControlCluster} */
+    parser = new ElementParser<E>() {
+      @Override
+      public void parse(Element element, ElementProperties p) throws E {
+        UID owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        Optional<String> label = GObject.Label.get(p);
+        UID terminal = Node.Terminal.get(p);
+        boolean isIndicator = Control.IsIndicator.get(p);
+        int controlIndex = Control.ControlIndex.get(p);
+        List<UID> controls = ControlCluster.Controls.get(p);
+        visitor.ControlCluster(owner, uid, label, terminal, isIndicator, controlIndex, controls);
+      }
+    };
     parsers.put(ControlCluster.XML_NAME, parser);
+    /** {@link ControlArray} */
+    parser = new ElementParser<E>() {
+      @Override
+      public void parse(Element element, ElementProperties p) throws E {
+        UID owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        Optional<String> label = GObject.Label.get(p);
+        UID terminal = Node.Terminal.get(p);
+        boolean isIndicator = Control.IsIndicator.get(p);
+        int controlIndex = Control.ControlIndex.get(p);
+        visitor.ControlArray(owner, uid, label, terminal, isIndicator, controlIndex);
+      }
+    };
     parsers.put(ControlArray.XML_NAME, parser);
     /** {@link RingConstant} */
     parser = new ElementParser<E>() {
