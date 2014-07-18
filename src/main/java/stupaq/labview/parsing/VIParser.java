@@ -53,6 +53,8 @@ import stupaq.labview.hierarchy.Terminal;
 import stupaq.labview.hierarchy.Unbundler;
 import stupaq.labview.hierarchy.Wire;
 import stupaq.labview.scripting.ScriptingTools;
+import stupaq.labview.scripting.tools.ControlStyle;
+import stupaq.labview.scripting.tools.DataRepresentation;
 import stupaq.labview.scripting.tools.ReadVI;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
@@ -227,10 +229,10 @@ public class VIParser {
         UID terminal = Node.Terminal.get(p);
         boolean isIndicator = Control.IsIndicator.get(p);
         int style = Control.Style.get(p);
-        Optional<Integer> representation = Control.Representation.get(p);
+        DataRepresentation representation = Control.Representation.get(p);
         int controlIndex = Control.ControlIndex.get(p);
-        visitor.Control(owner, uid, label, terminal, isIndicator, style, representation,
-            controlIndex);
+        visitor.Control(owner, uid, label, terminal, isIndicator,
+            ControlStyle.resolve(style, representation), controlIndex);
       }
     };
     parsers.put(Control.NUMERIC_XML_NAME, parser);

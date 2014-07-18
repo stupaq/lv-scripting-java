@@ -1,7 +1,11 @@
 package stupaq.labview.scripting.tools;
 
+import com.google.common.collect.Lists;
+
 import com.jacob.com.Variant;
 import com.jacob.extensions.ActiveXType;
+
+import java.util.List;
 
 public enum DataRepresentation implements ActiveXType {
   UNKNOWN(-1),
@@ -21,6 +25,8 @@ public enum DataRepresentation implements ActiveXType {
   U64(13),
   FXP(14);
 
+  private static final List<DataRepresentation> intToRep = Lists.newArrayList();
+
   private final byte representation;
 
   private DataRepresentation(int representation) {
@@ -30,5 +36,18 @@ public enum DataRepresentation implements ActiveXType {
   @Override
   public Variant toVariant() {
     return new Variant(representation);
+  }
+
+  public static DataRepresentation resolve(String string) {
+    try {
+      int rep = Integer.valueOf(string);
+      for (DataRepresentation opt : DataRepresentation.values()) {
+        if (opt.representation == rep) {
+          return opt;
+        }
+      }
+    } catch (NumberFormatException ignored) {
+    }
+    return UNKNOWN;
   }
 }

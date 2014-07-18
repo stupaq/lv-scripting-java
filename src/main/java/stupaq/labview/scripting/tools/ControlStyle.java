@@ -3,6 +3,7 @@ package stupaq.labview.scripting.tools;
 import static stupaq.labview.scripting.tools.DataRepresentation.*;
 
 public enum ControlStyle {
+  NONE(-1, UNKNOWN),
   VARIANT(3310, UNKNOWN),
   BOOLEAN(21002, UNKNOWN),
   NUMERIC_EXT(21003, EXT),
@@ -38,5 +39,14 @@ public enum ControlStyle {
 
   public DataRepresentation representation() {
     return representation;
+  }
+
+  public static ControlStyle resolve(int style, DataRepresentation representation) {
+    for (ControlStyle opt : ControlStyle.values()) {
+      if (opt.style == style && opt.representation == representation) {
+        return opt;
+      }
+    }
+    return NONE;
   }
 }

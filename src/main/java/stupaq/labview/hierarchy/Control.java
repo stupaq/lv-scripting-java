@@ -11,6 +11,7 @@ import stupaq.labview.parsing.LVProperty;
 import stupaq.labview.parsing.LVPropertyCast;
 import stupaq.labview.scripting.tools.ControlCreate;
 import stupaq.labview.scripting.tools.ControlStyle;
+import stupaq.labview.scripting.tools.DataRepresentation;
 
 import static stupaq.labview.parsing.LVProperty.Cast;
 import static stupaq.labview.parsing.LVPropertyCast.castBoolean;
@@ -22,15 +23,15 @@ public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
   public static final String VARIANT_XML_NAME = "Variant";
   public static final LVProperty<Boolean> IsIndicator = Cast("Indicator", castBoolean);
   public static final LVProperty<Integer> Style = Cast("Style", castInteger);
-  public static final LVProperty<Optional<Integer>> Representation =
-      Cast("Rep", new LVPropertyCast<Optional<Integer>>() {
+  public static final LVProperty<DataRepresentation> Representation =
+      Cast("Rep", new LVPropertyCast<DataRepresentation>() {
         @Override
-        public Optional<Integer> get(Object value) {
+        public DataRepresentation get(Object value) {
           if (value == null) {
-            return Optional.absent();
+            return DataRepresentation.UNKNOWN;
           } else {
             String rep = ((ELType) value).getVal();
-            return rep.isEmpty() ? Optional.<Integer>absent() : Optional.of(Integer.valueOf(rep));
+            return DataRepresentation.resolve(rep);
           }
         }
       });
