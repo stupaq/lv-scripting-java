@@ -219,25 +219,6 @@ public class VIParser {
     parsers.put(CompoundArithmetic.XML_NAME, parser);
     parsers.put(Bundler.XML_NAME, parser);
     parsers.put(Unbundler.XML_NAME, parser);
-    /** {@link Control} */
-    parser = new ElementParser<E>() {
-      @Override
-      public void parse(Element element, ElementProperties p) throws E {
-        UID owner = Generic.Owner.get(p);
-        UID uid = GObject.UID.get(p);
-        Optional<String> label = GObject.Label.get(p);
-        UID terminal = Node.Terminal.get(p);
-        boolean isIndicator = Control.IsIndicator.get(p);
-        int style = Control.Style.get(p);
-        DataRepresentation representation = Control.Representation.get(p);
-        int controlIndex = Control.ControlIndex.get(p);
-        visitor.Control(owner, uid, label, terminal, isIndicator,
-            ControlStyle.resolve(style, representation), controlIndex);
-      }
-    };
-    parsers.put(Control.NUMERIC_XML_NAME, parser);
-    parsers.put(Control.STRING_XML_NAME, parser);
-    parsers.put(Control.VARIANT_XML_NAME, parser);
     /** {@link ControlCluster} */
     parser = new ElementParser<E>() {
       @Override
@@ -267,6 +248,25 @@ public class VIParser {
       }
     };
     parsers.put(ControlArray.XML_NAME, parser);
+    /** {@link Control} */
+    parser = new ElementParser<E>() {
+      @Override
+      public void parse(Element element, ElementProperties p) throws E {
+        UID owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        Optional<String> label = GObject.Label.get(p);
+        UID terminal = Node.Terminal.get(p);
+        boolean isIndicator = Control.IsIndicator.get(p);
+        int style = Control.Style.get(p);
+        DataRepresentation representation = Control.Representation.get(p);
+        int controlIndex = Control.ControlIndex.get(p);
+        visitor.Control(owner, uid, label, terminal, isIndicator,
+            ControlStyle.resolve(style, representation), controlIndex);
+      }
+    };
+    parsers.put(Control.NUMERIC_XML_NAME, parser);
+    parsers.put(Control.STRING_XML_NAME, parser);
+    parsers.put(Control.VARIANT_XML_NAME, parser);
     /** {@link RingConstant} */
     parser = new ElementParser<E>() {
       @Override
