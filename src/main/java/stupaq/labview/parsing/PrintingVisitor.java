@@ -35,8 +35,12 @@ public class PrintingVisitor {
         new InvocationHandler() {
           @Override
           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            LOGGER.trace("{}({})", method.getName(),
-                Joiner.on(", ").join(Iterables.transform(Arrays.asList(args), QUOTE_STRINGS)));
+            if (args == null) {
+              LOGGER.trace("{}()", method.getName());
+            } else {
+              LOGGER.trace("{}({})", method.getName(),
+                  Joiner.on(", ").join(Iterables.transform(Arrays.asList(args), QUOTE_STRINGS)));
+            }
             return null;
           }
         });

@@ -82,7 +82,7 @@ public class VIParser {
         lists.put(name, objects);
       }
     }
-    Map<String, ElementParser<E>> parsers = createParsers(visitor);
+    Map<String, ElementParser<E>> parsers = prepareParsers(visitor);
     for (Entry<String, ElementParser<E>> entry : parsers.entrySet()) {
       ElementList list = lists.get(entry.getKey());
       if (list != null) {
@@ -124,10 +124,10 @@ public class VIParser {
     }
   }
 
-  private static <E extends Exception> Map<String, ElementParser<E>> createParsers(
+  private static <E extends Exception> Map<String, ElementParser<E>> prepareParsers(
       final VIElementsVisitor<E> visitor) {
     ElementParser<E> parser;
-    Map<String, ElementParser<E>> parsers = Maps.newLinkedHashMap();
+    Map<String, ElementParser<E>> allParsers = Maps.newLinkedHashMap();
     /** {@link Diagram} */
     parser = new ElementParser<E>() {
       @Override
@@ -137,7 +137,7 @@ public class VIParser {
         visitor.Diagram(owner, uid);
       }
     };
-    parsers.put(Diagram.XML_NAME, parser);
+    allParsers.put(Diagram.XML_NAME, parser);
     /** {@link Panel} */
     parser = new ElementParser<E>() {
       @Override
@@ -147,7 +147,7 @@ public class VIParser {
         visitor.Panel(owner, uid);
       }
     };
-    parsers.put(Panel.XML_NAME, parser);
+    allParsers.put(Panel.XML_NAME, parser);
     /** {@link Terminal} */
     parser = new ElementParser<E>() {
       @Override
@@ -160,7 +160,7 @@ public class VIParser {
         visitor.Terminal(owner, uid, wire, isSource, name);
       }
     };
-    parsers.put(Terminal.XML_NAME, parser);
+    allParsers.put(Terminal.XML_NAME, parser);
     /** {@link Wire} */
     parser = new ElementParser<E>() {
       @Override
@@ -171,7 +171,7 @@ public class VIParser {
         visitor.Wire(owner, uid, label);
       }
     };
-    parsers.put(Wire.XML_NAME, parser);
+    allParsers.put(Wire.XML_NAME, parser);
     /** {@link Formula} */
     parser = new ElementParser<E>() {
       @Override
@@ -192,8 +192,8 @@ public class VIParser {
         }
       }
     };
-    parsers.put(InlineCNode.XML_NAME, parser);
-    parsers.put(FormulaNode.XML_NAME, parser);
+    allParsers.put(InlineCNode.XML_NAME, parser);
+    allParsers.put(FormulaNode.XML_NAME, parser);
     /** {@link GrowableFunction} */
     parser = new ElementParser<E>() {
       @Override
@@ -216,9 +216,9 @@ public class VIParser {
         }
       }
     };
-    parsers.put(CompoundArithmetic.XML_NAME, parser);
-    parsers.put(Bundler.XML_NAME, parser);
-    parsers.put(Unbundler.XML_NAME, parser);
+    allParsers.put(CompoundArithmetic.XML_NAME, parser);
+    allParsers.put(Bundler.XML_NAME, parser);
+    allParsers.put(Unbundler.XML_NAME, parser);
     /** {@link ControlCluster} */
     parser = new ElementParser<E>() {
       @Override
@@ -233,7 +233,7 @@ public class VIParser {
         visitor.ControlCluster(owner, uid, label, terminal, isIndicator, controlIndex, controls);
       }
     };
-    parsers.put(ControlCluster.XML_NAME, parser);
+    allParsers.put(ControlCluster.XML_NAME, parser);
     /** {@link ControlArray} */
     parser = new ElementParser<E>() {
       @Override
@@ -247,7 +247,7 @@ public class VIParser {
         visitor.ControlArray(owner, uid, label, terminal, isIndicator, controlIndex);
       }
     };
-    parsers.put(ControlArray.XML_NAME, parser);
+    allParsers.put(ControlArray.XML_NAME, parser);
     /** {@link Control} */
     parser = new ElementParser<E>() {
       @Override
@@ -260,13 +260,14 @@ public class VIParser {
         int style = Control.Style.get(p);
         DataRepresentation representation = Control.Representation.get(p);
         int controlIndex = Control.ControlIndex.get(p);
+        String description = Control.Description.get(p);
         visitor.Control(owner, uid, label, terminal, isIndicator,
-            ControlStyle.resolve(style, representation), controlIndex);
+            ControlStyle.resolve(style, representation), controlIndex, description);
       }
     };
-    parsers.put(Control.NUMERIC_XML_NAME, parser);
-    parsers.put(Control.STRING_XML_NAME, parser);
-    parsers.put(Control.VARIANT_XML_NAME, parser);
+    allParsers.put(Control.NUMERIC_XML_NAME, parser);
+    allParsers.put(Control.STRING_XML_NAME, parser);
+    allParsers.put(Control.VARIANT_XML_NAME, parser);
     /** {@link RingConstant} */
     parser = new ElementParser<E>() {
       @Override
@@ -279,7 +280,7 @@ public class VIParser {
         visitor.RingConstant(owner, uid, label, terminal, stringsAndValues);
       }
     };
-    parsers.put(RingConstant.XML_NAME, parser);
+    allParsers.put(RingConstant.XML_NAME, parser);
     /** {@link SubVI} */
     parser = new ElementParser<E>() {
       @Override
@@ -291,7 +292,17 @@ public class VIParser {
         visitor.SubVI(owner, uid, terms, viPath);
       }
     };
-    parsers.put(SubVI.XML_NAME, parser);
-    return parsers;
+    allParsers.put(SubVI.XML_NAME, parser);
+    /** Rearrange entries */
+    Iterable<String> order = visitor.parsersOrder();
+    if (order == null) {
+      return allParsers;
+    } else {
+      Map<String, ElementParser<E>> sortedParsers = Maps.newLinkedHashMap();
+      for (String name : order) {
+        sortedParsers.put(name, allParsers.get(name));
+      }
+      return sortedParsers;
+    }
   }
 }

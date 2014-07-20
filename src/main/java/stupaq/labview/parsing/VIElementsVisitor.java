@@ -11,6 +11,8 @@ import stupaq.labview.scripting.tools.ControlStyle;
 
 public interface VIElementsVisitor<E extends Exception> {
 
+  public Iterable<String> parsersOrder();
+
   public void Diagram(Optional<UID> owner, UID uid) throws E;
 
   public void Panel(Optional<UID> owner, UID uid) throws E;
@@ -38,7 +40,7 @@ public interface VIElementsVisitor<E extends Exception> {
       boolean isIndicator, int controlIndex);
 
   public void Control(UID owner, UID uid, Optional<String> label, UID terminal, boolean isIndicator,
-      ControlStyle style, int controlIndex) throws E;
+      ControlStyle style, int controlIndex, String description) throws E;
 
   public void RingConstant(UID owner, UID uid, Optional<String> label, UID terminal,
       Map<String, Object> stringsAndValues) throws E;
