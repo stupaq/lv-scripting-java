@@ -14,64 +14,65 @@ public abstract class NoOpVisitor<E extends Exception> implements VIElementsVisi
   }
 
   @Override
-  public void Diagram(Optional<UID> owner, UID uid) throws E {
+  public void Diagram(Optional<UID> ownerUID, UID uid) throws E {
   }
 
   @Override
-  public void Panel(Optional<UID> owner, UID uid) throws E {
+  public void Panel(Optional<UID> ownerUID, UID uid) throws E {
   }
 
   @Override
-  public void Terminal(UID owner, UID uid, UID wire, boolean isSource, String name) throws E {
+  public void Terminal(UID ownerUID, UID uid, UID wireUID, boolean isSource, String name) throws E {
   }
 
   @Override
-  public void Wire(UID owner, UID uid, Optional<String> label) throws E {
+  public void Wire(UID ownerUID, UID uid, Optional<String> label) throws E {
   }
 
   @Override
   public void InlineCNode(UID owner, UID uid, String expression, Optional<String> label,
-      List<UID> terms) throws E {
+      List<UID> termUIDs) throws E {
   }
 
   @Override
-  public void FormulaNode(UID owner, UID uid, String expression, Optional<String> label,
-      List<UID> terms) throws E {
+  public void FormulaNode(UID ownerUID, UID uid, String expression, Optional<String> label,
+      List<UID> termUIDs) throws E {
   }
 
   @Override
-  public void CompoundArithmetic(UID owner, UID uid, List<UID> terms) throws E {
+  public void CompoundArithmetic(UID ownerUID, UID uid, UID outputUID, List<UID> inputUIDs)
+      throws E {
   }
 
   @Override
-  public void Bundler(UID owner, UID uid, List<UID> terms) throws E {
+  public void Bundler(UID ownerUID, UID uid, UID outputUIDs, List<UID> inputUIDs) throws E {
   }
 
   @Override
-  public void Unbundler(UID owner, UID uid, List<UID> terms) throws E {
+  public void Unbundler(UID ownerUID, UID uid, UID inputUID, List<UID> outputUIDs) throws E {
   }
 
   @Override
-  public void ControlCluster(UID owner, UID uid, Optional<String> label, UID terminal,
-      boolean isIndicator, int controlIndex, List<UID> controls) {
+  public void ControlCluster(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
+      boolean isIndicator, int controlIndex, List<UID> controlUIDs) {
   }
 
   @Override
-  public void ControlArray(UID owner, UID uid, Optional<String> label, UID terminal,
+  public void ControlArray(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
       boolean isIndicator, int controlIndex) {
   }
 
   @Override
-  public void Control(UID owner, UID uid, Optional<String> label, UID terminal, boolean isIndicator,
-      ControlStyle style, int controlIndex, String description) throws E {
+  public void Control(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
+      boolean isIndicator, ControlStyle style, int controlIndex, String description) throws E {
   }
 
   @Override
-  public void RingConstant(UID owner, UID uid, Optional<String> label, UID terminal,
+  public void RingConstant(UID owner, UID uid, Optional<String> label, UID terminalUID,
       Map<String, Object> stringsAndValues) throws E {
   }
 
   @Override
-  public void SubVI(UID owner, UID uid, List<UID> terms, VIPath viPath) throws E {
+  public void SubVI(UID owner, UID uid, List<UID> termUIDs, VIPath viPath) throws E {
   }
 }

@@ -201,17 +201,20 @@ public class VIParser {
         String className = Generic.ClassName.get(p);
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
-        List<UID> terms = Node.Terminals.get(p);
-        Verify.verify(!terms.isEmpty());
+        List<UID> multiple = Node.Terminals.get(p);
+        Verify.verify(!multiple.isEmpty());
+        UID single = multiple.get(0);
+        multiple = multiple.subList(1, multiple.size());
         switch (className) {
           case CompoundArithmetic.XML_NAME:
-            visitor.CompoundArithmetic(owner, uid, terms);
+            visitor.CompoundArithmetic(owner, uid, single, multiple);
             break;
           case Bundler.XML_NAME:
-            visitor.Bundler(owner, uid, terms);
+            multiple = multiple.subList(1, multiple.size());
+            visitor.Bundler(owner, uid, single, multiple);
             break;
           case Unbundler.XML_NAME:
-            visitor.Unbundler(owner, uid, terms);
+            visitor.Unbundler(owner, uid, single, multiple);
             break;
         }
       }
