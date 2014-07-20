@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import stupaq.labview.UID;
 import stupaq.labview.parsing.LVProperty;
 import stupaq.labview.parsing.LVPropertyCast;
+import stupaq.labview.scripting.tools.ConnectorPanePattern;
 import stupaq.labview.scripting.tools.ControlCreate;
 import stupaq.labview.scripting.tools.ControlStyle;
 import stupaq.labview.scripting.tools.DataRepresentation;
@@ -37,11 +38,20 @@ public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
       });
   public static final LVProperty<Integer> ControlIndex = Cast("ControlIndex", castInteger);
 
-  public Control(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex) {
+  public Control(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex,
+      String description) {
     super(owner, owner.scriptingTools()
         .get(ControlCreate.class)
-        .apply(owner.viPath(), owner.uid(), false, style, label, connPaneIndex,
-            hasTerminal(owner)));
+        .apply(owner.viPath(), owner.uid(), false, style, label, connPaneIndex, hasTerminal(owner),
+            description));
+  }
+
+  public Control(Generic owner, ControlStyle style, Optional<String> label, int connPaneIndex) {
+    this(owner, style, label, connPaneIndex, "");
+  }
+
+  public Control(Generic owner, ControlStyle style, Optional<String> label) {
+    this(owner, style, label, ConnectorPanePattern.DO_NOT_CONNECT);
   }
 
   protected Control(Generic owner, Entry<UID, Optional<UID>> objectAndTerminal) {

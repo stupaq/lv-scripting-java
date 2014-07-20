@@ -11,6 +11,6 @@ import stupaq.labview.scripting.ScriptingTools.ScriptingTool;
 
 public interface ControlCreate extends ScriptingTool {
   Entry<UID, Optional<UID>> apply(VIPath targetVi, Optional<UID> owner, boolean isIndicator,
-      ControlStyle style, Optional<String> label, int connPaneIndex, boolean hasTerminal)
-      throws VIErrorException;
+      ControlStyle style, Optional<String> label, int connPaneIndex, boolean hasTerminal,
+      String description) throws VIErrorException;
 }

@@ -155,12 +155,14 @@ public class Demos {
   public void writeControlAndIndicator() throws IOException {
     VI vi = new VI(tools, overwrite("control_and_indicator"), ConnectorPanePattern.P4835);
     // Create some controls.
-    Control c0 = new Control(vi, BOOLEAN, of("boolean control -> 0"), 0);
+    Control c0 =
+        new Control(vi, BOOLEAN, of("boolean control -> 0"), 0, "with some non-empty description");
     Control c1 = new Control(vi, NUMERIC_DBL, of("double control -> 1"), 1);
-    Control c2 = new Control(vi, NUMERIC_I32, of("int control -> x"), DO_NOT_CONNECT);
+    Control c2 = new Control(vi, NUMERIC_I32, of("int control -> x"));
     Indicator i0 = new Indicator(vi, BOOLEAN, of("boolean indicator -> 3"), 3);
-    Indicator i1 = new Indicator(vi, NUMERIC_DBL, of("double indicator -> 4"), 4);
-    Indicator i2 = new Indicator(vi, NUMERIC_I32, of("int indicator -> x"), DO_NOT_CONNECT);
+    Indicator i1 =
+        new Indicator(vi, NUMERIC_DBL, of("double indicator -> 4"), 4, "they keep the word");
+    Indicator i2 = new Indicator(vi, NUMERIC_I32, of("int indicator -> x"));
     // Connect them.
     c0.terminal().connectTo(i0.terminal());
     c1.terminal().connectTo(i1.terminal());
@@ -214,11 +216,11 @@ public class Demos {
     VI vi = new VI(tools, overwrite("control_and_indicator_clusters"), ConnectorPanePattern.P4800);
     /// Create some controls.
     ControlCluster c1 = new ControlCluster(vi, of("control 2"), DO_NOT_CONNECT);
-    new Control(c1, NUMERIC_I32, of("control 2 element 0"), DO_NOT_CONNECT);
-    new Control(c1, STRING, of("control 2 element 1"), DO_NOT_CONNECT);
+    new Control(c1, NUMERIC_I32, of("control 2 element 0"));
+    new Control(c1, STRING, of("control 2 element 1"));
     IndicatorCluster i1 = new IndicatorCluster(vi, of("indicator 3"), DO_NOT_CONNECT);
-    new Indicator(i1, NUMERIC_I32, of("indicator 2 element 0"), DO_NOT_CONNECT);
-    new Indicator(i1, STRING, of("indicator 2 element 1"), DO_NOT_CONNECT);
+    new Indicator(i1, NUMERIC_I32, of("indicator 2 element 0"));
+    new Indicator(i1, STRING, of("indicator 2 element 1"));
     // Connect them.
     c1.terminal().connectTo(i1.terminal());
     // Cleanup diagram for inspection.
@@ -303,11 +305,11 @@ public class Demos {
     Bundler b2 = new Bundler(l2.diagram(), 1, NO_LABEL);
     Unbundler u2 = new Unbundler(l2.diagram(), 1, NO_LABEL);
     // ...and outside.
-    Control c1 = new Control(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
-    Indicator i1 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
-    Indicator i2 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
-    Indicator i3 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
-    Indicator i4 = new Indicator(vi, NUMERIC_I32, NO_LABEL, DO_NOT_CONNECT);
+    Control c1 = new Control(vi, NUMERIC_I32, NO_LABEL);
+    Indicator i1 = new Indicator(vi, NUMERIC_I32, NO_LABEL);
+    Indicator i2 = new Indicator(vi, NUMERIC_I32, NO_LABEL);
+    Indicator i3 = new Indicator(vi, NUMERIC_I32, NO_LABEL);
+    Indicator i4 = new Indicator(vi, NUMERIC_I32, NO_LABEL);
     // Create a few tunnels...
     u1.outputs().get(0).connectTo(i3.terminal());
     u2.outputs().get(0).connectTo(i4.terminal());
