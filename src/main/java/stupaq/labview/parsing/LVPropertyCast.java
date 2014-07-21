@@ -11,6 +11,7 @@ import com.ni.labview.ClusterType;
 import com.ni.labview.LVDataTypeRaw;
 import com.ni.labview.StringType;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,12 @@ public interface LVPropertyCast<T> {
   public static final LVPropertyCast<List<Object>> castList = new LVPropertyCast<List<Object>>() {
     @Override
     public List<Object> get(Object value) {
-      return ((ArrayType) value).getI8OrI16OrI32();
+      ArrayType array = ((ArrayType) value);
+      Verify.verify(array.getDimsize().size() == 1);
+      if (Integer.valueOf(0).equals(array.getDimsize().get(0))) {
+        return Collections.emptyList();
+      }
+      return array.getI8OrI16OrI32();
     }
   };
   public static final LVPropertyCast<List<UID>> castListUID = new LVPropertyCast<List<UID>>() {
