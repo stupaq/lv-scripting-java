@@ -62,6 +62,7 @@ import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 public class VIParser {
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
   private static final Logger LOGGER = LoggerFactory.getLogger(VIParser.class);
+  private static final boolean USE_CACHE = false;
 
   private VIParser() {
   }
@@ -109,19 +110,23 @@ public class VIParser {
       throws FileNotFoundException {
     File viFile = viPath.path().toFile();
     File xmlFile = viPath.path().resolveSibling(viPath.getFileName() + ".xml").toFile();
-    if (xmlFile.exists() && xmlFile.lastModified() > viFile.lastModified()) {
-      LOGGER.debug("Reading XML from file cache: {}", xmlFile.getPath());
-      return new FileReader(xmlFile);
-    } else {
-      LOGGER.debug("Querying LabVIEW for XML description of: {}", viFile.getPath());
-      String xmlString = tools.get(ReadVI.class).apply(viPath);
-      xmlString = "<Cluster xmlns=\"http://www.ni.com/labview\">" +
-          xmlString.substring("<Cluster>".length());
+    if (USE_CACHE) {
+      if (xmlFile.exists() && xmlFile.lastModified() > viFile.lastModified()) {
+        LOGGER.debug("Reading XML from file cache: {}", xmlFile.getPath());
+        return new FileReader(xmlFile);
+      }
+    }
+    LOGGER.debug("Querying LabVIEW for XML description of: {}", viFile.getPath());
+    String xmlString = tools.get(ReadVI.class).apply(viPath);
+    xmlString =
+        "<Cluster xmlns=\"http://www.ni.com/labview\">" + xmlString.substring("<Cluster>".length());
+    if (USE_CACHE) {
       try (PrintWriter writer = new PrintWriter(xmlFile)) {
+        LOGGER.debug("Writing XML cache file: {}", xmlFile.getPath());
         writer.println(xmlString);
       }
-      return new StringReader(xmlString);
     }
+    return new StringReader(xmlString);
   }
 
   private static <E extends Exception> Map<String, ElementParser<E>> prepareParsers(
