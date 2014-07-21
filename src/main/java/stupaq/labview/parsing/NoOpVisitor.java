@@ -73,6 +73,6 @@ public abstract class NoOpVisitor<E extends Exception> implements VIElementsVisi
   }
 
   @Override
-  public void SubVI(UID owner, UID uid, List<UID> termUIDs, VIPath viPath) throws E {
+  public void SubVI(UID owner, UID uid, List<UID> termUIDs, VIPath viPath, String description) throws E {
   }
 }

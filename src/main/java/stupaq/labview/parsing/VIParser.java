@@ -263,12 +263,12 @@ public class VIParser {
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
         Optional<String> label = GObject.Label.get(p);
+        String description = GObject.Description.get(p);
         UID terminal = Node.Terminal.get(p);
         boolean isIndicator = Control.IsIndicator.get(p);
         int style = Control.Style.get(p);
         DataRepresentation representation = Control.Representation.get(p);
         int controlIndex = Control.ControlIndex.get(p);
-        String description = Control.Description.get(p);
         visitor.Control(owner, uid, label, terminal, isIndicator,
             ControlStyle.resolve(style, representation), controlIndex, description);
       }
@@ -295,9 +295,10 @@ public class VIParser {
       public void parse(Element element, ElementProperties p) throws E {
         UID owner = Generic.Owner.get(p);
         UID uid = GObject.UID.get(p);
+        String description = GObject.Description.get(p);
         List<UID> terms = Node.Terminals.get(p);
         VIPath viPath = SubVI.ViPath.get(p);
-        visitor.SubVI(owner, uid, terms, viPath);
+        visitor.SubVI(owner, uid, terms, viPath, description);
       }
     };
     allParsers.put(SubVI.XML_NAME, parser);

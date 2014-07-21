@@ -45,5 +45,5 @@ public interface VIElementsVisitor<E extends Exception> {
   public void RingConstant(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
       Map<String, Object> stringsAndValues) throws E;
 
-  public void SubVI(UID ownerUID, UID uid, List<UID> terms, VIPath viPath) throws E;
+  public void SubVI(UID ownerUID, UID uid, List<UID> terms, VIPath viPath, String description) throws E;
 }
