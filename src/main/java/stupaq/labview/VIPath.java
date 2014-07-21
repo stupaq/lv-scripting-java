@@ -5,6 +5,8 @@ import com.google.common.base.Preconditions;
 import com.jacob.com.Variant;
 import com.jacob.extensions.ActiveXType;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -12,18 +14,15 @@ public class VIPath implements ActiveXType {
   public static final String VI_EXTENSION = ".vi";
   private final Path path;
 
-  public VIPath(Path path) {
-    Preconditions.checkNotNull(path);
-    Preconditions.checkArgument(path.toString().endsWith(VI_EXTENSION), "Bad extension: %s", path);
-    this.path = path;
-  }
 
   public VIPath(Path dir, String name) {
-    this(dir.resolve(name));
+    this(dir.resolve(name).toString());
   }
 
   public VIPath(String path) {
-    this(Paths.get(path));
+    Preconditions.checkNotNull(path);
+    Preconditions.checkArgument(path.endsWith(VI_EXTENSION), "Bad extension: %s", path);
+    this.path = Paths.get(FilenameUtils.separatorsToSystem(path));
   }
 
   @Override
@@ -48,12 +47,7 @@ public class VIPath implements ActiveXType {
   }
 
   public String getBaseName() {
-    Path fileName = getFileName();
-    if (fileName == null) {
-      return null;
-    }
-    String name = fileName.toString();
-    return name.substring(0, name.length() - VI_EXTENSION.length());
+    return FilenameUtils.getBaseName(path.toString());
   }
 
   public Path path() {

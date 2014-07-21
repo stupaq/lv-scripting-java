@@ -11,14 +11,16 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/xsd" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/lv-scripting" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/dependency" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:17.0" level="project" />
-    <orderEntry type="library" name="Maven: net.sf.jacob-project:jacob:1.18-M2" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.13" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.13" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.5" level="project" />
+    <orderEntry type="library" name="com.google.guava:guava:17.0" level="project" />
+    <orderEntry type="library" name="net.sf.jacob-project:jacob:1.18-M2" level="project" />
+    <orderEntry type="library" name="ch.qos.logback:logback-classic:1.0.13" level="project" />
+    <orderEntry type="library" name="ch.qos.logback:logback-core:1.0.13" level="project" />
+    <orderEntry type="library" name="org.slf4j:slf4j-api:1.7.5" level="project" />
+    <orderEntry type="library" name="commons-io:commons-io:2.4" level="project" />
   </component>
 </module>
 
