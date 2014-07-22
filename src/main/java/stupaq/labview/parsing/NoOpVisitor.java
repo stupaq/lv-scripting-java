@@ -26,6 +26,10 @@ public abstract class NoOpVisitor<E extends Exception> implements VIElementsVisi
   }
 
   @Override
+  public void Tunnel(UID ownerUID, List<UID> insideTermUIDs, UID outsideTermUID) {
+  }
+
+  @Override
   public void Wire(UID ownerUID, UID uid, Optional<String> label) throws E {
   }
 

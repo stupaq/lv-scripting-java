@@ -149,6 +149,17 @@ public final class VIParser {
       }
     };
     allParsers.put(Terminal.XML_NAME, parser);
+    /** {@link Tunnel} */
+    parser = new ElementParser<E>() {
+      @Override
+      public void parse(Element element, ElementProperties p) throws E {
+        UID ownerUID = Generic.Owner.get(p);
+        List<UID> insideTermUIDs = Tunnel.InsideTerminals.get(p);
+        UID outsideTermUID = Tunnel.OutsideTerminal.get(p);
+        visitor.Tunnel(ownerUID, insideTermUIDs, outsideTermUID);
+      }
+    };
+    allParsers.put(Tunnel.XML_NAME, parser);
     /** {@link Wire} */
     parser = new ElementParser<E>() {
       @Override
