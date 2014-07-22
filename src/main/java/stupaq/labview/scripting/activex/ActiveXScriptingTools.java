@@ -9,6 +9,7 @@ import com.jacob.extensions.DLLFromJARClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import stupaq.labview.Configuration;
 import stupaq.labview.VIPath;
 import stupaq.labview.activex.ActiveXApplication;
 import stupaq.labview.scripting.ScriptingTools;
@@ -17,10 +18,8 @@ public class ActiveXScriptingTools extends ActiveXApplication implements Scripti
   static {
     DLLFromJARClassLoader.loadLibrary();
   }
-
-  private static final String SCRIPTING_TOOLS_PATH = "scripting.tools.path";
   private final LoadingCache<Class<ScriptingTool>, ScriptingTool> tools;
-  private Path viToolsPath;
+  private final Path viToolsPath;
 
   public ActiveXScriptingTools() {
     viToolsPath = getScriptingToolsPath().toAbsolutePath();
@@ -40,7 +39,7 @@ public class ActiveXScriptingTools extends ActiveXApplication implements Scripti
   }
 
   private static Path getScriptingToolsPath() {
-    return Paths.get(System.getProperty(SCRIPTING_TOOLS_PATH, Paths.get("").toString()));
+    return Paths.get(Configuration.getToolsPath());
   }
 
   @Override

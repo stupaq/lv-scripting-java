@@ -31,6 +31,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import stupaq.labview.Configuration;
 import stupaq.labview.UID;
 import stupaq.labview.VIPath;
 import stupaq.labview.hierarchy.*;
@@ -44,9 +45,7 @@ import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 public final class VIParser {
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
   private static final Logger LOGGER = LoggerFactory.getLogger(VIParser.class);
-  private static final String SCRIPTING_PARSER_CACHE = "scripting.parser.cache";
-  private static final boolean USE_CACHE =
-      Boolean.valueOf(System.getProperty(SCRIPTING_PARSER_CACHE, "false"));
+  private static final boolean USE_CACHE = Configuration.getParserCache();
 
   private VIParser() {
   }
