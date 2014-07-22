@@ -53,18 +53,22 @@ public abstract class NoOpVisitor<E extends Exception> implements VIElementsVisi
   }
 
   @Override
+  public void ConnectorPane(List<UID> controls) {
+  }
+
+  @Override
   public void ControlCluster(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
-      boolean isIndicator, int controlIndex, List<UID> controlUIDs) {
+      boolean isIndicator, List<UID> controlUIDs) {
   }
 
   @Override
   public void ControlArray(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
-      boolean isIndicator, int controlIndex) {
+      boolean isIndicator) {
   }
 
   @Override
   public void Control(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
-      boolean isIndicator, ControlStyle style, int controlIndex, String description) throws E {
+      boolean isIndicator, ControlStyle style, String description) throws E {
   }
 
   @Override

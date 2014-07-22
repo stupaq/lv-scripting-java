@@ -33,25 +33,7 @@ import javax.xml.validation.SchemaFactory;
 
 import stupaq.labview.UID;
 import stupaq.labview.VIPath;
-import stupaq.labview.hierarchy.Bundler;
-import stupaq.labview.hierarchy.CompoundArithmetic;
-import stupaq.labview.hierarchy.Control;
-import stupaq.labview.hierarchy.ControlArray;
-import stupaq.labview.hierarchy.ControlCluster;
-import stupaq.labview.hierarchy.Diagram;
-import stupaq.labview.hierarchy.Formula;
-import stupaq.labview.hierarchy.FormulaNode;
-import stupaq.labview.hierarchy.GObject;
-import stupaq.labview.hierarchy.Generic;
-import stupaq.labview.hierarchy.GrowableFunction;
-import stupaq.labview.hierarchy.InlineCNode;
-import stupaq.labview.hierarchy.Node;
-import stupaq.labview.hierarchy.Panel;
-import stupaq.labview.hierarchy.RingConstant;
-import stupaq.labview.hierarchy.SubVI;
-import stupaq.labview.hierarchy.Terminal;
-import stupaq.labview.hierarchy.Unbundler;
-import stupaq.labview.hierarchy.Wire;
+import stupaq.labview.hierarchy.*;
 import stupaq.labview.scripting.ScriptingTools;
 import stupaq.labview.scripting.tools.ControlStyle;
 import stupaq.labview.scripting.tools.DataRepresentation;
@@ -59,7 +41,7 @@ import stupaq.labview.scripting.tools.ReadVI;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
-public class VIParser {
+public final class VIParser {
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
   private static final Logger LOGGER = LoggerFactory.getLogger(VIParser.class);
   private static final boolean USE_CACHE = false;
@@ -227,6 +209,15 @@ public class VIParser {
     allParsers.put(CompoundArithmetic.XML_NAME, parser);
     allParsers.put(Bundler.XML_NAME, parser);
     allParsers.put(Unbundler.XML_NAME, parser);
+    /** {@link ConnectorPane} */
+    parser = new ElementParser<E>() {
+      @Override
+      public void parse(Element element, ElementProperties p) throws E {
+        List<UID> controls = ConnectorPane.Controls.get(p);
+        visitor.ConnectorPane(controls);
+      }
+    };
+    allParsers.put(ConnectorPane.XML_NAME, parser);
     /** {@link ControlCluster} */
     parser = new ElementParser<E>() {
       @Override
@@ -236,9 +227,8 @@ public class VIParser {
         Optional<String> label = GObject.Label.get(p);
         UID terminal = Node.Terminal.get(p);
         boolean isIndicator = Control.IsIndicator.get(p);
-        int controlIndex = Control.ControlIndex.get(p);
         List<UID> controls = ControlCluster.Controls.get(p);
-        visitor.ControlCluster(owner, uid, label, terminal, isIndicator, controlIndex, controls);
+        visitor.ControlCluster(owner, uid, label, terminal, isIndicator, controls);
       }
     };
     allParsers.put(ControlCluster.XML_NAME, parser);
@@ -251,8 +241,7 @@ public class VIParser {
         Optional<String> label = GObject.Label.get(p);
         UID terminal = Node.Terminal.get(p);
         boolean isIndicator = Control.IsIndicator.get(p);
-        int controlIndex = Control.ControlIndex.get(p);
-        visitor.ControlArray(owner, uid, label, terminal, isIndicator, controlIndex);
+        visitor.ControlArray(owner, uid, label, terminal, isIndicator);
       }
     };
     allParsers.put(ControlArray.XML_NAME, parser);
@@ -268,9 +257,8 @@ public class VIParser {
         boolean isIndicator = Control.IsIndicator.get(p);
         int style = Control.Style.get(p);
         DataRepresentation representation = Control.Representation.get(p);
-        int controlIndex = Control.ControlIndex.get(p);
         visitor.Control(owner, uid, label, terminal, isIndicator,
-            ControlStyle.resolve(style, representation), controlIndex, description);
+            ControlStyle.resolve(style, representation), description);
       }
     };
     allParsers.put(Control.NUMERIC_XML_NAME, parser);
