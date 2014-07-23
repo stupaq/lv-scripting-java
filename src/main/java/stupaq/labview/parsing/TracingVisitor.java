@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
-public class TracingVisitor {
+public final class TracingVisitor {
   private static final Logger LOGGER = LoggerFactory.getLogger(TracingVisitor.class);
   private static final Function<Object, String> QUOTE_STRINGS = new Function<Object, String>() {
     @Override
@@ -35,11 +35,13 @@ public class TracingVisitor {
         new InvocationHandler() {
           @Override
           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (args == null) {
-              LOGGER.trace("{}()", method.getName());
-            } else {
-              LOGGER.trace("{}({})", method.getName(),
-                  Joiner.on(", ").join(Iterables.transform(Arrays.asList(args), QUOTE_STRINGS)));
+            if (LOGGER.isTraceEnabled()) {
+              if (args == null) {
+                LOGGER.trace("{}()", method.getName());
+              } else {
+                LOGGER.trace("{}({})", method.getName(),
+                    Joiner.on(", ").join(Iterables.transform(Arrays.asList(args), QUOTE_STRINGS)));
+              }
             }
             return null;
           }

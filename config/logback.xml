@@ -1,17 +1,11 @@
 <configuration>
+    <property name="defaultPattern" value="%-5level %logger{0} | %msg%n"/>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-5level %logger{0} | %msg%n</pattern>
+            <pattern>${defaultPattern}</pattern>
         </encoder>
     </appender>
-
-    <logger name="stupaq.labview.activex.StdCallRunnableVI" level="ALL" additivity="false">
-        <appender class="ch.qos.logback.core.ConsoleAppender">
-            <encoder>
-                <pattern>-- %-5level | %msg%n</pattern>
-            </encoder>
-        </appender>
-    </logger>
 
     <root level="ALL">
         <appender-ref ref="STDOUT"/>
