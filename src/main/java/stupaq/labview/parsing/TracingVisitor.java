@@ -12,8 +12,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
-public class PrintingVisitor {
-  private static final Logger LOGGER = LoggerFactory.getLogger(PrintingVisitor.class);
+public class TracingVisitor {
+  private static final Logger LOGGER = LoggerFactory.getLogger(TracingVisitor.class);
   private static final Function<Object, String> QUOTE_STRINGS = new Function<Object, String>() {
     @Override
     public String apply(Object input) {
@@ -25,13 +25,13 @@ public class PrintingVisitor {
     }
   };
 
-  private PrintingVisitor() {
+  private TracingVisitor() {
   }
 
   @SuppressWarnings("unchecked")
-  public static VIElementsVisitor<RuntimeException> create() {
-    return (VIElementsVisitor<RuntimeException>) Proxy.newProxyInstance(
-        PrintingVisitor.class.getClassLoader(), new Class[]{VIElementsVisitor.class},
+  public static VIElementsVisitor<NeverThrownException> create() {
+    return (VIElementsVisitor<NeverThrownException>) Proxy.newProxyInstance(
+        TracingVisitor.class.getClassLoader(), new Class[]{VIElementsVisitor.class},
         new InvocationHandler() {
           @Override
           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
