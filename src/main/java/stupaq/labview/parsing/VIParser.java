@@ -154,9 +154,10 @@ public final class VIParser {
       @Override
       public void parse(Element element, ElementProperties p) throws E {
         UID ownerUID = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
         List<UID> insideTermUIDs = Tunnel.InsideTerminals.get(p);
         UID outsideTermUID = Tunnel.OutsideTerminal.get(p);
-        visitor.Tunnel(ownerUID, insideTermUIDs, outsideTermUID);
+        visitor.Tunnel(ownerUID, uid, insideTermUIDs, outsideTermUID);
       }
     };
     allParsers.put(Tunnel.XML_NAME, parser);

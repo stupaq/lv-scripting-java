@@ -11,6 +11,8 @@ import stupaq.labview.UID;
 import stupaq.labview.VIPath;
 import stupaq.labview.scripting.tools.ControlStyle;
 
+import static java.util.Collections.unmodifiableList;
+
 public final class MultiplexerVisitor<E extends Exception> implements VIElementsVisitor<E> {
   private final Iterable<String> negotiatedOrder;
   private final List<VIElementsVisitor<? extends E>> visitors = Lists.newArrayList();
@@ -54,9 +56,9 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
   }
 
   @Override
-  public void Tunnel(UID ownerUID, List<UID> insideTermUIDs, UID outsideTermUID) {
+  public void Tunnel(UID ownerUID, UID uid, List<UID> insideTermUIDs, UID outsideTermUID) {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.Tunnel(ownerUID, insideTermUIDs, outsideTermUID);
+      visitor.Tunnel(ownerUID, uid, unmodifiableList(insideTermUIDs), outsideTermUID);
     }
   }
 
@@ -71,7 +73,7 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
   public void InlineCNode(UID owner, UID uid, String expression, Optional<String> label,
       List<UID> termUIDs) throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.InlineCNode(owner, uid, expression, label, termUIDs);
+      visitor.InlineCNode(owner, uid, expression, label, unmodifiableList(termUIDs));
     }
   }
 
@@ -79,7 +81,7 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
   public void FormulaNode(UID ownerUID, UID uid, String expression, Optional<String> label,
       List<UID> termUIDs) throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.FormulaNode(ownerUID, uid, expression, label, termUIDs);
+      visitor.FormulaNode(ownerUID, uid, expression, label, unmodifiableList(termUIDs));
     }
   }
 
@@ -87,28 +89,28 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
   public void CompoundArithmetic(UID ownerUID, UID uid, UID outputUID, List<UID> inputUIDs)
       throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.CompoundArithmetic(ownerUID, uid, outputUID, inputUIDs);
+      visitor.CompoundArithmetic(ownerUID, uid, outputUID, unmodifiableList(inputUIDs));
     }
   }
 
   @Override
   public void Bundler(UID ownerUID, UID uid, UID outputUIDs, List<UID> inputUIDs) throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.Bundler(ownerUID, uid, outputUIDs, inputUIDs);
+      visitor.Bundler(ownerUID, uid, outputUIDs, unmodifiableList(inputUIDs));
     }
   }
 
   @Override
   public void Unbundler(UID ownerUID, UID uid, UID inputUID, List<UID> outputUIDs) throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.Unbundler(ownerUID, uid, inputUID, outputUIDs);
+      visitor.Unbundler(ownerUID, uid, inputUID, unmodifiableList(outputUIDs));
     }
   }
 
   @Override
   public void ConnectorPane(List<UID> controls) {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.ConnectorPane(controls);
+      visitor.ConnectorPane(unmodifiableList(controls));
     }
   }
 
@@ -116,7 +118,8 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
   public void ControlCluster(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
       boolean isIndicator, List<UID> controlUIDs) {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.ControlCluster(ownerUID, uid, label, terminalUID, isIndicator, controlUIDs);
+      visitor.ControlCluster(ownerUID, uid, label, terminalUID, isIndicator,
+          unmodifiableList(controlUIDs));
     }
   }
 
@@ -148,7 +151,7 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
   public void SubVI(UID owner, UID uid, List<UID> termUIDs, VIPath viPath, String description)
       throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
-      visitor.SubVI(owner, uid, termUIDs, viPath, description);
+      visitor.SubVI(owner, uid, unmodifiableList(termUIDs), viPath, description);
     }
   }
 }

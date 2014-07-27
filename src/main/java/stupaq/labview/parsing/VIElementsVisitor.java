@@ -19,7 +19,7 @@ public interface VIElementsVisitor<E extends Exception> {
 
   public void Terminal(UID ownerUID, UID uid, UID wire, boolean isSource, String name) throws E;
 
-  public void Tunnel(UID ownerUID, List<UID> insideTermUIDs, UID outsideTermUID);
+  public void Tunnel(UID ownerUID, UID uid, List<UID> insideTermUIDs, UID outsideTermUID);
 
   public void Wire(UID ownerUID, UID uid, Optional<String> label) throws E;
 
