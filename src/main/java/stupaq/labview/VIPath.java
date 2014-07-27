@@ -1,6 +1,7 @@
 package stupaq.labview;
 
 import com.google.common.base.Preconditions;
+import com.google.common.io.Files;
 
 import com.jacob.com.Variant;
 import com.jacob.extensions.ActiveXType;
@@ -47,7 +48,7 @@ public class VIPath implements ActiveXType {
   }
 
   public String getBaseName() {
-    return FilenameUtils.getBaseName(path.toString());
+    return Files.getNameWithoutExtension(path.toString());
   }
 
   public Path path() {
