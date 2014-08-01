@@ -15,6 +15,8 @@ public class RingConstant extends Constant {
   public static final String XML_NAME = "RingConstant";
   public static final LVProperty<Map<String, Object>> StringsAndValues =
       Cast("Strings And Values[]", castMapFromStrings);
+  public static final int NAME_LENGTH_LIMIT = 255;
+
 
   public RingConstant(Generic owner, Map<String, ?> stringsAndValues,
       DataRepresentation representation, Optional<String> label) {
