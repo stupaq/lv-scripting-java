@@ -172,6 +172,24 @@ public final class VIParser {
       }
     };
     allParsers.put(Wire.XML_NAME, parser);
+    /** {@link Loop} */
+    parser = new ElementParser<E>() {
+      @Override
+      public void parse(Element element, ElementProperties p) throws E {
+        String className = Generic.ClassName.get(p);
+        UID owner = Generic.Owner.get(p);
+        UID uid = GObject.UID.get(p);
+        switch (className) {
+          case WhileLoop.XML_NAME:
+            visitor.WhileLoop(owner, uid);
+            break;
+          case ForLoop.XML_NAME:
+            visitor.ForLoop(owner, uid);
+            break;
+        }
+      }
+    };
+    allParsers.put(WhileLoop.XML_NAME, parser);
     /** {@link Formula} */
     parser = new ElementParser<E>() {
       @Override

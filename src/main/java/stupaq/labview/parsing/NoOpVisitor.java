@@ -34,6 +34,14 @@ public abstract class NoOpVisitor<E extends Exception> implements VIElementsVisi
   }
 
   @Override
+  public void WhileLoop(UID owner, UID uid) {
+  }
+
+  @Override
+  public void ForLoop(UID owner, UID uid) {
+  }
+
+  @Override
   public void InlineCNode(UID owner, UID uid, String expression, Optional<String> label,
       List<UID> termUIDs) throws E {
   }

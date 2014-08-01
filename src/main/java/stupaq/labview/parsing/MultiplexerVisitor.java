@@ -70,6 +70,20 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
   }
 
   @Override
+  public void WhileLoop(UID owner, UID uid) {
+    for (VIElementsVisitor<? extends E> visitor : visitors) {
+      visitor.WhileLoop(owner, uid);
+    }
+  }
+
+  @Override
+  public void ForLoop(UID owner, UID uid) {
+    for (VIElementsVisitor<? extends E> visitor : visitors) {
+      visitor.ForLoop(owner, uid);
+    }
+  }
+
+  @Override
   public void InlineCNode(UID owner, UID uid, String expression, Optional<String> label,
       List<UID> termUIDs) throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {

@@ -23,6 +23,10 @@ public interface VIElementsVisitor<E extends Exception> {
 
   public void Wire(UID ownerUID, UID uid, Optional<String> label) throws E;
 
+  public void WhileLoop(UID owner, UID uid);
+
+  public void ForLoop(UID owner, UID uid);
+
   public void InlineCNode(UID ownerUID, UID uid, String expression, Optional<String> label,
       List<UID> terms) throws E;
 
