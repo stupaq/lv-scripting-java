@@ -3,13 +3,13 @@ package stupaq.labview.parsing;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
+import com.google.common.reflect.Reflection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
 public final class TracingVisitor {
@@ -30,8 +30,7 @@ public final class TracingVisitor {
 
   @SuppressWarnings("unchecked")
   public static VIElementsVisitor<NeverThrownException> create() {
-    return (VIElementsVisitor<NeverThrownException>) Proxy.newProxyInstance(
-        TracingVisitor.class.getClassLoader(), new Class[]{VIElementsVisitor.class},
+    return (VIElementsVisitor<NeverThrownException>) Reflection.newProxy(VIElementsVisitor.class,
         new InvocationHandler() {
           @Override
           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
