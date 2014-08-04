@@ -70,7 +70,7 @@ public abstract class NoOpVisitor<E extends Exception> implements VIElementsVisi
 
   @Override
   public void ControlCluster(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
-      boolean isIndicator, List<UID> controlUIDs) {
+      boolean isIndicator, List<UID> controlUIDs) throws E {
   }
 
   @Override

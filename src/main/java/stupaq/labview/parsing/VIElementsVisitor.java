@@ -39,13 +39,13 @@ public interface VIElementsVisitor<E extends Exception> {
 
   public void Unbundler(UID ownerUID, UID uid, UID single, List<UID> multiple) throws E;
 
-  public void ConnectorPane(List<UID> controls);
+  public void ConnectorPane(List<UID> controls) throws E;
 
   public void ControlCluster(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
-      boolean isIndicator, List<UID> controls);
+      boolean isIndicator, List<UID> controls) throws E;
 
   public void ControlArray(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
-      boolean isIndicator);
+      boolean isIndicator) throws E;
 
   public void Control(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
       boolean isIndicator, ControlStyle style, String description) throws E;

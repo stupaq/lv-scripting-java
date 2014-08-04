@@ -122,7 +122,7 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
   }
 
   @Override
-  public void ConnectorPane(List<UID> controls) {
+  public void ConnectorPane(List<UID> controls) throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
       visitor.ConnectorPane(unmodifiableList(controls));
     }
@@ -130,7 +130,7 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
 
   @Override
   public void ControlCluster(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
-      boolean isIndicator, List<UID> controlUIDs) {
+      boolean isIndicator, List<UID> controlUIDs) throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
       visitor.ControlCluster(ownerUID, uid, label, terminalUID, isIndicator,
           unmodifiableList(controlUIDs));
@@ -139,7 +139,7 @@ public final class MultiplexerVisitor<E extends Exception> implements VIElements
 
   @Override
   public void ControlArray(UID ownerUID, UID uid, Optional<String> label, UID terminalUID,
-      boolean isIndicator) {
+      boolean isIndicator) throws E {
     for (VIElementsVisitor<? extends E> visitor : visitors) {
       visitor.ControlArray(ownerUID, uid, label, terminalUID, isIndicator);
     }
