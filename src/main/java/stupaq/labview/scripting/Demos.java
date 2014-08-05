@@ -38,6 +38,7 @@ import stupaq.labview.parsing.TracingVisitor;
 import stupaq.labview.scripting.activex.ActiveXScriptingTools;
 import stupaq.labview.scripting.fake.FakeScriptingTools;
 import stupaq.labview.scripting.tools.ConnectorPanePattern;
+import stupaq.labview.scripting.tools.HighlightByUID;
 
 import static com.google.common.base.Optional.of;
 import static java.util.Collections.singletonMap;
@@ -334,5 +335,16 @@ public class Demos {
 
   public void readLoop() throws IOException, JAXBException, SAXException {
     new ParsedVI(tools, resolve("loop")).accept(TracingVisitor.create());
+  }
+
+  public void highlightFormula() throws IOException {
+    VIPath path = overwrite("highlight_formula");
+    VI vi = new VI(tools, path, ConnectorPanePattern.P4800);
+    // Create formula.
+    FormulaNode f1 = new FormulaNode(vi, "this formula will be highlighted", NO_LABEL);
+    // Clean it up.
+    vi.cleanUpDiagram();
+    // Highlight it.
+    tools.get(HighlightByUID.class).apply(path, f1.uid().get());
   }
 }
