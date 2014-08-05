@@ -33,6 +33,7 @@ import stupaq.labview.hierarchy.Terminal;
 import stupaq.labview.hierarchy.Unbundler;
 import stupaq.labview.hierarchy.VI;
 import stupaq.labview.hierarchy.WhileLoop;
+import stupaq.labview.parsing.ParsedVI;
 import stupaq.labview.parsing.TracingVisitor;
 import stupaq.labview.scripting.activex.ActiveXScriptingTools;
 import stupaq.labview.scripting.fake.FakeScriptingTools;
@@ -40,7 +41,6 @@ import stupaq.labview.scripting.tools.ConnectorPanePattern;
 
 import static com.google.common.base.Optional.of;
 import static java.util.Collections.singletonMap;
-import static stupaq.labview.parsing.VIParser.visitVI;
 import static stupaq.labview.scripting.tools.ArithmeticMode.ADD;
 import static stupaq.labview.scripting.tools.ArithmeticMode.AND;
 import static stupaq.labview.scripting.tools.ArithmeticMode.MULTIPLY;
@@ -106,20 +106,20 @@ public class Demos {
   }
 
   public void readControlAndIndicatorClusters() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("control_and_indicator_clusters"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("control_and_indicator_clusters")).accept(TracingVisitor.create());
   }
 
   public void readControlAndIndicatorArray() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("control_and_indicator_arrays"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("control_and_indicator_arrays")).accept(TracingVisitor.create());
   }
 
   public void readSubVI() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("sub_vi_other_vi"), TracingVisitor.create());
-    visitVI(tools, resolve("sub_vi_the_vi"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("sub_vi_other_vi")).accept(TracingVisitor.create());
+    new ParsedVI(tools, resolve("sub_vi_the_vi")).accept(TracingVisitor.create());
   }
 
   public void readControlAndIndicator() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("control_and_indicator"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("control_and_indicator")).accept(TracingVisitor.create());
   }
 
   public void writeFormula() throws IOException {
@@ -149,7 +149,7 @@ public class Demos {
   }
 
   public void readFormula() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("formula"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("formula")).accept(TracingVisitor.create());
   }
 
   public void writeControlAndIndicator() throws IOException {
@@ -240,7 +240,7 @@ public class Demos {
   }
 
   public void readRingConstant() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("ring_constant"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("ring_constant")).accept(TracingVisitor.create());
   }
 
   public void writeCompoundArithmetic() throws IOException {
@@ -264,7 +264,7 @@ public class Demos {
   }
 
   public void readCompoundArithmetic() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("compound_arithmetic"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("compound_arithmetic")).accept(TracingVisitor.create());
   }
 
   public void writeBundle() throws IOException {
@@ -291,7 +291,7 @@ public class Demos {
   }
 
   public void readBundle() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("bundle"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("bundle")).accept(TracingVisitor.create());
   }
 
   public void writeLoop() throws IOException {
@@ -333,6 +333,6 @@ public class Demos {
   }
 
   public void readLoop() throws IOException, JAXBException, SAXException {
-    visitVI(tools, resolve("loop"), TracingVisitor.create());
+    new ParsedVI(tools, resolve("loop")).accept(TracingVisitor.create());
   }
 }

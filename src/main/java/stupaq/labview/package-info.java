@@ -20,7 +20,7 @@
  *     {@link stupaq.labview.activex.StdCallRunnableVI#stdCall(Object...)}.
  *   </li>
  *   <li>
- *     VI reading is implemented mainly in {@link stupaq.labview.parsing.VIParser} class,
+ *     VI reading is implemented mainly in {@link stupaq.labview.parsing.ParsedVI} class,
  *     which feeds provided implementation of {@link stupaq.labview.parsing.VIElementsVisitor}
  *     interface with a stream of GObjects and Generics found in specified VI.
  *   </li>

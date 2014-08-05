@@ -42,50 +42,21 @@ import stupaq.labview.scripting.tools.ReadVI;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
-public final class VIParser {
+public class ParsedVI {
+  private static final Logger LOGGER = LoggerFactory.getLogger(ParsedVI.class);
   private static final String XML_SCHEMA_RESOURCE = "/LVXMLSchema.xsd";
-  private static final Logger LOGGER = LoggerFactory.getLogger(VIParser.class);
   private static final boolean USE_CACHE = Configuration.getParserCache();
-
-  private VIParser() {
-  }
-
-  public static <E extends Exception> void visitVI(ScriptingTools tools, VIPath viPath,
-      VIElementsVisitor<E> visitor) throws JAXBException, SAXException, IOException, E {
-    visitVI(parseVI(tools, viPath), visitor);
-  }
-
-  public static <E extends Exception> void visitVI(VIDump root, VIElementsVisitor<E> visitor)
-      throws E {
-    Map<String, ElementList> lists = Maps.newHashMap();
-    for (ElementList objects : root.getArray()) {
-      if (!objects.getCluster().isEmpty() && objects.getDimsize() > 0) {
-        String name = objects.getCluster().get(0).getName();
-        Verify.verify(!name.isEmpty());
-        Verify.verify(!lists.containsKey(name));
-        lists.put(name, objects);
-      }
-    }
-    Map<String, ElementParser<E>> parsers = prepareParsers(visitor);
-    for (Entry<String, ElementParser<E>> entry : parsers.entrySet()) {
-      ElementList list = lists.get(entry.getKey());
-      if (list != null) {
-        for (Element object : list.getCluster()) {
-          entry.getValue().parse(object, new ElementProperties(object));
-        }
-      }
-    }
-  }
+  private final VIDump viDump;
 
   @SuppressWarnings("unchecked")
-  public static VIDump parseVI(ScriptingTools tools, stupaq.labview.VIPath viPath)
+  public ParsedVI(ScriptingTools tools, VIPath viPath)
       throws IOException, SAXException, JAXBException {
     try (Reader xmlReader = openVIXML(tools, viPath)) {
       Schema schema = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI)
-          .newSchema(VIParser.class.getResource(XML_SCHEMA_RESOURCE));
+          .newSchema(ParsedVI.class.getResource(XML_SCHEMA_RESOURCE));
       Unmarshaller unmarshaller = JAXBContext.newInstance(ObjectFactory.class).createUnmarshaller();
       unmarshaller.setSchema(schema);
-      return ((JAXBElement<VIDump>) unmarshaller.unmarshal(xmlReader)).getValue();
+      viDump = ((JAXBElement<VIDump>) unmarshaller.unmarshal(xmlReader)).getValue();
     }
   }
 
@@ -110,6 +81,27 @@ public final class VIParser {
       }
     }
     return new StringReader(xmlString);
+  }
+
+  public <E extends Exception> void accept(VIElementsVisitor<E> visitor) throws E {
+    Map<String, ElementList> lists = Maps.newHashMap();
+    for (ElementList objects : viDump.getArray()) {
+      if (!objects.getCluster().isEmpty() && objects.getDimsize() > 0) {
+        String name = objects.getCluster().get(0).getName();
+        Verify.verify(!name.isEmpty());
+        Verify.verify(!lists.containsKey(name));
+        lists.put(name, objects);
+      }
+    }
+    Map<String, ElementParser<E>> parsers = prepareParsers(visitor);
+    for (Entry<String, ElementParser<E>> entry : parsers.entrySet()) {
+      ElementList list = lists.get(entry.getKey());
+      if (list != null) {
+        for (Element object : list.getCluster()) {
+          entry.getValue().parse(object, new ElementProperties(object));
+        }
+      }
+    }
   }
 
   private static <E extends Exception> Map<String, ElementParser<E>> prepareParsers(
