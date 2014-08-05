@@ -1,11 +1,12 @@
 package stupaq.labview;
 
+import com.jacob.com.SafeArray;
 import com.jacob.com.Variant;
 
-import java.util.Map;
+import java.util.List;
 
 public interface CallableVI {
-  public void call(Map<String, Variant> params);
+  public SafeArray call(List<String> names, Object... values);
 
   public void run();
 

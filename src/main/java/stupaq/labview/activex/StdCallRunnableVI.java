@@ -9,28 +9,25 @@ import com.jacob.extensions.ActiveXType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import stupaq.labview.VIErrorException;
 import stupaq.labview.VIPath;
 
+import static java.util.Arrays.asList;
+
 public class StdCallRunnableVI extends ActiveXRunnableVI {
-  public static final String ARGS_CONTROL = "__args";
-  public static final String ERR_STATUS_CONTROL = "__errStatus";
-  public static final String ERR_CODE_CONTROL = "__errCode";
-  public static final String ERR_SOURCE_CONTROL = "__errSource";
-  public static final String RETURN_CONTROL = "__return";
+  private static final int ARGS_INDEX = 0;
+  private static final int ERR_STATUS_INDEX = 1;
+  private static final int ERR_CODE_INDEX = 2;
+  private static final int ERR_SOURCE_INDEX = 3;
+  private static final int RETURN_INDEX = 4;
+  private static final List<String> CONTROL_LIST =
+      asList("__args", "__errStatus", "__errCode", "__errSource", "__return");
   private static final Logger LOGGER = LoggerFactory.getLogger(StdCallRunnableVI.class);
 
   public StdCallRunnableVI(ActiveXApplication application, VIPath viPath) {
     super(application, viPath);
-  }
-
-  protected void checkErrors() throws VIErrorException {
-    boolean errStatus = getControlValue(ERR_STATUS_CONTROL).getBoolean();
-    if (errStatus) {
-      int errCode = getControlValue(ERR_CODE_CONTROL).getInt();
-      String errSource = getControlValue(ERR_SOURCE_CONTROL).getString();
-      throw new VIErrorException(errCode, errSource);
-    }
   }
 
   public Variant stdCall(Variant... args) throws VIErrorException {
@@ -41,15 +38,19 @@ public class StdCallRunnableVI extends ActiveXRunnableVI {
         message.append(isFirst ? "(" : ", ").append(arg.toJavaObject());
         isFirst = false;
       }
-      message.append(")");
+      message.append(')');
       LOGGER.trace(message.toString());
     }
     SafeArray args1 = new SafeArray(Variant.VariantVariant, args.length);
     args1.fromVariantArray(args);
-    setControlValue(ARGS_CONTROL, new Variant(args1));
-    run();
-    checkErrors();
-    return getControlValue(RETURN_CONTROL);
+    SafeArray returned = call(CONTROL_LIST, args1);
+    boolean errStatus = returned.getBoolean(ERR_STATUS_INDEX);
+    if (errStatus) {
+      int errCode = returned.getInt(ERR_CODE_INDEX);
+      String errSource = returned.getString(ERR_SOURCE_INDEX);
+      throw new VIErrorException(errCode, errSource);
+    }
+    return returned.getVariant(RETURN_INDEX);
   }
 
   public Variant stdCall(Object... args) throws VIErrorException {

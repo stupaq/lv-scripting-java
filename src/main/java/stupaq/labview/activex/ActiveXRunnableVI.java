@@ -1,11 +1,12 @@
 package stupaq.labview.activex;
 
+import com.google.common.base.Preconditions;
+
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.SafeArray;
 import com.jacob.com.Variant;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
 import stupaq.labview.CallableVI;
 import stupaq.labview.VIPath;
@@ -20,16 +21,17 @@ public abstract class ActiveXRunnableVI implements CallableVI {
   }
 
   @Override
-  public void call(Map<String, Variant> params) {
-    SafeArray paramNames = new SafeArray(Variant.VariantString, params.size());
-    SafeArray paramValues = new SafeArray(Variant.VariantVariant, params.size());
-    int index = 0;
-    for (Entry<String, Variant> param : params.entrySet()) {
-      paramNames.setString(index, param.getKey());
-      paramValues.setVariant(index, param.getValue());
-      ++index;
+  public SafeArray call(List<String> names, Object... values) {
+    final int argc = names.size();
+    Preconditions.checkArgument(argc >= values.length);
+    SafeArray paramNames = new SafeArray(Variant.VariantString, argc);
+    SafeArray paramValues = new SafeArray(Variant.VariantVariant, argc);
+    for (int i = 0; i < argc; ++i) {
+      paramNames.setString(i, names.get(i));
+      paramValues.setVariant(i, new Variant(i < values.length ? values[i] : null));
     }
-    activeX.invoke("Call", new Variant(paramNames), new Variant(paramValues));
+    activeX.invoke("Call", new Variant(paramNames, true), new Variant(paramValues, true));
+    return paramValues;
   }
 
   @Override
