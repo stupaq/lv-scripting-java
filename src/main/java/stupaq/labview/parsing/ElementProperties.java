@@ -9,7 +9,7 @@ import com.ni.labview.LVDataType;
 import java.util.Map;
 
 class ElementProperties extends ForwardingMap<String, Object> {
-  private Map<String, Object> delegate = Maps.newHashMap();
+  private final Map<String, Object> delegate = Maps.newHashMap();
 
   public ElementProperties(Element element) {
     for (Object object : element.getVersionOrI8OrI16()) {

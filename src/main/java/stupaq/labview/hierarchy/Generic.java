@@ -47,7 +47,7 @@ public abstract class Generic {
 
   @Override
   public String toString() {
-    return Terminal.class.getSimpleName() + "{" + uid().get() + '}';
+    return Terminal.class.getSimpleName() + '{' + uid().get() + '}';
   }
 
   protected Generic rootOwner() {

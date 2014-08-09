@@ -17,7 +17,6 @@ import stupaq.labview.scripting.tools.DataRepresentation;
 import static stupaq.labview.parsing.LVProperty.Cast;
 import static stupaq.labview.parsing.LVPropertyCast.castBoolean;
 import static stupaq.labview.parsing.LVPropertyCast.castInteger;
-import static stupaq.labview.parsing.LVPropertyCast.castString;
 
 public class Control extends ConcreteGObjectWithOptionalTerminal<Control> {
   public static final String NUMERIC_XML_NAME = "Numeric";

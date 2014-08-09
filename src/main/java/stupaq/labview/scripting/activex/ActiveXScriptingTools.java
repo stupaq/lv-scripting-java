@@ -18,6 +18,7 @@ public class ActiveXScriptingTools extends ActiveXApplication implements Scripti
   static {
     DLLFromJARClassLoader.loadLibrary();
   }
+
   private final LoadingCache<Class<ScriptingTool>, ScriptingTool> tools;
   private final Path viToolsPath;
 
@@ -30,8 +31,8 @@ public class ActiveXScriptingTools extends ActiveXApplication implements Scripti
           @Override
           public ScriptingTool load(Class<ScriptingTool> toolClass) throws Exception {
             Class implClass =
-                Class.forName(ActiveXScriptingTools.class.getPackage().getName() + "." +
-                        toolClass.getSimpleName());
+                Class.forName(ActiveXScriptingTools.class.getPackage().getName() + '.' +
+                    toolClass.getSimpleName());
             return (ScriptingTool) implClass.getConstructor(ActiveXScriptingTools.class)
                 .newInstance(ActiveXScriptingTools.this);
           }

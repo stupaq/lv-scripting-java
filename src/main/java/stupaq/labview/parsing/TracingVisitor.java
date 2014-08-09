@@ -18,7 +18,7 @@ public final class TracingVisitor {
     @Override
     public String apply(Object input) {
       if (input instanceof String) {
-        return "\"" + input + "\"";
+        return "\"" + input + '"';
       } else {
         return input.toString();
       }

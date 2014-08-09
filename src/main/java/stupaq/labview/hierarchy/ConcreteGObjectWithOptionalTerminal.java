@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import stupaq.labview.UID;
 
 abstract class ConcreteGObjectWithOptionalTerminal<T extends GObject> extends ConcreteGObject {
-  private Optional<Terminal<T>> terminal;
+  private final Optional<Terminal<T>> terminal;
 
   @SuppressWarnings("unchecked")
   protected ConcreteGObjectWithOptionalTerminal(Generic owner, UID uid, Optional<UID> terminal) {

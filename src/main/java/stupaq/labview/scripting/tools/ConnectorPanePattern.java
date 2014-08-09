@@ -52,7 +52,7 @@ public enum ConnectorPanePattern implements ActiveXType {
 
   public static ConnectorPanePattern choosePattern(int connectorsCount) {
     Entry<Integer, ConnectorPanePattern> safeChoice = countToPattern.ceilingEntry(connectorsCount);
-    Preconditions.checkArgument(safeChoice != null);
+    Preconditions.checkNotNull(safeChoice);
     return safeChoice.getValue();
   }
 
